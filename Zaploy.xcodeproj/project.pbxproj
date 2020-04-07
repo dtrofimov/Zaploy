@@ -13,9 +13,11 @@
 		28097D4D243D282100F97916 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28097D4C243D282100F97916 /* Assets.xcassets */; };
 		28097D50243D282100F97916 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28097D4F243D282100F97916 /* Preview Assets.xcassets */; };
 		28097D53243D282100F97916 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28097D51243D282100F97916 /* LaunchScreen.storyboard */; };
+		902F10E86C78C3FCB2F1A34F /* Pods_Zaploy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		27F81F8ED1A2B563452FC0B8 /* Pods-Zaploy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zaploy.release.xcconfig"; path = "Target Support Files/Pods-Zaploy/Pods-Zaploy.release.xcconfig"; sourceTree = "<group>"; };
 		28097D43243D281F00F97916 /* Zaploy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zaploy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28097D46243D281F00F97916 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28097D48243D281F00F97916 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +26,8 @@
 		28097D4F243D282100F97916 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		28097D52243D282100F97916 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		28097D54243D282100F97916 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zaploy.debug.xcconfig"; path = "Target Support Files/Pods-Zaploy/Pods-Zaploy.debug.xcconfig"; sourceTree = "<group>"; };
+		D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Zaploy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				902F10E86C78C3FCB2F1A34F /* Pods_Zaploy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +47,8 @@
 			children = (
 				28097D45243D281F00F97916 /* Zaploy */,
 				28097D44243D281F00F97916 /* Products */,
+				6C1DBF1F04B63BE20A2FC863 /* Pods */,
+				D9328C180863F996334CE1CA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -75,6 +82,24 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		6C1DBF1F04B63BE20A2FC863 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */,
+				27F81F8ED1A2B563452FC0B8 /* Pods-Zaploy.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		D9328C180863F996334CE1CA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -82,9 +107,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 28097D57243D282100F97916 /* Build configuration list for PBXNativeTarget "Zaploy" */;
 			buildPhases = (
+				EAC33EB98306C37CE8ABB8F8 /* [CP] Check Pods Manifest.lock */,
 				28097D3F243D281F00F97916 /* Sources */,
 				28097D40243D281F00F97916 /* Frameworks */,
 				28097D41243D281F00F97916 /* Resources */,
+				64EF882BABBC053DBA8771E6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -140,6 +167,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		64EF882BABBC053DBA8771E6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Zaploy/Pods-Zaploy-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Zaploy/Pods-Zaploy-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Zaploy/Pods-Zaploy-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EAC33EB98306C37CE8ABB8F8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Zaploy-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		28097D3F243D281F00F97916 /* Sources */ = {
@@ -284,6 +353,7 @@
 		};
 		28097D58243D282100F97916 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
@@ -304,6 +374,7 @@
 		};
 		28097D59243D282100F97916 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 27F81F8ED1A2B563452FC0B8 /* Pods-Zaploy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
