@@ -7,14 +7,18 @@
 //
 
 import UIKit
+import MobileSync
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    @objc var window: UIWindow? {
+        UIApplication.shared.keyWindow
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        MobileSyncSDKManager.initializeSDK()
         return true
     }
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>remoteAccessConsumerKey</key>
+	<string>3MVG9wEVwV0C9ejAA6VcBOydxaNyuCiKnmObeWAdOPot2V.jrYwFK79FDVQT0dVfYm9YBxMLzMWa0ZvwkZ_fX</string>
+	<key>oauthRedirectURI</key>
+	<string>zaploy://auth/success</string>
+	<key>oauthScopes</key>
+	<array>
+		<string>api</string>
+	</array>
+	<key>shouldAuthenticate</key>
+	<true/>
+</dict>
+</plist>

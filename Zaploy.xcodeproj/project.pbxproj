@@ -3,16 +3,21 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		28097D47243D281F00F97916 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D46243D281F00F97916 /* AppDelegate.swift */; };
 		28097D49243D281F00F97916 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D48243D281F00F97916 /* SceneDelegate.swift */; };
-		28097D4B243D281F00F97916 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D4A243D281F00F97916 /* ContentView.swift */; };
 		28097D4D243D282100F97916 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28097D4C243D282100F97916 /* Assets.xcassets */; };
 		28097D50243D282100F97916 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28097D4F243D282100F97916 /* Preview Assets.xcassets */; };
 		28097D53243D282100F97916 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28097D51243D282100F97916 /* LaunchScreen.storyboard */; };
+		28097D5B243D397400F97916 /* bootconfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 28097D5A243D397400F97916 /* bootconfig.plist */; };
+		28097D60243DA6BA00F97916 /* LoginStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D5F243DA6BA00F97916 /* LoginStatusView.swift */; };
+		28097D62243DA72500F97916 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D61243DA72500F97916 /* LoginManager.swift */; };
+		28097D67243DAB6700F97916 /* View+AnyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D66243DAB6700F97916 /* View+AnyView.swift */; };
+		28097D6A243DADC400F97916 /* PlaygroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D69243DADC400F97916 /* PlaygroundView.swift */; };
+		28097D6C243DC41400F97916 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D6B243DC41400F97916 /* Spinner.swift */; };
 		902F10E86C78C3FCB2F1A34F /* Pods_Zaploy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */; };
 /* End PBXBuildFile section */
 
@@ -21,11 +26,16 @@
 		28097D43243D281F00F97916 /* Zaploy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zaploy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28097D46243D281F00F97916 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28097D48243D281F00F97916 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		28097D4A243D281F00F97916 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		28097D4C243D282100F97916 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28097D4F243D282100F97916 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		28097D52243D282100F97916 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		28097D54243D282100F97916 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28097D5A243D397400F97916 /* bootconfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bootconfig.plist; sourceTree = "<group>"; };
+		28097D5F243DA6BA00F97916 /* LoginStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStatusView.swift; sourceTree = "<group>"; };
+		28097D61243DA72500F97916 /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
+		28097D66243DAB6700F97916 /* View+AnyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+AnyView.swift"; sourceTree = "<group>"; };
+		28097D69243DADC400F97916 /* PlaygroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundView.swift; sourceTree = "<group>"; };
+		28097D6B243DC41400F97916 /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
 		87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zaploy.debug.xcconfig"; path = "Target Support Files/Pods-Zaploy/Pods-Zaploy.debug.xcconfig"; sourceTree = "<group>"; };
 		D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Zaploy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -63,9 +73,11 @@
 		28097D45243D281F00F97916 /* Zaploy */ = {
 			isa = PBXGroup;
 			children = (
+				28097D5A243D397400F97916 /* bootconfig.plist */,
 				28097D46243D281F00F97916 /* AppDelegate.swift */,
 				28097D48243D281F00F97916 /* SceneDelegate.swift */,
-				28097D4A243D281F00F97916 /* ContentView.swift */,
+				28097D65243DAB0200F97916 /* Model */,
+				28097D5C243DA67200F97916 /* Presentation */,
 				28097D4C243D282100F97916 /* Assets.xcassets */,
 				28097D51243D282100F97916 /* LaunchScreen.storyboard */,
 				28097D54243D282100F97916 /* Info.plist */,
@@ -82,13 +94,63 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		28097D5C243DA67200F97916 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				28097D63243DAAE300F97916 /* Utils */,
+				28097D64243DAAE900F97916 /* Screens */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		28097D5E243DA6AF00F97916 /* LoginStatus */ = {
+			isa = PBXGroup;
+			children = (
+				28097D5F243DA6BA00F97916 /* LoginStatusView.swift */,
+			);
+			path = LoginStatus;
+			sourceTree = "<group>";
+		};
+		28097D63243DAAE300F97916 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				28097D66243DAB6700F97916 /* View+AnyView.swift */,
+				28097D6B243DC41400F97916 /* Spinner.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		28097D64243DAAE900F97916 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				28097D68243DAD5B00F97916 /* Playground */,
+				28097D5E243DA6AF00F97916 /* LoginStatus */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		28097D65243DAB0200F97916 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				28097D61243DA72500F97916 /* LoginManager.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		28097D68243DAD5B00F97916 /* Playground */ = {
+			isa = PBXGroup;
+			children = (
+				28097D69243DADC400F97916 /* PlaygroundView.swift */,
+			);
+			path = Playground;
+			sourceTree = "<group>";
+		};
 		6C1DBF1F04B63BE20A2FC863 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */,
 				27F81F8ED1A2B563452FC0B8 /* Pods-Zaploy.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -160,6 +222,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28097D5B243D397400F97916 /* bootconfig.plist in Resources */,
 				28097D53243D282100F97916 /* LaunchScreen.storyboard in Resources */,
 				28097D50243D282100F97916 /* Preview Assets.xcassets in Resources */,
 				28097D4D243D282100F97916 /* Assets.xcassets in Resources */,
@@ -215,9 +278,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28097D6A243DADC400F97916 /* PlaygroundView.swift in Sources */,
+				28097D62243DA72500F97916 /* LoginManager.swift in Sources */,
+				28097D60243DA6BA00F97916 /* LoginStatusView.swift in Sources */,
+				28097D6C243DC41400F97916 /* Spinner.swift in Sources */,
 				28097D47243D281F00F97916 /* AppDelegate.swift in Sources */,
 				28097D49243D281F00F97916 /* SceneDelegate.swift in Sources */,
-				28097D4B243D281F00F97916 /* ContentView.swift in Sources */,
+				28097D67243DAB6700F97916 /* View+AnyView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
