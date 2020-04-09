@@ -30,17 +30,6 @@ class LoginManager: ObservableObject {
         AuthHelper.loginIfRequired { [weak self] in
             NSLog("Should reload manually")
             self?.progressTokens.remove(progressToken)
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                let userAccount = UserAccountManager.shared.currentUserAccount!
-//                let syncManager = SyncManager.sharedInstance(forUserAccount: userAccount)
-//                syncManager.deleteSync(forName: "someSyncName")
-//                try! syncManager.syncDown(target: SoqlSyncDownTarget.newSyncTarget("select Id, Name from Lead"),
-//                                          options: SyncOptions.newSyncOptions(forSyncDown: .overwrite),
-//                                          soupName: "asdf",
-//                                          syncName: "someSyncName") { syncState in
-//                                            NSLog("SyncState is \(syncState)")
-//                }
-//            }
         }
     }
 }

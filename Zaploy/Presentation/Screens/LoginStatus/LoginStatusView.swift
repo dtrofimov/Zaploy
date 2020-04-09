@@ -12,7 +12,6 @@ struct LoginStatusView: View {
     @ObservedObject var loginManager = LoginManager.shared
 
     var body: some View {
-        NSLog("reloading")
         if loginManager.isInProgress {
             return Spinner(style: .medium).asAnyView
         } else if let user = loginManager.user {

@@ -18,6 +18,8 @@
 		28097D67243DAB6700F97916 /* View+AnyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D66243DAB6700F97916 /* View+AnyView.swift */; };
 		28097D6A243DADC400F97916 /* PlaygroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D69243DADC400F97916 /* PlaygroundView.swift */; };
 		28097D6C243DC41400F97916 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D6B243DC41400F97916 /* Spinner.swift */; };
+		28097D7A243DCC1800F97916 /* SimpleProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 28097D79243DCC1800F97916 /* SimpleProxy.m */; };
+		28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */; };
 		902F10E86C78C3FCB2F1A34F /* Pods_Zaploy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +38,10 @@
 		28097D66243DAB6700F97916 /* View+AnyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+AnyView.swift"; sourceTree = "<group>"; };
 		28097D69243DADC400F97916 /* PlaygroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundView.swift; sourceTree = "<group>"; };
 		28097D6B243DC41400F97916 /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
+		28097D77243DCC1800F97916 /* Zaploy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Zaploy-Bridging-Header.h"; sourceTree = "<group>"; };
+		28097D78243DCC1800F97916 /* SimpleProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleProxy.h; sourceTree = "<group>"; };
+		28097D79243DCC1800F97916 /* SimpleProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleProxy.m; sourceTree = "<group>"; };
+		28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDownPlayground.swift; sourceTree = "<group>"; };
 		87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zaploy.debug.xcconfig"; path = "Target Support Files/Pods-Zaploy/Pods-Zaploy.debug.xcconfig"; sourceTree = "<group>"; };
 		D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Zaploy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -81,6 +87,7 @@
 				28097D4C243D282100F97916 /* Assets.xcassets */,
 				28097D51243D282100F97916 /* LaunchScreen.storyboard */,
 				28097D54243D282100F97916 /* Info.plist */,
+				28097D77243DCC1800F97916 /* Zaploy-Bridging-Header.h */,
 				28097D4E243D282100F97916 /* Preview Content */,
 			);
 			path = Zaploy;
@@ -133,6 +140,9 @@
 			isa = PBXGroup;
 			children = (
 				28097D61243DA72500F97916 /* LoginManager.swift */,
+				28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */,
+				28097D78243DCC1800F97916 /* SimpleProxy.h */,
+				28097D79243DCC1800F97916 /* SimpleProxy.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -196,6 +206,7 @@
 				TargetAttributes = {
 					28097D42243D281F00F97916 = {
 						CreatedOnToolsVersion = 11.4;
+						LastSwiftMigration = 1140;
 					};
 				};
 			};
@@ -280,9 +291,11 @@
 			files = (
 				28097D6A243DADC400F97916 /* PlaygroundView.swift in Sources */,
 				28097D62243DA72500F97916 /* LoginManager.swift in Sources */,
+				28097D7A243DCC1800F97916 /* SimpleProxy.m in Sources */,
 				28097D60243DA6BA00F97916 /* LoginStatusView.swift in Sources */,
 				28097D6C243DC41400F97916 /* Spinner.swift in Sources */,
 				28097D47243D281F00F97916 /* AppDelegate.swift in Sources */,
+				28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */,
 				28097D49243D281F00F97916 /* SceneDelegate.swift in Sources */,
 				28097D67243DAB6700F97916 /* View+AnyView.swift in Sources */,
 			);
@@ -423,6 +436,7 @@
 			baseConfigurationReference = 87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_ASSET_PATHS = "\"Zaploy/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -435,6 +449,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dmitriitrofimov.Zaploy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Zaploy/Zaploy-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -444,6 +461,7 @@
 			baseConfigurationReference = 27F81F8ED1A2B563452FC0B8 /* Pods-Zaploy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_ASSET_PATHS = "\"Zaploy/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -456,6 +474,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dmitriitrofimov.Zaploy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Zaploy/Zaploy-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
