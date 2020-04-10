@@ -8,6 +8,7 @@
 
 import Foundation
 import SmartStore
+import MobileSync
 
 @objcMembers
 class SmartStoreProxy: SimpleProxy {
@@ -16,19 +17,41 @@ class SmartStoreProxy: SimpleProxy {
     @objc(storeName) // 156
     var name: String {
         // Used in `+sharedInstanceForStore:` only to identify store within a user, org, and community. Using `defaultStore` is OK.
-        smartStore.name
+        #if VERIFY_REAL_SMART_STORE_CALLS
+        let frames = Thread.callStackFrames
+        if frames[3].method.contains("+[SFMobileSyncSyncManager sharedInstanceForStore:]") {
+        } else {
+            fatalError()
+        }
+        #endif
+        return smartStore.name
     }
 
     @objc(storePath) // 161
     var path: String? {
         // Used in `+sharedInstanceForStore:` only for some safety check. Must be non-nil.
-        smartStore.path
+        #if VERIFY_REAL_SMART_STORE_CALLS
+        let frames = Thread.callStackFrames
+        if frames[2].method.contains("+[SFMobileSyncSyncManager sharedInstanceForStore:]") {
+        } else {
+            fatalError()
+        }
+        #endif
+        return smartStore.path
     }
 
     @objc(user) // 166
     var userAccount: UserAccount? {
         // Used in `+sharedInstanceForStore:` only to identify the current user.
-        smartStore.userAccount
+        #if VERIFY_REAL_SMART_STORE_CALLS
+        let frames = Thread.callStackFrames
+        if frames[2].method.contains("+[SFMobileSyncSyncManager sharedInstanceForStore:]") ||
+            frames[3].method.contains("+[SFMobileSyncSyncManager sharedInstanceForStore:]") {
+        } else {
+            fatalError()
+        }
+        #endif
+        return smartStore.userAccount
     }
 
     @objc(indicesForSoup:) // 285
@@ -48,6 +71,16 @@ class SmartStoreProxy: SimpleProxy {
          ]
          ```
          */
+        #if VERIFY_REAL_SMART_STORE_CALLS
+        let frames = Thread.callStackFrames
+        if frames[2].method.contains("-[SFSyncDownTarget buildSyncIdPredicateIfIndexed:soupName:syncId:]"),
+            soupName == "someSoupName" {
+        } else if frames[2].method.contains("+[SFSyncState setupSyncsSoupIfNeeded:]"),
+            soupName == kSFSyncStateSyncsSoupName {
+        } else {
+            fatalError()
+        }
+        #endif
         return smartStore.indices(forSoupNamed: soupName)
     }
 
@@ -55,13 +88,29 @@ class SmartStoreProxy: SimpleProxy {
     func soupExists(forName soupName: String) -> Bool {
         // Used in `+setupSyncsSoupIfNeeded:` to check whether `kSFSyncStateSyncsSoupName` soup exists and has exactly three indices.
         // To pretend we already have the soup configured, return `true`.
-        smartStore.soupExists(forName: soupName)
+        #if VERIFY_REAL_SMART_STORE_CALLS
+        let frames = Thread.callStackFrames
+        if frames[2].method.contains("+[SFSyncState setupSyncsSoupIfNeeded:]"),
+            soupName == kSFSyncStateSyncsSoupName {
+        } else {
+            fatalError()
+        }
+        #endif
+        return smartStore.soupExists(forName: soupName)
     }
 
     @objc(registerSoup:withIndexSpecs:error:) // 300
     func registerSoup(withName soupName: String, withIndices indices: [SoupIndex]) throws {
         // Used in `+setupSyncsSoupIfNeeded:` to register `kSFSyncStateSyncsSoupName` soup if not already.
         // Presumable not needed to override, if we override `soupExists` correctly.
+        #if VERIFY_REAL_SMART_STORE_CALLS
+        let frames = Thread.callStackFrames
+        if frames[2].method.contains("+[SFSyncState setupSyncsSoupIfNeeded:]"),
+            soupName == kSFSyncStateSyncsSoupName {
+        } else {
+            fatalError()
+        }
+        #endif
         try smartStore.registerSoup(withName: soupName, withIndices: indices)
     }
 
@@ -86,7 +135,19 @@ class SmartStoreProxy: SimpleProxy {
 
          Return the actual result here (the list of non-dirty record ids within a given table).
          */
-        try smartStore.query(using: querySpec, startingFromPageIndex: startPageIndex)
+        #if VERIFY_REAL_SMART_STORE_CALLS
+        let frames = Thread.callStackFrames
+        if frames[2].method.contains("+[SFSyncState getSyncsWithStatus:status:]"),
+            frames[3].method.contains("+[SFSyncState cleanupSyncsSoupIfNeeded:]"),
+            querySpec.smartSql == "select {syncs_soup:_soup} from {syncs_soup} where {syncs_soup:status} = 'RUNNING'" {
+        } else if frames[2].method.contains("-[SFSyncTarget getIdsWithQuery:syncManager:]"),
+            frames[3].method.contains("-[SFSyncDownTarget getNonDirtyRecordIds:soupName:idField:additionalPredicate:]"),
+            querySpec.smartSql == "SELECT {someSoupName:Id} FROM {someSoupName} WHERE {someSoupName:__local__} = '0'  ORDER BY {someSoupName:Id} ASC" {
+        } else {
+            fatalError()
+        }
+        #endif
+        return try smartStore.query(using: querySpec, startingFromPageIndex: startPageIndex)
     }
 
     @objc(retrieveEntries:fromSoup:) // 377
@@ -94,7 +155,16 @@ class SmartStoreProxy: SimpleProxy {
         /*
          Used in `SFSyncState +byName:store:` in several places to dereference SFSyncState by a soupEntryId (with `kSFSyncStateSyncsSoupName` soup). Return the actual result here.
          */
-        smartStore.retrieve(usingSoupEntryIds: soupEntryIds, fromSoupNamed: soupName)
+        #if VERIFY_REAL_SMART_STORE_CALLS
+        let frames = Thread.callStackFrames
+        if frames[3].method.contains("+[SFSyncState byName:store:]"),
+            soupEntryIds.count == 1,
+            soupName == kSFSyncStateSyncsSoupName {
+        } else {
+            fatalError()
+        }
+        #endif
+        return smartStore.retrieve(usingSoupEntryIds: soupEntryIds, fromSoupNamed: soupName)
     }
 
     @objc(upsertEntries:toSoup:) // 389
@@ -122,12 +192,22 @@ class SmartStoreProxy: SimpleProxy {
     func lookupSoupEntryId(soupNamed soupName: String, fieldPath: String, fieldValue: String) throws -> NSNumber {
         // 1. Used in `SFSyncState +byName:store:` to find SFSyncState soupEntryId by its name.
         // 2. Used in `SFSyncState +deleteByName:store:` to find SFSyncState soupEntryId by its name.
-        try smartStore.lookupSoupEntryId(soupNamed: soupName, fieldPath: fieldPath, fieldValue: fieldValue)
+        #if VERIFY_REAL_SMART_STORE_CALLS
+        guard soupName == kSFSyncStateSyncsSoupName,
+            fieldPath == "name"
+            else { fatalError() }
+        #endif
+        return try smartStore.lookupSoupEntryId(soupNamed: soupName, fieldPath: fieldPath, fieldValue: fieldValue)
     }
 
     @objc(removeEntries:fromSoup:) // 434
     func removeEntries(_ entryIds: [NSNumber], fromSoup soupName: String) {
         // Used in `SFSyncState +deleteById:store:` to remove a SFSyncState by its soupEntryId.
+        #if VERIFY_REAL_SMART_STORE_CALLS
+        guard soupName == kSFSyncStateSyncsSoupName,
+        entryIds.count == 1
+            else { fatalError() }
+        #endif
         try? smartStore.remove(entryIds: entryIds, forSoupNamed: soupName)
     }
 }
