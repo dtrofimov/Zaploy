@@ -22,7 +22,7 @@ class SyncDownPlayground: ObservableObject {
             ])
         }
     }
-    lazy var smartStoreProxy = SimpleProxy(target: smartStore)
+    lazy var smartStoreProxy = SmartStoreProxy(target: smartStore)
     lazy var proxiedSmartStore = unsafeBitCast(smartStoreProxy, to: SmartStore.self)
     lazy var syncManager = SyncManager.sharedInstance(store: proxiedSmartStore)!
 

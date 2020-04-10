@@ -8,12 +8,6 @@
 
 #import "SimpleProxy.h"
 
-@interface SimpleProxy()
-
-@property (nonatomic) NSObject *target;
-
-@end
-
 @implementation SimpleProxy
 
 - (instancetype)initWithTarget:(NSObject *)target {

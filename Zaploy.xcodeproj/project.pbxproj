@@ -20,6 +20,7 @@
 		28097D6C243DC41400F97916 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D6B243DC41400F97916 /* Spinner.swift */; };
 		28097D7A243DCC1800F97916 /* SimpleProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 28097D79243DCC1800F97916 /* SimpleProxy.m */; };
 		28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */; };
+		28097D80243EF88000F97916 /* SmartStoreProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D7F243EF88000F97916 /* SmartStoreProxy.swift */; };
 		902F10E86C78C3FCB2F1A34F /* Pods_Zaploy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 		28097D78243DCC1800F97916 /* SimpleProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleProxy.h; sourceTree = "<group>"; };
 		28097D79243DCC1800F97916 /* SimpleProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleProxy.m; sourceTree = "<group>"; };
 		28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDownPlayground.swift; sourceTree = "<group>"; };
+		28097D7F243EF88000F97916 /* SmartStoreProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartStoreProxy.swift; sourceTree = "<group>"; };
 		87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zaploy.debug.xcconfig"; path = "Target Support Files/Pods-Zaploy/Pods-Zaploy.debug.xcconfig"; sourceTree = "<group>"; };
 		D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Zaploy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -141,6 +143,7 @@
 			children = (
 				28097D61243DA72500F97916 /* LoginManager.swift */,
 				28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */,
+				28097D7F243EF88000F97916 /* SmartStoreProxy.swift */,
 				28097D78243DCC1800F97916 /* SimpleProxy.h */,
 				28097D79243DCC1800F97916 /* SimpleProxy.m */,
 			);
@@ -293,6 +296,7 @@
 				28097D62243DA72500F97916 /* LoginManager.swift in Sources */,
 				28097D7A243DCC1800F97916 /* SimpleProxy.m in Sources */,
 				28097D60243DA6BA00F97916 /* LoginStatusView.swift in Sources */,
+				28097D80243EF88000F97916 /* SmartStoreProxy.swift in Sources */,
 				28097D6C243DC41400F97916 /* Spinner.swift in Sources */,
 				28097D47243D281F00F97916 /* AppDelegate.swift in Sources */,
 				28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */,

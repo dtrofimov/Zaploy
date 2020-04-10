@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SimpleProxy : NSObject
 
+@property (nonatomic, readonly) NSObject *target;
+
 - (instancetype)initWithTarget:(NSObject *)target;
 
 @end
