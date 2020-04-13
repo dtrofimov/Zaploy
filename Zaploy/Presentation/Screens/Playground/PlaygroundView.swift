@@ -20,17 +20,28 @@ struct PlaygroundView: View {
         return List {
             LoginStatusView()
             Text("Sync status: \(syncStatusString)")
-            Button("Sync Down") {
-                self.playground.syncDown()
-            }
-            Button("Resync") {
-                self.playground.resync()
-            }
-            Button("Clean Ghosts") {
-                self.playground.cleanGhosts()
-            }
-            Button("Delete Sync") {
-                self.playground.deleteSync()
+            Group {
+                Button("Sync Down") {
+                    self.playground.syncDown()
+                }
+                Button("Resync") {
+                    self.playground.resync()
+                }
+                Button("Clean Ghosts") {
+                    self.playground.cleanGhosts()
+                }
+                Button("Delete Sync") {
+                    self.playground.deleteSync()
+                }
+                Button("Sync Down Metadata") {
+                    self.playground.syncDownMetadata()
+                }
+                Button("Load Metadata from Cache") {
+                    self.playground.loadMetadataFromCache()
+                }
+                Button("Sync Down Layout") {
+                    self.playground.syncDownLayout()
+                }
             }
             Text("")
             ForEach(playground.leadDicts, id: \.id) { dict in

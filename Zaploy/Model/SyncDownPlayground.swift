@@ -25,6 +25,8 @@ class SyncDownPlayground: ObservableObject {
     lazy var smartStoreProxy = SmartStoreProxy(target: smartStore)
     lazy var proxiedSmartStore = unsafeBitCast(smartStoreProxy, to: SmartStore.self)
     lazy var syncManager = SyncManager.sharedInstance(store: proxiedSmartStore)!
+    lazy var metadataSyncManager = MetadataSyncManager.sharedInstance(userAccount!, smartStore: proxiedSmartStore.name)
+    lazy var layoutSyncManager = LayoutSyncManager.sharedInstance(userAccount!, smartStore: proxiedSmartStore.name)
 
     let syncName = "someSyncName"
     let soupName = "someSoupName"
@@ -71,6 +73,27 @@ class SyncDownPlayground: ObservableObject {
 
     func deleteSync() {
         syncManager.deleteSync(forName: syncName)
+        refreshOnMainThread()
+    }
+
+    func syncDownMetadata() {
+        metadataSyncManager.fetchMetadata(forObject: "Lead", mode: .serverFirst) { [weak self] metadata in
+            self?.refreshOnMainThread()
+        }
+        refreshOnMainThread()
+    }
+
+    func loadMetadataFromCache() {
+        metadataSyncManager.fetchMetadata(forObject: "Lead", mode: .cacheOnly) { [weak self] metadata in
+            self?.refreshOnMainThread()
+        }
+        refreshOnMainThread()
+    }
+
+    func syncDownLayout() {
+        layoutSyncManager.fetchLayout(forObject: "Lead", layoutType: nil, mode: .serverFirst) { [weak self] string, layout in
+            self?.refreshOnMainThread()
+        }
         refreshOnMainThread()
     }
 
