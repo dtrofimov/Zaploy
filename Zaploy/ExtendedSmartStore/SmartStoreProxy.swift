@@ -14,13 +14,28 @@ import MobileSync
 class SmartStoreProxy: SimpleProxy {
     var smartStore: SmartStore { target as! SmartStore }
 
-    func isTargetSoupName(_ soupName: String) -> Bool {
-        switch soupName {
-        case "sfdcMetadata", "sfdcLayouts", "syncs_soup":
-            return true
-        default:
-            return false
+    init(smartStore: SmartStore) {
+        super.init(target: smartStore)
+    }
+
+    private(set) var externalSoupsForNames: [String: ExternalSoup] = [:]
+
+    enum CustomError: Error {
+        case soupAlreadyExists(soupName: String)
+        case unknownQuery(query: QuerySpec)
+        case unsupportedMethod(selector: Selector)
+    }
+
+    func addExternalSoup(_ soup: ExternalSoup) throws {
+        let name = soup.name
+        guard externalSoupsForNames[name] == nil else {
+            throw CustomError.soupAlreadyExists(soupName: name)
         }
+        externalSoupsForNames[name] = soup
+    }
+
+    func isTargetSoupName(_ soupName: String) -> Bool {
+        externalSoupsForNames[soupName] == nil
     }
 
     @objc(storeName) // 156
@@ -58,13 +73,18 @@ class SmartStoreProxy: SimpleProxy {
             fatalError()
         }
         #endif
-        return smartStore.indices(forSoupNamed: soupName)
+        if externalSoupsForNames[soupName] != nil {
+            return []
+        } else {
+            return smartStore.indices(forSoupNamed: soupName)
+        }
     }
 
     @objc(soupExists:) // 291
     func soupExists(forName soupName: String) -> Bool {
         // Used for both target and extended soups. Support both.
-        return smartStore.soupExists(forName: soupName)
+        externalSoupsForNames[soupName] != nil ||
+            smartStore.soupExists(forName: soupName)
     }
 
     @objc(registerSoup:withIndexSpecs:error:) // 300
@@ -77,7 +97,11 @@ class SmartStoreProxy: SimpleProxy {
             fatalError()
         }
         #endif
-        try smartStore.registerSoup(withName: soupName, withIndices: indices)
+        if externalSoupsForNames[soupName] != nil {
+            throw CustomError.soupAlreadyExists(soupName: soupName)
+        } else {
+            try smartStore.registerSoup(withName: soupName, withIndices: indices)
+        }
     }
 
     @objc(queryWithQuerySpec:pageIndex:error:) // 341
@@ -94,17 +118,25 @@ class SmartStoreProxy: SimpleProxy {
 
          Return the actual result here (the list of non-dirty record ids within a given table).
          */
+        let soupName = try querySpec.safeSoupName()
         #if VERIFY_REAL_SMART_STORE_CALLS
         let frames = Thread.callStackFrames
-        if isTargetSoupName(querySpec.soupName) {
+        if isTargetSoupName(soupName) {
         } else if frames[2].method.contains("-[SFSyncTarget getIdsWithQuery:syncManager:]"),
             frames[3].method.contains("-[SFSyncDownTarget getNonDirtyRecordIds:soupName:idField:additionalPredicate:]"),
-            querySpec.smartSql == "SELECT {someSoupName:Id} FROM {someSoupName} WHERE {someSoupName:__local__} = '0'  ORDER BY {someSoupName:Id} ASC" {
+            querySpec.smartSql == "SELECT {\(soupName):Id} FROM {\(soupName)} WHERE {\(soupName):__local__} = '0'  ORDER BY {\(soupName):Id} ASC" {
         } else {
             fatalError()
         }
         #endif
-        return try smartStore.query(using: querySpec, startingFromPageIndex: startPageIndex)
+        if let externalSoup = externalSoupsForNames[soupName] {
+            guard querySpec.smartSql == "SELECT {\(soupName):Id} FROM {\(soupName)} WHERE {\(soupName):__local__} = '0'  ORDER BY {\(soupName):Id} ASC" else {
+                throw CustomError.unknownQuery(query: querySpec)
+            }
+            return externalSoup.nonDirtySfIds.map { [$0] }
+        } else {
+            return try smartStore.query(using: querySpec, startingFromPageIndex: startPageIndex)
+        }
     }
 
     @objc(retrieveEntries:fromSoup:) // 377
@@ -117,20 +149,34 @@ class SmartStoreProxy: SimpleProxy {
             fatalError()
         }
         #endif
-        return smartStore.retrieve(usingSoupEntryIds: soupEntryIds, fromSoupNamed: soupName)
+        if let externalSoup = externalSoupsForNames[soupName] {
+            return externalSoup.entries(soupEntryIds: soupEntryIds)
+        } else {
+            return smartStore.retrieve(usingSoupEntryIds: soupEntryIds, fromSoupNamed: soupName)
+        }
     }
 
     @objc(upsertEntries:toSoup:) // 389
     func upsert(entries: [[AnyHashable : Any]], forSoupNamed soupName: String) -> [[AnyHashable: Any]] {
         // Used for both target and extended soups. Upserts by soupEntryId (if present in the given entry).
-        smartStore.upsert(entries: entries, forSoupNamed: soupName)
+        if let externalSoup = externalSoupsForNames[soupName] {
+            try? externalSoup.upsert(entries: entries)
+            return entries
+        } else {
+            return smartStore.upsert(entries: entries, forSoupNamed: soupName)
+        }
     }
 
     @objc(upsertEntries:toSoup:withExternalIdPath:error:) // 402
     func upsert(entries: [Any], forSoupNamed soupName: String, withExternalIdPath externalIdPath: String) throws -> [Any] {
         // Used for extended soups to upsert the downloaded objects by Id.
         // Presumably may be called for target soups.
-        try smartStore.upsert(entries: entries, forSoupNamed: soupName, withExternalIdPath: externalIdPath)
+        if let externalSoup = externalSoupsForNames[soupName] {
+            try externalSoup.upsert(entries: entries as! [SoupEntry])
+            return entries
+        } else {
+            return try smartStore.upsert(entries: entries, forSoupNamed: soupName, withExternalIdPath: externalIdPath)
+        }
     }
 
     @objc(lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:) // 413
@@ -141,7 +187,11 @@ class SmartStoreProxy: SimpleProxy {
         if isTargetSoupName(soupName) {
         } else { fatalError() }
         #endif
-        return try smartStore.lookupSoupEntryId(soupNamed: soupName, fieldPath: fieldPath, fieldValue: fieldValue)
+        if externalSoupsForNames[soupName] != nil {
+            throw CustomError.unsupportedMethod(selector: #selector(SmartStore.lookupSoupEntryId(soupNamed:fieldPath:fieldValue:)))
+        } else {
+            return try smartStore.lookupSoupEntryId(soupNamed: soupName, fieldPath: fieldPath, fieldValue: fieldValue)
+        }
     }
 
     @objc(removeEntries:fromSoup:) // 434
@@ -152,6 +202,50 @@ class SmartStoreProxy: SimpleProxy {
         if isTargetSoupName(soupName) {
         } else { fatalError() }
         #endif
-        try? smartStore.remove(entryIds: entryIds, forSoupNamed: soupName)
+        if let externalSoup = externalSoupsForNames[soupName] {
+            externalSoup.remove(soupEntryIds: entryIds)
+        } else {
+            try? smartStore.remove(entryIds: entryIds, forSoupNamed: soupName)
+        }
+    }
+
+    @objc(removeEntriesByQuery:fromSoup:) // 454
+    func removeEntries(byQuery querySpec: QuerySpec, fromSoup soupName: String) {
+        if let externalSoup = externalSoupsForNames[soupName] {
+            var string = querySpec.smartSql
+            guard string.removePrefix("SELECT {\(soupName):_soupEntryId} FROM {\(soupName)} WHERE {\(soupName):Id} IN "),
+                string.removePrefix("("),
+                string.removeSuffix(")")
+                else { return }
+            let ids: [SfId] = string
+                .split(separator: ",")
+                .compactMap {
+                    var string = $0.trimmingCharacters(in: .whitespaces)
+                    guard string.removePrefix("'"),
+                        string.removeSuffix("'")
+                        else { return nil }
+                    return string
+            }
+            if !ids.isEmpty {
+                externalSoup.remove(sfIds: ids)
+            }
+        } else {
+            try? smartStore.removeEntries(usingQuerySpec: querySpec, forSoupNamed: soupName)
+        }
+    }
+}
+
+private extension QuerySpec {
+    var parsedSoupName: String? {
+        var string = smartSql
+        guard string.removePrefix("SELECT {") || string.removePrefix("select {") else { return nil }
+        guard let soupNameSubstring = string.split(separator: ":").first else { return nil }
+        return String(soupNameSubstring)
+    }
+
+    func safeSoupName() throws -> String {
+        if !soupName.isEmpty { return soupName }
+        if let result = parsedSoupName, !result.isEmpty { return result }
+        throw SmartStoreProxy.CustomError.unknownQuery(query: self)
     }
 }

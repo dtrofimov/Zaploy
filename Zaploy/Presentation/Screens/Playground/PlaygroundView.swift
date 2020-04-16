@@ -21,6 +21,12 @@ struct PlaygroundView: View {
             LoginStatusView()
             Text("Sync status: \(syncStatusString)")
             Group {
+                Button("Upsert Local Record") {
+                    self.playground.upsertLocalRecord()
+                }
+                Button("Upsert Non-Local Record") {
+                    self.playground.upsertNonLocalRecord()
+                }
                 Button("Sync Down") {
                     self.playground.syncDown()
                 }
@@ -44,13 +50,9 @@ struct PlaygroundView: View {
                 }
             }
             Text("")
-            ForEach(playground.leadDicts, id: \.id) { dict in
+            ForEach(playground.leadDicts, id: \.soupEntryId) { dict in
                 Text(dict["Name"] as! String)
             }
         }
     }
-}
-
-fileprivate extension NSDictionary {
-    var id: String { self["Id"] as! String }
 }

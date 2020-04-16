@@ -22,6 +22,10 @@
 		28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */; };
 		28097D80243EF88000F97916 /* SmartStoreProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D7F243EF88000F97916 /* SmartStoreProxy.swift */; };
 		28097D832440618C00F97916 /* CallStackFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D822440618C00F97916 /* CallStackFrame.swift */; };
+		2840BC492445B3CB00C2E896 /* ExternalSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC482445B3CB00C2E896 /* ExternalSoup.swift */; };
+		2840BC4B2445B46900C2E896 /* NSDictionary+SoupEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC4A2445B46900C2E896 /* NSDictionary+SoupEntry.swift */; };
+		2840BC502447187400C2E896 /* DemoExternalSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */; };
+		2840BC52244836FE00C2E896 /* String+SafeRemove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC51244836FE00C2E896 /* String+SafeRemove.swift */; };
 		902F10E86C78C3FCB2F1A34F /* Pods_Zaploy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +50,10 @@
 		28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDownPlayground.swift; sourceTree = "<group>"; };
 		28097D7F243EF88000F97916 /* SmartStoreProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartStoreProxy.swift; sourceTree = "<group>"; };
 		28097D822440618C00F97916 /* CallStackFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackFrame.swift; sourceTree = "<group>"; };
+		2840BC482445B3CB00C2E896 /* ExternalSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalSoup.swift; sourceTree = "<group>"; };
+		2840BC4A2445B46900C2E896 /* NSDictionary+SoupEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDictionary+SoupEntry.swift"; sourceTree = "<group>"; };
+		2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoExternalSoup.swift; sourceTree = "<group>"; };
+		2840BC51244836FE00C2E896 /* String+SafeRemove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SafeRemove.swift"; sourceTree = "<group>"; };
 		87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zaploy.debug.xcconfig"; path = "Target Support Files/Pods-Zaploy/Pods-Zaploy.debug.xcconfig"; sourceTree = "<group>"; };
 		D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Zaploy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -87,6 +95,7 @@
 				28097D46243D281F00F97916 /* AppDelegate.swift */,
 				28097D48243D281F00F97916 /* SceneDelegate.swift */,
 				28097D812440616B00F97916 /* Utils */,
+				28AD10C9244465BC0087E0BD /* ExtendedSmartStore */,
 				28097D65243DAB0200F97916 /* Model */,
 				28097D5C243DA67200F97916 /* Presentation */,
 				28097D4C243D282100F97916 /* Assets.xcassets */,
@@ -146,9 +155,7 @@
 			children = (
 				28097D61243DA72500F97916 /* LoginManager.swift */,
 				28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */,
-				28097D7F243EF88000F97916 /* SmartStoreProxy.swift */,
-				28097D78243DCC1800F97916 /* SimpleProxy.h */,
-				28097D79243DCC1800F97916 /* SimpleProxy.m */,
+				2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -165,8 +172,21 @@
 			isa = PBXGroup;
 			children = (
 				28097D822440618C00F97916 /* CallStackFrame.swift */,
+				2840BC51244836FE00C2E896 /* String+SafeRemove.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		28AD10C9244465BC0087E0BD /* ExtendedSmartStore */ = {
+			isa = PBXGroup;
+			children = (
+				2840BC482445B3CB00C2E896 /* ExternalSoup.swift */,
+				2840BC4A2445B46900C2E896 /* NSDictionary+SoupEntry.swift */,
+				28097D7F243EF88000F97916 /* SmartStoreProxy.swift */,
+				28097D78243DCC1800F97916 /* SimpleProxy.h */,
+				28097D79243DCC1800F97916 /* SimpleProxy.m */,
+			);
+			path = ExtendedSmartStore;
 			sourceTree = "<group>";
 		};
 		6C1DBF1F04B63BE20A2FC863 /* Pods */ = {
@@ -305,6 +325,8 @@
 			files = (
 				28097D6A243DADC400F97916 /* PlaygroundView.swift in Sources */,
 				28097D62243DA72500F97916 /* LoginManager.swift in Sources */,
+				2840BC502447187400C2E896 /* DemoExternalSoup.swift in Sources */,
+				2840BC492445B3CB00C2E896 /* ExternalSoup.swift in Sources */,
 				28097D7A243DCC1800F97916 /* SimpleProxy.m in Sources */,
 				28097D832440618C00F97916 /* CallStackFrame.swift in Sources */,
 				28097D60243DA6BA00F97916 /* LoginStatusView.swift in Sources */,
@@ -313,7 +335,9 @@
 				28097D47243D281F00F97916 /* AppDelegate.swift in Sources */,
 				28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */,
 				28097D49243D281F00F97916 /* SceneDelegate.swift in Sources */,
+				2840BC52244836FE00C2E896 /* String+SafeRemove.swift in Sources */,
 				28097D67243DAB6700F97916 /* View+AnyView.swift in Sources */,
+				2840BC4B2445B46900C2E896 /* NSDictionary+SoupEntry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

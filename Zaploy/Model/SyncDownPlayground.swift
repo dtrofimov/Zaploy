@@ -14,15 +14,11 @@ class SyncDownPlayground: ObservableObject {
     static let shared = SyncDownPlayground()
 
     var userAccount: UserAccount? { UserAccountManager.shared.currentUserAccount }
-    lazy var smartStore = SmartStore.shared(withName: SmartStore.defaultStoreName, forUserAccount: userAccount!)!.then {
-        if !$0.soupExists(forName: soupName) {
-            try! $0.registerSoup(withName: soupName, withIndices: [
-                SoupIndex(path: "Id", indexType: "string", columnName: nil)!,
-                SoupIndex(path: "__local__", indexType: "integer", columnName: nil)!,
-            ])
-        }
+    lazy var smartStore = SmartStore.shared(withName: SmartStore.defaultStoreName, forUserAccount: userAccount!)!
+    lazy var externalSoup = DemoExternalSoup(name: soupName)
+    lazy var smartStoreProxy = SmartStoreProxy(smartStore: smartStore).then {
+        try? $0.addExternalSoup(externalSoup)
     }
-    lazy var smartStoreProxy = SmartStoreProxy(target: smartStore)
     lazy var proxiedSmartStore = unsafeBitCast(smartStoreProxy, to: SmartStore.self)
     lazy var syncManager = SyncManager.sharedInstance(store: proxiedSmartStore)!
     lazy var metadataSyncManager = MetadataSyncManager.sharedInstance(userAccount!, smartStore: proxiedSmartStore.name)
@@ -44,6 +40,24 @@ class SyncDownPlayground: ObservableObject {
                 self.objectWillChange.send()
             }
         }
+    }
+
+    func upsertLocalRecord() {
+        try? externalSoup.upsert(entries: [[
+            "Name": "John Local",
+            "__local__": true,
+            "__locally_created__": true,
+            "__locally_updated__": true,
+            ]])
+        refreshOnMainThread()
+    }
+
+    func upsertNonLocalRecord() {
+        try? externalSoup.upsert(entries: [[
+            "Name": "Jane Non-Local",
+            "Id": "ausyg6d7i6qt7e6g",
+            ]])
+        refreshOnMainThread()
     }
 
     func syncDown() {
@@ -97,11 +111,7 @@ class SyncDownPlayground: ObservableObject {
         refreshOnMainThread()
     }
 
-    var leadDicts: [NSDictionary] {
-        guard userAccount != nil else { return [] }
-        guard smartStore.soupExists(forName: soupName) else { return [] }
-        let smartSql = "select {\(soupName):_soup} from {\(soupName)}"
-        let spec = QuerySpec.buildSmartQuerySpec(smartSql: smartSql, pageSize: UInt(Int.max))!
-        return try! smartStore.query(using: spec, startingFromPageIndex: 0).map { ($0 as! NSArray).firstObject as! NSDictionary }
+    var leadDicts: [SoupEntry] {
+        externalSoup.entries
     }
 }
