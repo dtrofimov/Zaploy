@@ -8,13 +8,13 @@
 
 import Foundation
 import SmartStore
-import MobileSync
 
 @objcMembers
-class SmartStoreProxy: SimpleProxy {
-    var smartStore: SmartStore { target as! SmartStore }
+open class SmartStoreProxy: SimpleProxy {
+    public let smartStore: SmartStore
 
     init(smartStore: SmartStore) {
+        self.smartStore = smartStore
         super.init(target: smartStore)
     }
 
@@ -34,46 +34,46 @@ class SmartStoreProxy: SimpleProxy {
         externalSoupsForNames[name] = soup
     }
 
-    func isTargetSoupName(_ soupName: String) -> Bool {
-        externalSoupsForNames[soupName] == nil
+    open func logError(_ message: String) {
+        let message = "ERROR: \(message)"
+        NSLog(message)
+        #if DEBUG
+        fatalError(message)
+        #endif
+    }
+
+    open func logWarning(_ message: String) {
+        let message = "WARNING: \(message)"
+        NSLog(message)
     }
 
     @objc(storeName) // 156
     var name: String {
-        // Don't override.
-        return smartStore.name
+        smartStore.name
     }
 
     @objc(storePath) // 161
     var path: String? {
-        // Don't override.
-        return smartStore.path
+        smartStore.path
     }
 
     @objc(user) // 166
     var userAccount: UserAccount? {
-        // Don't override
-        return smartStore.userAccount
+        smartStore.userAccount
     }
 
     @objc(indicesForSoup:) // 285
     func indices(forSoupNamed soupName: String) -> [SoupIndex] {
-        /*
-         1. Used in `-buildSyncIdPredicateIfIndexed:` within `cleanGhosts` to check the presence of an optional index for `kSyncTargetSyncId` (`"__sync_id__"`).
-         Since we control `-queryWithQuerySpec:pageIndex:error:` directly, return an empty array here.
-
-         2. For system soups, don't override.
-         */
-        #if VERIFY_REAL_SMART_STORE_CALLS
-        let frames = Thread.callStackFrames
-        if isTargetSoupName(soupName) {
-        } else if frames[2].method.contains("-[SFSyncDownTarget buildSyncIdPredicateIfIndexed:soupName:syncId:]"),
-            soupName == "someSoupName" {
-        } else {
-            fatalError()
-        }
-        #endif
         if externalSoupsForNames[soupName] != nil {
+            // Used in `-buildSyncIdPredicateIfIndexed:` within `cleanGhosts` to check the presence of an optional index for `kSyncTargetSyncId` (`"__sync_id__"`).
+            // Since we control `-queryWithQuerySpec:pageIndex:error:` directly, return an empty array here.
+            #if VERIFY_REAL_SMART_STORE_CALLS
+            let frames = Thread.callStackFrames
+            if frames[2].method.contains("-[SFSyncDownTarget buildSyncIdPredicateIfIndexed:soupName:syncId:]") {
+            } else {
+                logError("\"indicesForSoup:\" is called with an unknown call stack.")
+            }
+            #endif
             return []
         } else {
             return smartStore.indices(forSoupNamed: soupName)
@@ -82,22 +82,15 @@ class SmartStoreProxy: SimpleProxy {
 
     @objc(soupExists:) // 291
     func soupExists(forName soupName: String) -> Bool {
-        // Used for both target and extended soups. Support both.
         externalSoupsForNames[soupName] != nil ||
             smartStore.soupExists(forName: soupName)
     }
 
     @objc(registerSoup:withIndexSpecs:error:) // 300
     func registerSoup(withName soupName: String, withIndices indices: [SoupIndex]) throws {
-        // Used for target soups only when the corresponding managers are instantiated.
-        // For extended soups, isn't called from SF SDK, until we use SFSDKStoreConfig.
-        #if VERIFY_REAL_SMART_STORE_CALLS
-        if isTargetSoupName(soupName) {
-        } else {
-            fatalError()
-        }
-        #endif
         if externalSoupsForNames[soupName] != nil {
+            // For external soups, isn't called from SF SDK, until we use SFSDKStoreConfig,
+            // which isn't a supported way of using `ExternalSoup`.
             throw CustomError.soupAlreadyExists(soupName: soupName)
         } else {
             try smartStore.registerSoup(withName: soupName, withIndices: indices)
@@ -106,31 +99,12 @@ class SmartStoreProxy: SimpleProxy {
 
     @objc(queryWithQuerySpec:pageIndex:error:) // 341
     func query(using querySpec: QuerySpec, startingFromPageIndex startPageIndex: UInt) throws -> [Any] {
-        /*
-         1. Used in target soups in arbitrary ways.
-
-         2. Used in `-getNonDirtyRecordIds:soupName:idField:additionalPredicate:`, `-getIdsWithQuery:syncManager:` within `cleanGhosts`
-         to fetch all non-dirty records of the given soup (those which we can remove wihin Clean Ghosts procedure).
-
-         ```
-         SELECT {someSoupName:Id} FROM {someSoupName} WHERE {someSoupName:__local__} = '0'  ORDER BY {someSoupName:Id} ASC
-         ```
-
-         Return the actual result here (the list of non-dirty record ids within a given table).
-         */
         let soupName = try querySpec.safeSoupName()
-        #if VERIFY_REAL_SMART_STORE_CALLS
-        let frames = Thread.callStackFrames
-        if isTargetSoupName(soupName) {
-        } else if frames[2].method.contains("-[SFSyncTarget getIdsWithQuery:syncManager:]"),
-            frames[3].method.contains("-[SFSyncDownTarget getNonDirtyRecordIds:soupName:idField:additionalPredicate:]"),
-            querySpec.smartSql == "SELECT {\(soupName):Id} FROM {\(soupName)} WHERE {\(soupName):__local__} = '0'  ORDER BY {\(soupName):Id} ASC" {
-        } else {
-            fatalError()
-        }
-        #endif
         if let externalSoup = externalSoupsForNames[soupName] {
+            // Used in `-getNonDirtyRecordIds:soupName:idField:additionalPredicate:`, `-getIdsWithQuery:syncManager:` within `cleanGhosts`
+            // to fetch all non-dirty records of the given soup (those which we can remove wihin Clean Ghosts procedure).
             guard querySpec.smartSql == "SELECT {\(soupName):Id} FROM {\(soupName)} WHERE {\(soupName):__local__} = '0'  ORDER BY {\(soupName):Id} ASC" else {
+                logError("queryWithQuerySpec:pageIndex:error: is called with an unknown query: \(querySpec.smartSql)")
                 throw CustomError.unknownQuery(query: querySpec)
             }
             return externalSoup.nonDirtySfIds.map { [$0] }
@@ -141,15 +115,9 @@ class SmartStoreProxy: SimpleProxy {
 
     @objc(retrieveEntries:fromSoup:) // 377
     func retrieve(usingSoupEntryIds soupEntryIds: [NSNumber], fromSoupNamed soupName: String) -> [[AnyHashable: Any]] {
-        // Used for target soups.
-        // For extended soups, is presumably called within syncup.
-        #if VERIFY_REAL_SMART_STORE_CALLS
-        if isTargetSoupName(soupName) {
-        } else {
-            fatalError()
-        }
-        #endif
         if let externalSoup = externalSoupsForNames[soupName] {
+            // Not called for external soups within syncdown, only for syncup.
+            logWarning("retrieveEntries:fromSoup: is called. SyncUp test cases are not fully supported.")
             return externalSoup.entries(soupEntryIds: soupEntryIds)
         } else {
             return smartStore.retrieve(usingSoupEntryIds: soupEntryIds, fromSoupNamed: soupName)
@@ -158,8 +126,13 @@ class SmartStoreProxy: SimpleProxy {
 
     @objc(upsertEntries:toSoup:) // 389
     func upsert(entries: [[AnyHashable : Any]], forSoupNamed soupName: String) -> [[AnyHashable: Any]] {
-        // Used for both target and extended soups. Upserts by soupEntryId (if present in the given entry).
         if let externalSoup = externalSoupsForNames[soupName] {
+            // For external soups, called with empty `entries` only.
+            if !entries.isEmpty {
+                logWarning("upsertEntries:toSoup: is called with a non-empty entry list.")
+            }
+            #if VERIFY_REAL_SMART_STORE_CALLS
+            #endif
             try? externalSoup.upsert(entries: entries)
             return entries
         } else {
@@ -169,9 +142,8 @@ class SmartStoreProxy: SimpleProxy {
 
     @objc(upsertEntries:toSoup:withExternalIdPath:error:) // 402
     func upsert(entries: [Any], forSoupNamed soupName: String, withExternalIdPath externalIdPath: String) throws -> [Any] {
-        // Used for extended soups to upsert the downloaded objects by Id.
-        // Presumably may be called for target soups.
         if let externalSoup = externalSoupsForNames[soupName] {
+            // Used for external soups to upsert the downloaded objects by Id.
             try externalSoup.upsert(entries: entries as! [SoupEntry])
             return entries
         } else {
@@ -181,13 +153,9 @@ class SmartStoreProxy: SimpleProxy {
 
     @objc(lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:) // 413
     func lookupSoupEntryId(soupNamed soupName: String, fieldPath: String, fieldValue: String) throws -> NSNumber {
-        // Used for target soups.
-        // Presumably may be called for extended soups.
-        #if VERIFY_REAL_SMART_STORE_CALLS
-        if isTargetSoupName(soupName) {
-        } else { fatalError() }
-        #endif
         if externalSoupsForNames[soupName] != nil {
+            // Not used for external soups.
+            logError("lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error: is called, which is unsupported.")
             throw CustomError.unsupportedMethod(selector: #selector(SmartStore.lookupSoupEntryId(soupNamed:fieldPath:fieldValue:)))
         } else {
             return try smartStore.lookupSoupEntryId(soupNamed: soupName, fieldPath: fieldPath, fieldValue: fieldValue)
@@ -196,13 +164,9 @@ class SmartStoreProxy: SimpleProxy {
 
     @objc(removeEntries:fromSoup:) // 434
     func removeEntries(_ entryIds: [NSNumber], fromSoup soupName: String) {
-        // Used for target soups.
-        // Presumably may be called for extended soups.
-        #if VERIFY_REAL_SMART_STORE_CALLS
-        if isTargetSoupName(soupName) {
-        } else { fatalError() }
-        #endif
         if let externalSoup = externalSoupsForNames[soupName] {
+            // Not called for external soups within syncdown, only for syncup.
+            logWarning("removeEntries:fromSoup: is called. SyncUp test cases are not fully supported.")
             externalSoup.remove(soupEntryIds: entryIds)
         } else {
             try? smartStore.remove(entryIds: entryIds, forSoupNamed: soupName)
@@ -212,26 +176,36 @@ class SmartStoreProxy: SimpleProxy {
     @objc(removeEntriesByQuery:fromSoup:) // 454
     func removeEntries(byQuery querySpec: QuerySpec, fromSoup soupName: String) {
         if let externalSoup = externalSoupsForNames[soupName] {
+            // For external soups, called within `cleanGhosts` to remove the unneeded records by a list of `SfId`s.
             var string = querySpec.smartSql
             guard string.removePrefix("SELECT {\(soupName):_soupEntryId} FROM {\(soupName)} WHERE {\(soupName):Id} IN "),
                 string.removePrefix("("),
                 string.removeSuffix(")")
-                else { return }
+                else {
+                    logError("removeEntriesByQuery:fromSoup: is called with an unknown query.")
+                    return
+            }
             let ids: [SfId] = string
                 .split(separator: ",")
                 .compactMap {
                     var string = $0.trimmingCharacters(in: .whitespaces)
                     guard string.removePrefix("'"),
                         string.removeSuffix("'")
-                        else { return nil }
+                        else {
+                            logError("removeEntriesByQuery:fromSoup: is called with an unknown query.")
+                            return nil
+                    }
                     return string
             }
-            if !ids.isEmpty {
-                externalSoup.remove(sfIds: ids)
-            }
+            externalSoup.remove(sfIds: ids)
         } else {
             try? smartStore.removeEntries(usingQuerySpec: querySpec, forSoupNamed: soupName)
         }
+    }
+
+    open override func willForwardSelector(_ selector: Selector) {
+        super.willForwardSelector(selector)
+        logError("Unknown method \(NSStringFromSelector(selector)) is called")
     }
 }
 

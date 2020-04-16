@@ -24,9 +24,11 @@
 }
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
-    NSLog(@"Forwarding %@", NSStringFromSelector(anInvocation.selector));
-    NSAssert(NO, @"Forwarding %@", NSStringFromSelector(anInvocation.selector));
+    [self willForwardSelector:anInvocation.selector];
     [anInvocation invokeWithTarget:self.target];
+}
+
+- (void)willForwardSelector:(SEL)selector {
 }
 
 @end

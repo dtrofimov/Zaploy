@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithTarget:(NSObject *)target;
 
+- (void)willForwardSelector:(SEL)selector;
+
 @end
 
 NS_ASSUME_NONNULL_END

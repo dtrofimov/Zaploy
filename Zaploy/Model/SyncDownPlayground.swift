@@ -31,6 +31,7 @@ class SyncDownPlayground: ObservableObject {
         guard userAccount != nil else { return nil }
         return syncManager.syncStatus(forName: syncName)
     }
+    var syncStatus: String? { syncState.map { SyncState.syncStatus(toString: $0.status) } }
 
     private func refreshOnMainThread() {
         if Thread.isMainThread {

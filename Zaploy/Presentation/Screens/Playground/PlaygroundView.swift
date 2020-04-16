@@ -7,19 +7,14 @@
 //
 
 import SwiftUI
-import MobileSync
 
 struct PlaygroundView: View {
     @ObservedObject var playground = SyncDownPlayground.shared
 
     var body: some View {
-        let syncStatusString: String = {
-            guard let syncState = playground.syncState else { return "nil" }
-            return SyncState.syncStatus(toString: syncState.status)
-        }()
         return List {
             LoginStatusView()
-            Text("Sync status: \(syncStatusString)")
+            Text("Sync status: \(playground.syncStatus ?? "nil")")
             Group {
                 Button("Upsert Local Record") {
                     self.playground.upsertLocalRecord()
