@@ -9,6 +9,8 @@
 import Foundation
 import Then
 
+#if VERIFY_REAL_SMART_STORE_CALLS
+
 struct CallStackFrame {
     let module: String
     let address: Int
@@ -43,3 +45,5 @@ extension Thread {
         }
     }
 }
+
+#endif

@@ -71,7 +71,7 @@ open class SmartStoreProxy: SimpleProxy {
             let frames = Thread.callStackFrames
             if frames[2].method.contains("-[SFSyncDownTarget buildSyncIdPredicateIfIndexed:soupName:syncId:]") {
             } else {
-                logError("\"indicesForSoup:\" is called with an unknown call stack.")
+                logError("indicesForSoup: is called with an unknown call stack.")
             }
             #endif
             return []
@@ -107,7 +107,20 @@ open class SmartStoreProxy: SimpleProxy {
                 logError("queryWithQuerySpec:pageIndex:error: is called with an unknown query: \(querySpec.smartSql)")
                 throw CustomError.unknownQuery(query: querySpec)
             }
-            return externalSoup.nonDirtySfIds.map { [$0] }
+            #if VERIFY_REAL_SMART_STORE_CALLS
+            let frames = Thread.callStackFrames
+            if frames[2].method.contains("-[SFSyncTarget getIdsWithQuery:syncManager:]") {
+            } else {
+                logWarning("queryWithQuerySpec:pageIndex:error: is called with an unknown call stack.")
+            }
+            #endif
+            // The pagination is not actually used in `-getIdsWithQuery:syncManager:`, all the pages are concatenated immediately.
+            // That's why we don't use pagination in `ExternalSoup` interface, we request all the ids at once.
+            if startPageIndex == 0 {
+                return externalSoup.nonDirtySfIds.map { [$0] }
+            } else {
+                return []
+            }
         } else {
             return try smartStore.query(using: querySpec, startingFromPageIndex: startPageIndex)
         }

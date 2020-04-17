@@ -54,10 +54,16 @@ class SyncDownPlayground: ObservableObject {
     }
 
     func upsertNonLocalRecord() {
-        try? externalSoup.upsert(entries: [[
-            "Name": "Jane Non-Local",
-            "Id": "ausyg6d7i6qt7e6g",
-            ]])
+        try? externalSoup.upsert(entries: [
+            [
+                "Name": "Jane Non-Local",
+                "Id": "ausyg6d7i6qt7e6g",
+            ],
+            [
+                "Name": "David Non-Local",
+                "Id": "aiusytd78q8w67t",
+            ],
+        ])
         refreshOnMainThread()
     }
 
