@@ -24,14 +24,21 @@ class SyncDownPlayground: ObservableObject {
     lazy var metadataSyncManager = MetadataSyncManager.sharedInstance(userAccount!, smartStore: proxiedSmartStore.name)
     lazy var layoutSyncManager = LayoutSyncManager.sharedInstance(userAccount!, smartStore: proxiedSmartStore.name)
 
-    let syncName = "someSyncName"
+    let syncDownName = "syncDownName"
+    let syncUpName = "syncUpName"
     let soupName = "someSoupName"
 
-    var syncState: SyncState? {
+    var syncDownState: SyncState? {
         guard userAccount != nil else { return nil }
-        return syncManager.syncStatus(forName: syncName)
+        return syncManager.syncStatus(forName: syncDownName)
     }
-    var syncStatus: String? { syncState.map { SyncState.syncStatus(toString: $0.status) } }
+    var syncDownStatus: String? { syncDownState.map { SyncState.syncStatus(toString: $0.status) } }
+
+    var syncUpState: SyncState? {
+        guard userAccount != nil else { return nil }
+        return syncManager.syncStatus(forName: syncUpName)
+    }
+    var syncUpStatus: String? { syncUpState.map { SyncState.syncStatus(toString: $0.status) } }
 
     private func refreshOnMainThread() {
         if Thread.isMainThread {
@@ -45,7 +52,10 @@ class SyncDownPlayground: ObservableObject {
 
     func upsertLocalRecord() {
         try? externalSoup.upsert(entries: [[
-            "Name": "John Local",
+            "attributes": ["type": "Lead"],
+            "FirstName": "John",
+            "LastName": "Local",
+            "Company": "Big Company, inc",
             "__local__": true,
             "__locally_created__": true,
             "__locally_updated__": true,
@@ -56,44 +66,71 @@ class SyncDownPlayground: ObservableObject {
     func upsertNonLocalRecord() {
         try? externalSoup.upsert(entries: [
             [
-                "Name": "Jane Non-Local",
+                "attributes": ["type": "Lead"],
                 "Id": "ausyg6d7i6qt7e6g",
+                "FirstName": "Jane",
+                "LastName": "Non-Local",
             ],
             [
-                "Name": "David Non-Local",
+                "attributes": ["type": "Lead"],
                 "Id": "aiusytd78q8w67t",
+                "FirstName": "David",
+                "LastName": "Non-Local",
             ],
         ])
         refreshOnMainThread()
     }
 
     func syncDown() {
-        syncManager.deleteSync(forName: syncName)
-        try! syncManager.syncDown(target: SoqlSyncDownTarget.newSyncTarget("select Id, Name from Lead"),
+        syncManager.deleteSync(forName: syncDownName)
+        try! syncManager.syncDown(target: SoqlSyncDownTarget.newSyncTarget("select Id, FirstName, LastName, Company from Lead"),
                                   options: SyncOptions.newSyncOptions(forSyncDown: .overwrite),
                                   soupName: soupName,
-                                  syncName: syncName) { [weak self] syncState in
+                                  syncName: syncDownName) { [weak self] syncState in
                                     self?.refreshOnMainThread()
         }
         refreshOnMainThread()
     }
 
-    func resync() {
-        try! syncManager.reSync(named: syncName, onUpdate: { [weak self] syncState in
+    func resyncDown() {
+        try! syncManager.reSync(named: syncDownName, onUpdate: { [weak self] syncState in
             self?.refreshOnMainThread()
         })
         refreshOnMainThread()
     }
 
     func cleanGhosts() {
-        syncManager.cleanGhosts(named: syncName, { [weak self] result in
+        syncManager.cleanGhosts(named: syncDownName, { [weak self] result in
             self?.refreshOnMainThread()
         })
         refreshOnMainThread()
     }
 
-    func deleteSync() {
-        syncManager.deleteSync(forName: syncName)
+    func deleteSyncDown() {
+        syncManager.deleteSync(forName: syncDownName)
+        refreshOnMainThread()
+    }
+
+    func syncUp() {
+        try! syncManager.syncUp(target: SyncUpTarget(createFieldlist: nil, updateFieldlist: nil),
+                                options: SyncOptions.newSyncOptions(forSyncUp: ["Id", "FirstName", "LastName", "Company"], mergeMode: .overwrite),
+                                soupName: soupName,
+                                syncName: syncUpName,
+                                onUpdate: { [weak self] syncState in
+                                    self?.refreshOnMainThread()
+        })
+        refreshOnMainThread()
+    }
+
+    func resyncUp() {
+        try! syncManager.reSync(named: syncUpName) { [weak self] syncState in
+            self?.refreshOnMainThread()
+        }
+        refreshOnMainThread()
+    }
+
+    func deleteSyncUp() {
+        syncManager.deleteSync(forName: syncUpName)
         refreshOnMainThread()
     }
 

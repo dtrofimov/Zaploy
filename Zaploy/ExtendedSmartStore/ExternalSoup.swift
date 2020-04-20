@@ -20,6 +20,8 @@ protocol ExternalSoup: AnyObject {
 
     var nonDirtySfIds: [SfId] { get }
 
+    var dirtySoupEntryIds: [SoupEntryId] { get }
+
     func entries(soupEntryIds: [SoupEntryId]) -> [SoupEntry]
 
     func upsert(entries: [SoupEntry]) throws

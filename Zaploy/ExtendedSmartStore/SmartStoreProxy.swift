@@ -101,25 +101,47 @@ open class SmartStoreProxy: SimpleProxy {
     func query(using querySpec: QuerySpec, startingFromPageIndex startPageIndex: UInt) throws -> [Any] {
         let soupName = try querySpec.safeSoupName()
         if let externalSoup = externalSoupsForNames[soupName] {
-            // Used in `-getNonDirtyRecordIds:soupName:idField:additionalPredicate:`, `-getIdsWithQuery:syncManager:` within `cleanGhosts`
-            // to fetch all non-dirty records of the given soup (those which we can remove wihin Clean Ghosts procedure).
-            guard querySpec.smartSql == "SELECT {\(soupName):Id} FROM {\(soupName)} WHERE {\(soupName):__local__} = '0'  ORDER BY {\(soupName):Id} ASC" else {
+            func handleNonDirtySfIds() throws -> [Any]? {
+                // Used in `-getNonDirtyRecordIds:soupName:idField:additionalPredicate:`, `-getIdsWithQuery:syncManager:` within `cleanGhosts`
+                // to fetch all non-dirty records of the given soup (those which we can remove wihin Clean Ghosts procedure).
+                guard querySpec.smartSql == "SELECT {\(soupName):Id} FROM {\(soupName)} WHERE {\(soupName):__local__} = '0'  ORDER BY {\(soupName):Id} ASC"
+                    else { return nil }
+                #if VERIFY_REAL_SMART_STORE_CALLS
+                let frames = Thread.callStackFrames
+                if frames[3].method.contains("-[SFSyncTarget getIdsWithQuery:syncManager:]") {
+                } else {
+                    logWarning("queryWithQuerySpec:pageIndex:error: is called with an unknown call stack.")
+                }
+                #endif
+                // The pagination is not actually used in `-getIdsWithQuery:syncManager:`, all the pages are concatenated immediately.
+                // That's why we don't use pagination in `ExternalSoup` interface, we request all the ids at once.
+                if startPageIndex == 0 {
+                    return externalSoup.nonDirtySfIds.map { [$0] }
+                } else {
+                    return []
+                }
+            }
+            func handleDirtySoupEntryIds() throws -> [Any]? {
+                guard querySpec.smartSql == "SELECT {\(soupName):_soupEntryId} FROM {\(soupName)} WHERE {\(soupName):__local__} = \'1\' ORDER BY {\(soupName):_soupEntryId} ASC"
+                    else { return nil }
+                #if VERIFY_REAL_SMART_STORE_CALLS
+                let frames = Thread.callStackFrames
+                if frames[3].method.contains("-[SFSyncTarget getIdsWithQuery:syncManager:]") {
+                } else {
+                    logWarning("queryWithQuerySpec:pageIndex:error: is called with an unknown call stack.")
+                }
+                #endif
+                if startPageIndex == 0 {
+                    return externalSoup.dirtySoupEntryIds.map { [$0] }
+                } else {
+                    return []
+                }
+            }
+            if let result = try handleNonDirtySfIds() ?? handleDirtySoupEntryIds() {
+                return result
+            } else {
                 logError("queryWithQuerySpec:pageIndex:error: is called with an unknown query: \(querySpec.smartSql)")
                 throw CustomError.unknownQuery(query: querySpec)
-            }
-            #if VERIFY_REAL_SMART_STORE_CALLS
-            let frames = Thread.callStackFrames
-            if frames[2].method.contains("-[SFSyncTarget getIdsWithQuery:syncManager:]") {
-            } else {
-                logWarning("queryWithQuerySpec:pageIndex:error: is called with an unknown call stack.")
-            }
-            #endif
-            // The pagination is not actually used in `-getIdsWithQuery:syncManager:`, all the pages are concatenated immediately.
-            // That's why we don't use pagination in `ExternalSoup` interface, we request all the ids at once.
-            if startPageIndex == 0 {
-                return externalSoup.nonDirtySfIds.map { [$0] }
-            } else {
-                return []
             }
         } else {
             return try smartStore.query(using: querySpec, startingFromPageIndex: startPageIndex)
@@ -129,8 +151,7 @@ open class SmartStoreProxy: SimpleProxy {
     @objc(retrieveEntries:fromSoup:) // 377
     func retrieve(usingSoupEntryIds soupEntryIds: [NSNumber], fromSoupNamed soupName: String) -> [[AnyHashable: Any]] {
         if let externalSoup = externalSoupsForNames[soupName] {
-            // Not called for external soups within syncdown, only for syncup.
-            logWarning("retrieveEntries:fromSoup: is called. SyncUp test cases are not fully supported.")
+            // For external soups, called to dereference dirtySoupEntryIds during a syncup.
             return externalSoup.entries(soupEntryIds: soupEntryIds)
         } else {
             return smartStore.retrieve(usingSoupEntryIds: soupEntryIds, fromSoupNamed: soupName)
@@ -140,12 +161,7 @@ open class SmartStoreProxy: SimpleProxy {
     @objc(upsertEntries:toSoup:) // 389
     func upsert(entries: [[AnyHashable : Any]], forSoupNamed soupName: String) -> [[AnyHashable: Any]] {
         if let externalSoup = externalSoupsForNames[soupName] {
-            // For external soups, called with empty `entries` only.
-            if !entries.isEmpty {
-                logWarning("upsertEntries:toSoup: is called with a non-empty entry list.")
-            }
-            #if VERIFY_REAL_SMART_STORE_CALLS
-            #endif
+            // For external soups, called to save the uloaded entries after a syncup, and also called with empty `entries` during a syncdown.
             try? externalSoup.upsert(entries: entries)
             return entries
         } else {

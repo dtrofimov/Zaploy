@@ -33,8 +33,21 @@ class DemoExternalSoup: ExternalSoup {
 
     var nonDirtySfIds: [SfId] {
         entries.compactMap {
-            if let isLocal = $0["__local__"] as? Bool, isLocal { return nil }
-            return $0.id
+            if let isLocal = $0["__local__"] as? Bool, isLocal {
+                return nil
+            } else {
+                return $0.id
+            }
+        }
+    }
+
+    var dirtySoupEntryIds: [SoupEntryId] {
+        entries.compactMap {
+            if let isLocal = $0["__local__"] as? Bool, isLocal {
+                return $0.soupEntryId
+            } else {
+                return nil
+            }
         }
     }
 

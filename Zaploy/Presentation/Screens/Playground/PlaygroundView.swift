@@ -13,9 +13,10 @@ struct PlaygroundView: View {
 
     var body: some View {
         return List {
-            LoginStatusView()
-            Text("Sync status: \(playground.syncStatus ?? "nil")")
             Group {
+                LoginStatusView()
+                Text("Sync Down Status: \(playground.syncDownStatus ?? "nil")")
+                Text("Sync Up Status: \(playground.syncUpStatus ?? "nil")")
                 Button("Upsert Local Record") {
                     self.playground.upsertLocalRecord()
                 }
@@ -25,14 +26,25 @@ struct PlaygroundView: View {
                 Button("Sync Down") {
                     self.playground.syncDown()
                 }
-                Button("Resync") {
-                    self.playground.resync()
+                Button("Resync Down") {
+                    self.playground.resyncDown()
                 }
+            }
+            Group {
                 Button("Clean Ghosts") {
                     self.playground.cleanGhosts()
                 }
-                Button("Delete Sync") {
-                    self.playground.deleteSync()
+                Button("Delete Sync Down") {
+                    self.playground.deleteSyncDown()
+                }
+                Button("Sync Up") {
+                    self.playground.syncUp()
+                }
+                Button("Resync Up") {
+                    self.playground.resyncUp()
+                }
+                Button("Delete Sync Up") {
+                    self.playground.deleteSyncUp()
                 }
                 Button("Sync Down Metadata") {
                     self.playground.syncDownMetadata()
@@ -46,7 +58,7 @@ struct PlaygroundView: View {
             }
             Text("")
             ForEach(playground.leadDicts, id: \.soupEntryId) { dict in
-                Text(dict["Name"] as! String)
+                Text("\(dict["FirstName"] as! String) \(dict["LastName"] as! String)")
             }
         }
     }
