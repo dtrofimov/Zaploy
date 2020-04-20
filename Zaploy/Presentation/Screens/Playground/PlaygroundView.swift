@@ -46,6 +46,9 @@ struct PlaygroundView: View {
                 Button("Delete Sync Up") {
                     self.playground.deleteSyncUp()
                 }
+                Button("Mark First As Deleted") {
+                    self.playground.markFirstAsDeleted()
+                }
                 Button("Sync Down Metadata") {
                     self.playground.syncDownMetadata()
                 }

@@ -26,6 +26,7 @@
 		2840BC4B2445B46900C2E896 /* NSDictionary+SoupEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC4A2445B46900C2E896 /* NSDictionary+SoupEntry.swift */; };
 		2840BC502447187400C2E896 /* DemoExternalSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */; };
 		2840BC52244836FE00C2E896 /* String+SafeRemove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC51244836FE00C2E896 /* String+SafeRemove.swift */; };
+		28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501B244D96C600E6EB83 /* Then+Update.swift */; };
 		902F10E86C78C3FCB2F1A34F /* Pods_Zaploy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +55,7 @@
 		2840BC4A2445B46900C2E896 /* NSDictionary+SoupEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDictionary+SoupEntry.swift"; sourceTree = "<group>"; };
 		2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoExternalSoup.swift; sourceTree = "<group>"; };
 		2840BC51244836FE00C2E896 /* String+SafeRemove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SafeRemove.swift"; sourceTree = "<group>"; };
+		28AF501B244D96C600E6EB83 /* Then+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Then+Update.swift"; sourceTree = "<group>"; };
 		87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zaploy.debug.xcconfig"; path = "Target Support Files/Pods-Zaploy/Pods-Zaploy.debug.xcconfig"; sourceTree = "<group>"; };
 		D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Zaploy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -173,6 +175,7 @@
 			children = (
 				28097D822440618C00F97916 /* CallStackFrame.swift */,
 				2840BC51244836FE00C2E896 /* String+SafeRemove.swift */,
+				28AF501B244D96C600E6EB83 /* Then+Update.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				28097D60243DA6BA00F97916 /* LoginStatusView.swift in Sources */,
 				28097D80243EF88000F97916 /* SmartStoreProxy.swift in Sources */,
 				28097D6C243DC41400F97916 /* Spinner.swift in Sources */,
+				28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */,
 				28097D47243D281F00F97916 /* AppDelegate.swift in Sources */,
 				28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */,
 				28097D49243D281F00F97916 /* SceneDelegate.swift in Sources */,

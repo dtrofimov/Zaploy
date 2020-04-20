@@ -134,6 +134,14 @@ class SyncDownPlayground: ObservableObject {
         refreshOnMainThread()
     }
 
+    func markFirstAsDeleted() {
+        guard !externalSoup.entries.isEmpty else { return }
+        externalSoup.entries[0].update {
+            $0["__local__"] = NSNumber(value: true)
+            $0["__locally_deleted__"] = NSNumber(value: true)
+        }
+    }
+
     func syncDownMetadata() {
         metadataSyncManager.fetchMetadata(forObject: "Lead", mode: .serverFirst) { [weak self] metadata in
             self?.refreshOnMainThread()

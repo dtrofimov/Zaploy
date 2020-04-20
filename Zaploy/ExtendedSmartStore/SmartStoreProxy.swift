@@ -194,8 +194,6 @@ open class SmartStoreProxy: SimpleProxy {
     @objc(removeEntries:fromSoup:) // 434
     func removeEntries(_ entryIds: [NSNumber], fromSoup soupName: String) {
         if let externalSoup = externalSoupsForNames[soupName] {
-            // Not called for external soups within syncdown, only for syncup.
-            logWarning("removeEntries:fromSoup: is called. SyncUp test cases are not fully supported.")
             externalSoup.remove(soupEntryIds: entryIds)
         } else {
             try? smartStore.remove(entryIds: entryIds, forSoupNamed: soupName)
