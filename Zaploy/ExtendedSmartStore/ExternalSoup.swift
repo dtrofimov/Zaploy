@@ -6,7 +6,7 @@
 //  Copyright © 2020 Dmitrii Trofimov. All rights reserved.
 //
 
-import Foundation
+import SmartStore
 
 typealias SoupEntryId = NSNumber
 
@@ -18,7 +18,9 @@ typealias SoupEntry = [AnyHashable: Any]
 protocol ExternalSoup: AnyObject {
     var name: String { get }
 
-    var nonDirtySfIds: [SfId] { get }
+    @objc optional var indices: [SoupIndex] { get }
+
+    func nonDirtySfIds(syncSoupEntryId: SoupEntryId?) -> [SfId]
 
     var dirtySoupEntryIds: [SoupEntryId] { get }
 

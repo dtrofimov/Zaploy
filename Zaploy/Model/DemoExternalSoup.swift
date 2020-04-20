@@ -31,7 +31,7 @@ class DemoExternalSoup: ExternalSoup {
         nextSoupEntryId += 1
     }
 
-    var nonDirtySfIds: [SfId] {
+    func nonDirtySfIds(syncSoupEntryId: SoupEntryId?) -> [SfId] {
         entries.compactMap {
             if let isLocal = $0["__local__"] as? Bool, isLocal {
                 return nil

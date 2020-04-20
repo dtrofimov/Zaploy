@@ -8,6 +8,7 @@
 
 import Foundation
 import SmartStore
+import MobileSync
 
 @objcMembers
 open class SmartStoreProxy: SimpleProxy {
@@ -47,6 +48,13 @@ open class SmartStoreProxy: SimpleProxy {
         NSLog(message)
     }
 
+    public static let defaultIndices: [SoupIndex] = [
+        SoupIndex(path: kSyncTargetSyncId, indexType: kSoupIndexTypeInteger, columnName: nil)!,
+        SoupIndex(path: kSFSyncStateId, indexType: kSoupIndexTypeInteger, columnName: nil)!,
+        SoupIndex(path: kId, indexType: kSoupIndexTypeString, columnName: nil)!,
+        SoupIndex(path: kSyncTargetLocal, indexType: kSoupIndexTypeInteger, columnName: nil)!,
+    ]
+
     @objc(storeName) // 156
     var name: String {
         smartStore.name
@@ -64,7 +72,7 @@ open class SmartStoreProxy: SimpleProxy {
 
     @objc(indicesForSoup:) // 285
     func indices(forSoupNamed soupName: String) -> [SoupIndex] {
-        if externalSoupsForNames[soupName] != nil {
+        if let externalSoup = externalSoupsForNames[soupName] {
             // Used in `-buildSyncIdPredicateIfIndexed:` within `cleanGhosts` to check the presence of an optional index for `kSyncTargetSyncId` (`"__sync_id__"`).
             // Since we control `-queryWithQuerySpec:pageIndex:error:` directly, return an empty array here.
             #if VERIFY_REAL_SMART_STORE_CALLS
@@ -74,7 +82,7 @@ open class SmartStoreProxy: SimpleProxy {
                 logError("indicesForSoup: is called with an unknown call stack.")
             }
             #endif
-            return []
+            return externalSoup.indices ?? Self.defaultIndices
         } else {
             return smartStore.indices(forSoupNamed: soupName)
         }
@@ -104,7 +112,9 @@ open class SmartStoreProxy: SimpleProxy {
             func handleNonDirtySfIds() throws -> [Any]? {
                 // Used in `-getNonDirtyRecordIds:soupName:idField:additionalPredicate:`, `-getIdsWithQuery:syncManager:` within `cleanGhosts`
                 // to fetch all non-dirty records of the given soup (those which we can remove wihin Clean Ghosts procedure).
-                guard querySpec.smartSql == "SELECT {\(soupName):Id} FROM {\(soupName)} WHERE {\(soupName):__local__} = '0'  ORDER BY {\(soupName):Id} ASC"
+                let syncId = querySpec.parsedSyncId(soupName: soupName)
+                let syncIdCondition = syncId.map { "AND {\(soupName):__sync_id__} = \($0)" } ?? ""
+                guard querySpec.smartSql == "SELECT {\(soupName):Id} FROM {\(soupName)} WHERE {\(soupName):__local__} = '0' \(syncIdCondition) ORDER BY {\(soupName):Id} ASC"
                     else { return nil }
                 #if VERIFY_REAL_SMART_STORE_CALLS
                 let frames = Thread.callStackFrames
@@ -116,7 +126,7 @@ open class SmartStoreProxy: SimpleProxy {
                 // The pagination is not actually used in `-getIdsWithQuery:syncManager:`, all the pages are concatenated immediately.
                 // That's why we don't use pagination in `ExternalSoup` interface, we request all the ids at once.
                 if startPageIndex == 0 {
-                    return externalSoup.nonDirtySfIds.map { [$0] }
+                    return externalSoup.nonDirtySfIds(syncSoupEntryId: syncId).map { [$0] }
                 } else {
                     return []
                 }
@@ -248,5 +258,16 @@ private extension QuerySpec {
         if !soupName.isEmpty { return soupName }
         if let result = parsedSoupName, !result.isEmpty { return result }
         throw SmartStoreProxy.CustomError.unknownQuery(query: self)
+    }
+
+    func parsedSyncId(soupName: String) -> SoupEntryId? {
+        let components = smartSql.components(separatedBy: " ")
+            .filter { !$0.isEmpty }
+        guard let syncIdLhsIndex = components.firstIndex(of: "{\(soupName):__sync_id__}"),
+            syncIdLhsIndex + 2 < components.count,
+            components[syncIdLhsIndex + 1] == "=",
+            let id = Int(components[syncIdLhsIndex + 2])
+            else { return nil }
+        return NSNumber(value: id)
     }
 }
