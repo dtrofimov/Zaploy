@@ -112,6 +112,7 @@ class SyncDownPlayground: ObservableObject {
     }
 
     func syncUp() {
+        syncManager.deleteSync(forName: syncUpName)
         try! syncManager.syncUp(target: SyncUpTarget(createFieldlist: nil, updateFieldlist: nil),
                                 options: SyncOptions.newSyncOptions(forSyncUp: ["Id", "FirstName", "LastName", "Company"], mergeMode: .overwrite),
                                 soupName: soupName,
@@ -140,6 +141,17 @@ class SyncDownPlayground: ObservableObject {
             $0["__local__"] = NSNumber(value: true)
             $0["__locally_deleted__"] = NSNumber(value: true)
         }
+        refreshOnMainThread()
+    }
+
+    func modifyFirst() {
+        guard !externalSoup.entries.isEmpty else { return }
+        externalSoup.entries[0].update {
+            $0["FirstName"] = $0["FirstName"] as! String + "1"
+            $0["__local__"] = NSNumber(value: true)
+            $0["__locally_updated__"] = NSNumber(value: true)
+        }
+        refreshOnMainThread()
     }
 
     func syncDownMetadata() {
