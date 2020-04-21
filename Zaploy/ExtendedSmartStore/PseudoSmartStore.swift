@@ -11,7 +11,7 @@ import SmartStore
 import MobileSync
 
 @objcMembers
-open class SmartStoreProxy: SimpleProxy {
+open class PseudoSmartStore: SimpleProxy {
     public let smartStore: SmartStore
 
     init(smartStore: SmartStore) {
@@ -260,7 +260,7 @@ private extension QuerySpec {
     func safeSoupName() throws -> String {
         if !soupName.isEmpty { return soupName }
         if let result = parsedSoupName, !result.isEmpty { return result }
-        throw SmartStoreProxy.CustomError.unknownQuery(query: self)
+        throw PseudoSmartStore.CustomError.unknownQuery(query: self)
     }
 
     func parsedSyncId(soupName: String) -> SoupEntryId? {

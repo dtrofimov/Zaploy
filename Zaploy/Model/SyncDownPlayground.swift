@@ -16,13 +16,13 @@ class SyncDownPlayground: ObservableObject {
     var userAccount: UserAccount? { UserAccountManager.shared.currentUserAccount }
     lazy var smartStore = SmartStore.shared(withName: SmartStore.defaultStoreName, forUserAccount: userAccount!)!
     lazy var externalSoup = DemoExternalSoup()
-    lazy var smartStoreProxy = SmartStoreProxy(smartStore: smartStore).then {
+    lazy var pseudoSmartStore = PseudoSmartStore(smartStore: smartStore).then {
         try? $0.addExternalSoup(externalSoup, name: soupName)
     }
-    lazy var proxiedSmartStore = unsafeBitCast(smartStoreProxy, to: SmartStore.self)
-    lazy var syncManager = SyncManager.sharedInstance(store: proxiedSmartStore)!
-    lazy var metadataSyncManager = MetadataSyncManager.sharedInstance(userAccount!, smartStore: proxiedSmartStore.name)
-    lazy var layoutSyncManager = LayoutSyncManager.sharedInstance(userAccount!, smartStore: proxiedSmartStore.name)
+    lazy var replacedSmartStore = unsafeBitCast(pseudoSmartStore, to: SmartStore.self)
+    lazy var syncManager = SyncManager.sharedInstance(store: replacedSmartStore)!
+    lazy var metadataSyncManager = MetadataSyncManager.sharedInstance(userAccount!, smartStore: replacedSmartStore.name)
+    lazy var layoutSyncManager = LayoutSyncManager.sharedInstance(userAccount!, smartStore: replacedSmartStore.name)
 
     let syncDownName = "syncDownName"
     let syncUpName = "syncUpName"

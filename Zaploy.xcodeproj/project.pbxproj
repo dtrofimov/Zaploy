@@ -20,7 +20,7 @@
 		28097D6C243DC41400F97916 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D6B243DC41400F97916 /* Spinner.swift */; };
 		28097D7A243DCC1800F97916 /* SimpleProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 28097D79243DCC1800F97916 /* SimpleProxy.m */; };
 		28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */; };
-		28097D80243EF88000F97916 /* SmartStoreProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D7F243EF88000F97916 /* SmartStoreProxy.swift */; };
+		28097D80243EF88000F97916 /* PseudoSmartStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D7F243EF88000F97916 /* PseudoSmartStore.swift */; };
 		28097D832440618C00F97916 /* CallStackFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D822440618C00F97916 /* CallStackFrame.swift */; };
 		2840BC492445B3CB00C2E896 /* ExternalSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC482445B3CB00C2E896 /* ExternalSoup.swift */; };
 		2840BC4B2445B46900C2E896 /* NSDictionary+SoupEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC4A2445B46900C2E896 /* NSDictionary+SoupEntry.swift */; };
@@ -51,7 +51,7 @@
 		28097D78243DCC1800F97916 /* SimpleProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleProxy.h; sourceTree = "<group>"; };
 		28097D79243DCC1800F97916 /* SimpleProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleProxy.m; sourceTree = "<group>"; };
 		28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDownPlayground.swift; sourceTree = "<group>"; };
-		28097D7F243EF88000F97916 /* SmartStoreProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartStoreProxy.swift; sourceTree = "<group>"; };
+		28097D7F243EF88000F97916 /* PseudoSmartStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PseudoSmartStore.swift; sourceTree = "<group>"; };
 		28097D822440618C00F97916 /* CallStackFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackFrame.swift; sourceTree = "<group>"; };
 		2840BC482445B3CB00C2E896 /* ExternalSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalSoup.swift; sourceTree = "<group>"; };
 		2840BC4A2445B46900C2E896 /* NSDictionary+SoupEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDictionary+SoupEntry.swift"; sourceTree = "<group>"; };
@@ -191,7 +191,7 @@
 			children = (
 				2840BC482445B3CB00C2E896 /* ExternalSoup.swift */,
 				2840BC4A2445B46900C2E896 /* NSDictionary+SoupEntry.swift */,
-				28097D7F243EF88000F97916 /* SmartStoreProxy.swift */,
+				28097D7F243EF88000F97916 /* PseudoSmartStore.swift */,
 				28097D78243DCC1800F97916 /* SimpleProxy.h */,
 				28097D79243DCC1800F97916 /* SimpleProxy.m */,
 			);
@@ -349,7 +349,7 @@
 				28AF501F244ED43A00E6EB83 /* EntryDetailsView.swift in Sources */,
 				28AF5021244ED4F900E6EB83 /* SoupEntry+AsJson.swift in Sources */,
 				28097D60243DA6BA00F97916 /* LoginStatusView.swift in Sources */,
-				28097D80243EF88000F97916 /* SmartStoreProxy.swift in Sources */,
+				28097D80243EF88000F97916 /* PseudoSmartStore.swift in Sources */,
 				28097D6C243DC41400F97916 /* Spinner.swift in Sources */,
 				28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */,
 				28097D47243D281F00F97916 /* AppDelegate.swift in Sources */,
