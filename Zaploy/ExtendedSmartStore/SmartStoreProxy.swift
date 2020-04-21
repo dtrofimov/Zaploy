@@ -27,12 +27,15 @@ open class SmartStoreProxy: SimpleProxy {
         case unsupportedMethod(selector: Selector)
     }
 
-    func addExternalSoup(_ soup: ExternalSoup) throws {
-        let name = soup.name
+    func addExternalSoup(_ soup: ExternalSoup, name: String) throws {
         guard externalSoupsForNames[name] == nil else {
             throw CustomError.soupAlreadyExists(soupName: name)
         }
         externalSoupsForNames[name] = soup
+    }
+
+    func removeExternalSoup(_ name: String) {
+        externalSoupsForNames[name] = nil
     }
 
     open func logError(_ message: String) {

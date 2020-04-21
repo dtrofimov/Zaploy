@@ -16,8 +16,6 @@ typealias SoupEntry = [AnyHashable: Any]
 
 @objc
 protocol ExternalSoup: AnyObject {
-    var name: String { get }
-
     @objc optional var indices: [SoupIndex] { get }
 
     func nonDirtySfIds(syncSoupEntryId: SoupEntryId?) -> [SfId]

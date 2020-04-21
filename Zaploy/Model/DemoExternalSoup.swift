@@ -10,12 +10,6 @@ import Foundation
 import MobileSync
 
 class DemoExternalSoup: ExternalSoup {
-    let name: String
-
-    init(name: String) {
-        self.name = name
-    }
-
     var entries: [SoupEntry] = []
 
     var nextSoupEntryId = 0
