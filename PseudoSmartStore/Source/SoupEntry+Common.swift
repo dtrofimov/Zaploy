@@ -1,14 +1,26 @@
 //
-//  SoupEntry+AsJson.swift
+//  NSDictionary+SmartStoreEntry.swift
 //  Zaploy
 //
-//  Created by Dmitrii Trofimov on 21.04.2020.
+//  Created by Dmitrii Trofimov on 14.04.2020.
 //  Copyright © 2020 Dmitrii Trofimov. All rights reserved.
 //
 
 import Foundation
+import MobileSync
+import SmartStore
 
-extension SoupEntry {
+public extension SoupEntry {
+    var soupEntryId: SoupEntryId? {
+        get { self[SmartStore.soupEntryId] as? NSNumber }
+        set { self[SmartStore.soupEntryId] = newValue }
+    }
+
+    var sfId: SfId? {
+        get { self[kId] as? SfId }
+        set { self[kId] = newValue }
+    }
+
     var asJson: String? {
         guard let data = try? JSONSerialization.data(withJSONObject: self, options: []) else { return nil }
         return String(data: data, encoding: .utf8)

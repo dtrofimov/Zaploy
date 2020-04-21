@@ -18,19 +18,47 @@
 		28097D67243DAB6700F97916 /* View+AnyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D66243DAB6700F97916 /* View+AnyView.swift */; };
 		28097D6A243DADC400F97916 /* PlaygroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D69243DADC400F97916 /* PlaygroundView.swift */; };
 		28097D6C243DC41400F97916 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D6B243DC41400F97916 /* Spinner.swift */; };
-		28097D7A243DCC1800F97916 /* SimpleProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 28097D79243DCC1800F97916 /* SimpleProxy.m */; };
 		28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */; };
-		28097D80243EF88000F97916 /* PseudoSmartStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D7F243EF88000F97916 /* PseudoSmartStore.swift */; };
 		28097D832440618C00F97916 /* CallStackFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D822440618C00F97916 /* CallStackFrame.swift */; };
-		2840BC492445B3CB00C2E896 /* ExternalSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC482445B3CB00C2E896 /* ExternalSoup.swift */; };
-		2840BC4B2445B46900C2E896 /* NSDictionary+SoupEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC4A2445B46900C2E896 /* NSDictionary+SoupEntry.swift */; };
 		2840BC502447187400C2E896 /* DemoExternalSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */; };
-		2840BC52244836FE00C2E896 /* String+SafeRemove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC51244836FE00C2E896 /* String+SafeRemove.swift */; };
 		28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501B244D96C600E6EB83 /* Then+Update.swift */; };
 		28AF501F244ED43A00E6EB83 /* EntryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501E244ED43A00E6EB83 /* EntryDetailsView.swift */; };
-		28AF5021244ED4F900E6EB83 /* SoupEntry+AsJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF5020244ED4F900E6EB83 /* SoupEntry+AsJson.swift */; };
+		28B8A798244F22D600FAE3A4 /* PseudoSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 28B8A796244F22D600FAE3A4 /* PseudoSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		28B8A79B244F22D600FAE3A4 /* PseudoSmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28B8A794244F22D600FAE3A4 /* PseudoSmartStore.framework */; };
+		28B8A79C244F22D600FAE3A4 /* PseudoSmartStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 28B8A794244F22D600FAE3A4 /* PseudoSmartStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		28B8A7A2244F23BA00FAE3A4 /* ExternalSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC482445B3CB00C2E896 /* ExternalSoup.swift */; };
+		28B8A7A3244F23BA00FAE3A4 /* SoupEntry+Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC4A2445B46900C2E896 /* SoupEntry+Common.swift */; };
+		28B8A7A4244F23BA00FAE3A4 /* PseudoSmartStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D7F243EF88000F97916 /* PseudoSmartStore.swift */; };
+		28B8A7A5244F23C200FAE3A4 /* SimpleProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 28097D79243DCC1800F97916 /* SimpleProxy.m */; };
+		28B8A7A6244F252000FAE3A4 /* SimpleProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 28097D78243DCC1800F97916 /* SimpleProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		28B8A7A7244F254C00FAE3A4 /* String+SafeRemove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC51244836FE00C2E896 /* String+SafeRemove.swift */; };
 		902F10E86C78C3FCB2F1A34F /* Pods_Zaploy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */; };
+		FECB8A347424CBA610CF5086 /* Pods_PseudoSmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B9E36017328E4A16D8ECCB /* Pods_PseudoSmartStore.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		28B8A799244F22D600FAE3A4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28097D3B243D281F00F97916 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28B8A793244F22D600FAE3A4;
+			remoteInfo = PseudoSmartStore;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		28B8A7A0244F22D600FAE3A4 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				28B8A79C244F22D600FAE3A4 /* PseudoSmartStore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		27F81F8ED1A2B563452FC0B8 /* Pods-Zaploy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zaploy.release.xcconfig"; path = "Target Support Files/Pods-Zaploy/Pods-Zaploy.release.xcconfig"; sourceTree = "<group>"; };
@@ -54,13 +82,18 @@
 		28097D7F243EF88000F97916 /* PseudoSmartStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PseudoSmartStore.swift; sourceTree = "<group>"; };
 		28097D822440618C00F97916 /* CallStackFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStackFrame.swift; sourceTree = "<group>"; };
 		2840BC482445B3CB00C2E896 /* ExternalSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalSoup.swift; sourceTree = "<group>"; };
-		2840BC4A2445B46900C2E896 /* NSDictionary+SoupEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDictionary+SoupEntry.swift"; sourceTree = "<group>"; };
+		2840BC4A2445B46900C2E896 /* SoupEntry+Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SoupEntry+Common.swift"; sourceTree = "<group>"; };
 		2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoExternalSoup.swift; sourceTree = "<group>"; };
 		2840BC51244836FE00C2E896 /* String+SafeRemove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SafeRemove.swift"; sourceTree = "<group>"; };
 		28AF501B244D96C600E6EB83 /* Then+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Then+Update.swift"; sourceTree = "<group>"; };
 		28AF501E244ED43A00E6EB83 /* EntryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailsView.swift; sourceTree = "<group>"; };
-		28AF5020244ED4F900E6EB83 /* SoupEntry+AsJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SoupEntry+AsJson.swift"; sourceTree = "<group>"; };
+		28B8A794244F22D600FAE3A4 /* PseudoSmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PseudoSmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		28B8A796244F22D600FAE3A4 /* PseudoSmartStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PseudoSmartStore.h; sourceTree = "<group>"; };
+		28B8A797244F22D600FAE3A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6C4A97C3C1F76AD8FFA9F39F /* Pods-PseudoSmartStore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PseudoSmartStore.release.xcconfig"; path = "Target Support Files/Pods-PseudoSmartStore/Pods-PseudoSmartStore.release.xcconfig"; sourceTree = "<group>"; };
+		73B9E36017328E4A16D8ECCB /* Pods_PseudoSmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PseudoSmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zaploy.debug.xcconfig"; path = "Target Support Files/Pods-Zaploy/Pods-Zaploy.debug.xcconfig"; sourceTree = "<group>"; };
+		CB1BC13FE02217B4054435CA /* Pods-PseudoSmartStore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PseudoSmartStore.debug.xcconfig"; path = "Target Support Files/Pods-PseudoSmartStore/Pods-PseudoSmartStore.debug.xcconfig"; sourceTree = "<group>"; };
 		D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Zaploy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -69,7 +102,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28B8A79B244F22D600FAE3A4 /* PseudoSmartStore.framework in Frameworks */,
 				902F10E86C78C3FCB2F1A34F /* Pods_Zaploy.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28B8A791244F22D600FAE3A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FECB8A347424CBA610CF5086 /* Pods_PseudoSmartStore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				28097D45243D281F00F97916 /* Zaploy */,
+				28B8A795244F22D600FAE3A4 /* PseudoSmartStore */,
 				28097D44243D281F00F97916 /* Products */,
 				6C1DBF1F04B63BE20A2FC863 /* Pods */,
 				D9328C180863F996334CE1CA /* Frameworks */,
@@ -90,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				28097D43243D281F00F97916 /* Zaploy.app */,
+				28B8A794244F22D600FAE3A4 /* PseudoSmartStore.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -101,7 +145,6 @@
 				28097D46243D281F00F97916 /* AppDelegate.swift */,
 				28097D48243D281F00F97916 /* SceneDelegate.swift */,
 				28097D812440616B00F97916 /* Utils */,
-				28AD10C9244465BC0087E0BD /* ExtendedSmartStore */,
 				28097D65243DAB0200F97916 /* Model */,
 				28097D5C243DA67200F97916 /* Presentation */,
 				28097D4C243D282100F97916 /* Assets.xcassets */,
@@ -179,23 +222,9 @@
 			isa = PBXGroup;
 			children = (
 				28097D822440618C00F97916 /* CallStackFrame.swift */,
-				2840BC51244836FE00C2E896 /* String+SafeRemove.swift */,
 				28AF501B244D96C600E6EB83 /* Then+Update.swift */,
-				28AF5020244ED4F900E6EB83 /* SoupEntry+AsJson.swift */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		28AD10C9244465BC0087E0BD /* ExtendedSmartStore */ = {
-			isa = PBXGroup;
-			children = (
-				2840BC482445B3CB00C2E896 /* ExternalSoup.swift */,
-				2840BC4A2445B46900C2E896 /* NSDictionary+SoupEntry.swift */,
-				28097D7F243EF88000F97916 /* PseudoSmartStore.swift */,
-				28097D78243DCC1800F97916 /* SimpleProxy.h */,
-				28097D79243DCC1800F97916 /* SimpleProxy.m */,
-			);
-			path = ExtendedSmartStore;
 			sourceTree = "<group>";
 		};
 		28AF501D244ED42500E6EB83 /* EntryDetails */ = {
@@ -206,11 +235,36 @@
 			path = EntryDetails;
 			sourceTree = "<group>";
 		};
+		28B8A795244F22D600FAE3A4 /* PseudoSmartStore */ = {
+			isa = PBXGroup;
+			children = (
+				28B8A796244F22D600FAE3A4 /* PseudoSmartStore.h */,
+				28B8A7A1244F22E200FAE3A4 /* Source */,
+				28B8A797244F22D600FAE3A4 /* Info.plist */,
+			);
+			path = PseudoSmartStore;
+			sourceTree = "<group>";
+		};
+		28B8A7A1244F22E200FAE3A4 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				2840BC482445B3CB00C2E896 /* ExternalSoup.swift */,
+				2840BC4A2445B46900C2E896 /* SoupEntry+Common.swift */,
+				28097D7F243EF88000F97916 /* PseudoSmartStore.swift */,
+				28097D78243DCC1800F97916 /* SimpleProxy.h */,
+				28097D79243DCC1800F97916 /* SimpleProxy.m */,
+				2840BC51244836FE00C2E896 /* String+SafeRemove.swift */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
 		6C1DBF1F04B63BE20A2FC863 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */,
 				27F81F8ED1A2B563452FC0B8 /* Pods-Zaploy.release.xcconfig */,
+				CB1BC13FE02217B4054435CA /* Pods-PseudoSmartStore.debug.xcconfig */,
+				6C4A97C3C1F76AD8FFA9F39F /* Pods-PseudoSmartStore.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -219,11 +273,24 @@
 			isa = PBXGroup;
 			children = (
 				D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */,
+				73B9E36017328E4A16D8ECCB /* Pods_PseudoSmartStore.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		28B8A78F244F22D600FAE3A4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28B8A798244F22D600FAE3A4 /* PseudoSmartStore.h in Headers */,
+				28B8A7A6244F252000FAE3A4 /* SimpleProxy.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		28097D42243D281F00F97916 /* Zaploy */ = {
@@ -235,15 +302,36 @@
 				28097D40243D281F00F97916 /* Frameworks */,
 				28097D41243D281F00F97916 /* Resources */,
 				64EF882BABBC053DBA8771E6 /* [CP] Embed Pods Frameworks */,
+				28B8A7A0244F22D600FAE3A4 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				28B8A79A244F22D600FAE3A4 /* PBXTargetDependency */,
 			);
 			name = Zaploy;
 			productName = Zaploy;
 			productReference = 28097D43243D281F00F97916 /* Zaploy.app */;
 			productType = "com.apple.product-type.application";
+		};
+		28B8A793244F22D600FAE3A4 /* PseudoSmartStore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28B8A79D244F22D600FAE3A4 /* Build configuration list for PBXNativeTarget "PseudoSmartStore" */;
+			buildPhases = (
+				5B1B0284AE44BF5F59471D7E /* [CP] Check Pods Manifest.lock */,
+				28B8A78F244F22D600FAE3A4 /* Headers */,
+				28B8A790244F22D600FAE3A4 /* Sources */,
+				28B8A791244F22D600FAE3A4 /* Frameworks */,
+				28B8A792244F22D600FAE3A4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PseudoSmartStore;
+			productName = PseudoSmartStore;
+			productReference = 28B8A794244F22D600FAE3A4 /* PseudoSmartStore.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -258,6 +346,9 @@
 					28097D42243D281F00F97916 = {
 						CreatedOnToolsVersion = 11.4;
 						LastSwiftMigration = 1140;
+					};
+					28B8A793244F22D600FAE3A4 = {
+						CreatedOnToolsVersion = 11.4;
 					};
 				};
 			};
@@ -275,6 +366,7 @@
 			projectRoot = "";
 			targets = (
 				28097D42243D281F00F97916 /* Zaploy */,
+				28B8A793244F22D600FAE3A4 /* PseudoSmartStore */,
 			);
 		};
 /* End PBXProject section */
@@ -291,9 +383,38 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		28B8A792244F22D600FAE3A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5B1B0284AE44BF5F59471D7E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PseudoSmartStore-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		64EF882BABBC053DBA8771E6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -343,25 +464,39 @@
 				28097D6A243DADC400F97916 /* PlaygroundView.swift in Sources */,
 				28097D62243DA72500F97916 /* LoginManager.swift in Sources */,
 				2840BC502447187400C2E896 /* DemoExternalSoup.swift in Sources */,
-				2840BC492445B3CB00C2E896 /* ExternalSoup.swift in Sources */,
-				28097D7A243DCC1800F97916 /* SimpleProxy.m in Sources */,
 				28097D832440618C00F97916 /* CallStackFrame.swift in Sources */,
 				28AF501F244ED43A00E6EB83 /* EntryDetailsView.swift in Sources */,
-				28AF5021244ED4F900E6EB83 /* SoupEntry+AsJson.swift in Sources */,
 				28097D60243DA6BA00F97916 /* LoginStatusView.swift in Sources */,
-				28097D80243EF88000F97916 /* PseudoSmartStore.swift in Sources */,
 				28097D6C243DC41400F97916 /* Spinner.swift in Sources */,
 				28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */,
 				28097D47243D281F00F97916 /* AppDelegate.swift in Sources */,
 				28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */,
 				28097D49243D281F00F97916 /* SceneDelegate.swift in Sources */,
-				2840BC52244836FE00C2E896 /* String+SafeRemove.swift in Sources */,
 				28097D67243DAB6700F97916 /* View+AnyView.swift in Sources */,
-				2840BC4B2445B46900C2E896 /* NSDictionary+SoupEntry.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28B8A790244F22D600FAE3A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28B8A7A5244F23C200FAE3A4 /* SimpleProxy.m in Sources */,
+				28B8A7A4244F23BA00FAE3A4 /* PseudoSmartStore.swift in Sources */,
+				28B8A7A7244F254C00FAE3A4 /* String+SafeRemove.swift in Sources */,
+				28B8A7A3244F23BA00FAE3A4 /* SoupEntry+Common.swift in Sources */,
+				28B8A7A2244F23BA00FAE3A4 /* ExternalSoup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		28B8A79A244F22D600FAE3A4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 28B8A793244F22D600FAE3A4 /* PseudoSmartStore */;
+			targetProxy = 28B8A799244F22D600FAE3A4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		28097D51243D282100F97916 /* LaunchScreen.storyboard */ = {
@@ -542,6 +677,62 @@
 			};
 			name = Release;
 		};
+		28B8A79E244F22D600FAE3A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB1BC13FE02217B4054435CA /* Pods-PseudoSmartStore.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = PseudoSmartStore/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dmitriitrofimov.PseudoSmartStore;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		28B8A79F244F22D600FAE3A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C4A97C3C1F76AD8FFA9F39F /* Pods-PseudoSmartStore.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = PseudoSmartStore/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dmitriitrofimov.PseudoSmartStore;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -559,6 +750,15 @@
 			buildConfigurations = (
 				28097D58243D282100F97916 /* Debug */,
 				28097D59243D282100F97916 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28B8A79D244F22D600FAE3A4 /* Build configuration list for PBXNativeTarget "PseudoSmartStore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28B8A79E244F22D600FAE3A4 /* Debug */,
+				28B8A79F244F22D600FAE3A4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

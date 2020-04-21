@@ -8,6 +8,7 @@
 
 import Foundation
 import MobileSync
+import PseudoSmartStore
 
 class DemoExternalSoup: ExternalSoup {
     var entries: [SoupEntry] = []
@@ -30,7 +31,7 @@ class DemoExternalSoup: ExternalSoup {
             if let isLocal = $0["__local__"] as? Bool, isLocal {
                 return nil
             } else {
-                return $0.id
+                return $0.sfId
             }
         }
     }
@@ -58,17 +59,17 @@ class DemoExternalSoup: ExternalSoup {
                     let index = entries.firstIndex(where: { $0.soupEntryId == soupEntryId }) {
                     return index
                 }
-                if let id = entry.id,
-                    let index = entries.firstIndex(where: { $0.id == id }) {
+                if let sfId = entry.sfId,
+                    let index = entries.firstIndex(where: { $0.sfId == sfId }) {
                     return index
                 }
                 return nil
             }()
             let existing = existingIndex.map { entries[$0] }
             var newEntry = entry
-            if newEntry.id == nil,
-                let id = existing?.id {
-                newEntry.id = id
+            if newEntry.sfId == nil,
+                let sfId = existing?.sfId {
+                newEntry.sfId = sfId
             }
             if newEntry.soupEntryId == nil,
                 let soupEntryId = existing?.soupEntryId {
@@ -89,15 +90,8 @@ class DemoExternalSoup: ExternalSoup {
 
     func remove(sfIds: [SfId]) {
         entries.removeAll {
-            guard let id = $0.id else { return false }
-            return sfIds.contains(id)
+            guard let sfId = $0.sfId else { return false }
+            return sfIds.contains(sfId)
         }
-    }
-}
-
-extension SoupEntry {
-    var id: SfId? {
-        get { self[kId] as? SfId }
-        set { self[kId] = newValue }
     }
 }

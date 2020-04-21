@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import PseudoSmartStore
 
 struct EntryDetailsView: View {
     let entry: SoupEntry

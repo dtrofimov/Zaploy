@@ -14,27 +14,27 @@ import MobileSync
 open class PseudoSmartStore: SimpleProxy {
     public let smartStore: SmartStore
 
-    init(smartStore: SmartStore) {
+    public init(smartStore: SmartStore) {
         self.smartStore = smartStore
         super.init(target: smartStore)
     }
 
-    private(set) var externalSoupsForNames: [String: ExternalSoup] = [:]
+    public private(set) var externalSoupsForNames: [String: ExternalSoup] = [:]
 
-    enum CustomError: Error {
+    public enum CustomError: Error {
         case soupAlreadyExists(soupName: String)
         case unknownQuery(query: QuerySpec)
         case unsupportedMethod(selector: Selector)
     }
 
-    func addExternalSoup(_ soup: ExternalSoup, name: String) throws {
+    public func addExternalSoup(_ soup: ExternalSoup, name: String) throws {
         guard externalSoupsForNames[name] == nil else {
             throw CustomError.soupAlreadyExists(soupName: name)
         }
         externalSoupsForNames[name] = soup
     }
 
-    func removeExternalSoup(_ name: String) {
+    public func removeExternalSoup(_ name: String) {
         externalSoupsForNames[name] = nil
     }
 

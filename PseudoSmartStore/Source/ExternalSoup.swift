@@ -8,14 +8,14 @@
 
 import SmartStore
 
-typealias SoupEntryId = NSNumber
+public typealias SoupEntryId = NSNumber
 
-typealias SfId = String
+public typealias SfId = String
 
-typealias SoupEntry = [AnyHashable: Any]
+public typealias SoupEntry = [AnyHashable: Any]
 
 @objc
-protocol ExternalSoup: AnyObject {
+public protocol ExternalSoup: AnyObject {
     @objc optional var indices: [SoupIndex] { get }
 
     func nonDirtySfIds(syncSoupEntryId: SoupEntryId?) -> [SfId]
