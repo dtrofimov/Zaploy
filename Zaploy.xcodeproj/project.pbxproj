@@ -27,6 +27,8 @@
 		2840BC502447187400C2E896 /* DemoExternalSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */; };
 		2840BC52244836FE00C2E896 /* String+SafeRemove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC51244836FE00C2E896 /* String+SafeRemove.swift */; };
 		28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501B244D96C600E6EB83 /* Then+Update.swift */; };
+		28AF501F244ED43A00E6EB83 /* EntryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501E244ED43A00E6EB83 /* EntryDetailsView.swift */; };
+		28AF5021244ED4F900E6EB83 /* SoupEntry+AsJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF5020244ED4F900E6EB83 /* SoupEntry+AsJson.swift */; };
 		902F10E86C78C3FCB2F1A34F /* Pods_Zaploy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +58,8 @@
 		2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoExternalSoup.swift; sourceTree = "<group>"; };
 		2840BC51244836FE00C2E896 /* String+SafeRemove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SafeRemove.swift"; sourceTree = "<group>"; };
 		28AF501B244D96C600E6EB83 /* Then+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Then+Update.swift"; sourceTree = "<group>"; };
+		28AF501E244ED43A00E6EB83 /* EntryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailsView.swift; sourceTree = "<group>"; };
+		28AF5020244ED4F900E6EB83 /* SoupEntry+AsJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SoupEntry+AsJson.swift"; sourceTree = "<group>"; };
 		87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zaploy.debug.xcconfig"; path = "Target Support Files/Pods-Zaploy/Pods-Zaploy.debug.xcconfig"; sourceTree = "<group>"; };
 		D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Zaploy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -148,6 +152,7 @@
 			children = (
 				28097D68243DAD5B00F97916 /* Playground */,
 				28097D5E243DA6AF00F97916 /* LoginStatus */,
+				28AF501D244ED42500E6EB83 /* EntryDetails */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -176,6 +181,7 @@
 				28097D822440618C00F97916 /* CallStackFrame.swift */,
 				2840BC51244836FE00C2E896 /* String+SafeRemove.swift */,
 				28AF501B244D96C600E6EB83 /* Then+Update.swift */,
+				28AF5020244ED4F900E6EB83 /* SoupEntry+AsJson.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -190,6 +196,14 @@
 				28097D79243DCC1800F97916 /* SimpleProxy.m */,
 			);
 			path = ExtendedSmartStore;
+			sourceTree = "<group>";
+		};
+		28AF501D244ED42500E6EB83 /* EntryDetails */ = {
+			isa = PBXGroup;
+			children = (
+				28AF501E244ED43A00E6EB83 /* EntryDetailsView.swift */,
+			);
+			path = EntryDetails;
 			sourceTree = "<group>";
 		};
 		6C1DBF1F04B63BE20A2FC863 /* Pods */ = {
@@ -332,6 +346,8 @@
 				2840BC492445B3CB00C2E896 /* ExternalSoup.swift in Sources */,
 				28097D7A243DCC1800F97916 /* SimpleProxy.m in Sources */,
 				28097D832440618C00F97916 /* CallStackFrame.swift in Sources */,
+				28AF501F244ED43A00E6EB83 /* EntryDetailsView.swift in Sources */,
+				28AF5021244ED4F900E6EB83 /* SoupEntry+AsJson.swift in Sources */,
 				28097D60243DA6BA00F97916 /* LoginStatusView.swift in Sources */,
 				28097D80243EF88000F97916 /* SmartStoreProxy.swift in Sources */,
 				28097D6C243DC41400F97916 /* Spinner.swift in Sources */,

@@ -107,10 +107,3 @@ extension SoupEntry {
         set { self[kId] = newValue }
     }
 }
-
-extension SoupEntry {
-    var asJson: String? {
-        guard let data = try? JSONSerialization.data(withJSONObject: self, options: []) else { return nil }
-        return String(data: data, encoding: .utf8)
-    }
-}

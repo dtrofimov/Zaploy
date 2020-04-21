@@ -61,7 +61,9 @@ struct PlaygroundView: View {
                 },
                 Text(""),
                 ForEach(playground.leadDicts, id: \.soupEntryId) { dict in
-                    Text("\(dict["FirstName"] as! String) \(dict["LastName"] as! String)")
+                    NavigationLink(destination: EntryDetailsView(entry: dict)) {
+                        Text("\(dict["FirstName"] as! String) \(dict["LastName"] as! String)")
+                    }
                 }
             ))
         }
