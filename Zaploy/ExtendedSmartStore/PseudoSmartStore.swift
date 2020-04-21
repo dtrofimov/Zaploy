@@ -77,8 +77,8 @@ open class PseudoSmartStore: SimpleProxy {
     func indices(forSoupNamed soupName: String) -> [SoupIndex] {
         if let externalSoup = externalSoupsForNames[soupName] {
             // Used in `-buildSyncIdPredicateIfIndexed:` within `cleanGhosts` to check the presence of an optional index for `kSyncTargetSyncId` (`"__sync_id__"`).
-            // Since we control `-queryWithQuerySpec:pageIndex:error:` directly, return an empty array here.
-            #if VERIFY_REAL_SMART_STORE_CALLS
+            // If present, filtering by sync id is used when building a list of non-dirty ids.
+            #if VERIFY_FORWARDED_CALLERS
             let frames = Thread.callStackFrames
             if frames[2].method.contains("-[SFSyncDownTarget buildSyncIdPredicateIfIndexed:soupName:syncId:]") {
             } else {
@@ -119,7 +119,7 @@ open class PseudoSmartStore: SimpleProxy {
                 let syncIdCondition = syncId.map { "AND {\(soupName):__sync_id__} = \($0)" } ?? ""
                 guard querySpec.smartSql == "SELECT {\(soupName):Id} FROM {\(soupName)} WHERE {\(soupName):__local__} = '0' \(syncIdCondition) ORDER BY {\(soupName):Id} ASC"
                     else { return nil }
-                #if VERIFY_REAL_SMART_STORE_CALLS
+                #if VERIFY_FORWARDED_CALLERS
                 let frames = Thread.callStackFrames
                 if frames[3].method.contains("-[SFSyncTarget getIdsWithQuery:syncManager:]") {
                 } else {
@@ -137,7 +137,7 @@ open class PseudoSmartStore: SimpleProxy {
             func handleDirtySoupEntryIds() throws -> [Any]? {
                 guard querySpec.smartSql == "SELECT {\(soupName):_soupEntryId} FROM {\(soupName)} WHERE {\(soupName):__local__} = \'1\' ORDER BY {\(soupName):_soupEntryId} ASC"
                     else { return nil }
-                #if VERIFY_REAL_SMART_STORE_CALLS
+                #if VERIFY_FORWARDED_CALLERS
                 let frames = Thread.callStackFrames
                 if frames[3].method.contains("-[SFSyncTarget getIdsWithQuery:syncManager:]") {
                 } else {

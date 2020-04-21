@@ -9,7 +9,7 @@
 import Foundation
 import Then
 
-#if VERIFY_REAL_SMART_STORE_CALLS
+#if VERIFY_FORWARDED_CALLERS
 
 struct CallStackFrame {
     let module: String
