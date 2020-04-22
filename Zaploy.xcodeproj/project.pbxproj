@@ -19,7 +19,6 @@
 		28097D6A243DADC400F97916 /* PlaygroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D69243DADC400F97916 /* PlaygroundView.swift */; };
 		28097D6C243DC41400F97916 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D6B243DC41400F97916 /* Spinner.swift */; };
 		28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */; };
-		28097D832440618C00F97916 /* CallStackFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D822440618C00F97916 /* CallStackFrame.swift */; };
 		2840BC502447187400C2E896 /* DemoExternalSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */; };
 		28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501B244D96C600E6EB83 /* Then+Update.swift */; };
 		28AF501F244ED43A00E6EB83 /* EntryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501E244ED43A00E6EB83 /* EntryDetailsView.swift */; };
@@ -32,6 +31,7 @@
 		28B8A7A5244F23C200FAE3A4 /* SimpleProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 28097D79243DCC1800F97916 /* SimpleProxy.m */; };
 		28B8A7A6244F252000FAE3A4 /* SimpleProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 28097D78243DCC1800F97916 /* SimpleProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28B8A7A7244F254C00FAE3A4 /* String+SafeRemove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC51244836FE00C2E896 /* String+SafeRemove.swift */; };
+		28B8A7AD24507ABB00FAE3A4 /* CallStackFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D822440618C00F97916 /* CallStackFrame.swift */; };
 		902F10E86C78C3FCB2F1A34F /* Pods_Zaploy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */; };
 		FECB8A347424CBA610CF5086 /* Pods_PseudoSmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B9E36017328E4A16D8ECCB /* Pods_PseudoSmartStore.framework */; };
 /* End PBXBuildFile section */
@@ -221,7 +221,6 @@
 		28097D812440616B00F97916 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				28097D822440618C00F97916 /* CallStackFrame.swift */,
 				28AF501B244D96C600E6EB83 /* Then+Update.swift */,
 			);
 			path = Utils;
@@ -248,6 +247,7 @@
 		28B8A7A1244F22E200FAE3A4 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				28097D822440618C00F97916 /* CallStackFrame.swift */,
 				2840BC482445B3CB00C2E896 /* ExternalSoup.swift */,
 				2840BC4A2445B46900C2E896 /* SoupEntry+Common.swift */,
 				28097D7F243EF88000F97916 /* PseudoSmartStore.swift */,
@@ -464,7 +464,6 @@
 				28097D6A243DADC400F97916 /* PlaygroundView.swift in Sources */,
 				28097D62243DA72500F97916 /* LoginManager.swift in Sources */,
 				2840BC502447187400C2E896 /* DemoExternalSoup.swift in Sources */,
-				28097D832440618C00F97916 /* CallStackFrame.swift in Sources */,
 				28AF501F244ED43A00E6EB83 /* EntryDetailsView.swift in Sources */,
 				28097D60243DA6BA00F97916 /* LoginStatusView.swift in Sources */,
 				28097D6C243DC41400F97916 /* Spinner.swift in Sources */,
@@ -482,6 +481,7 @@
 			files = (
 				28B8A7A5244F23C200FAE3A4 /* SimpleProxy.m in Sources */,
 				28B8A7A4244F23BA00FAE3A4 /* PseudoSmartStore.swift in Sources */,
+				28B8A7AD24507ABB00FAE3A4 /* CallStackFrame.swift in Sources */,
 				28B8A7A7244F254C00FAE3A4 /* String+SafeRemove.swift in Sources */,
 				28B8A7A3244F23BA00FAE3A4 /* SoupEntry+Common.swift in Sources */,
 				28B8A7A2244F23BA00FAE3A4 /* ExternalSoup.swift in Sources */,
@@ -644,7 +644,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dmitriitrofimov.Zaploy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) VERIFY_FORWARDED_CALLERS";
 				SWIFT_OBJC_BRIDGING_HEADER = "Zaploy/Zaploy-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -670,7 +669,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dmitriitrofimov.Zaploy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) VERIFY_FORWARDED_CALLERS";
 				SWIFT_OBJC_BRIDGING_HEADER = "Zaploy/Zaploy-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -698,6 +696,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dmitriitrofimov.PseudoSmartStore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) VERIFY_FORWARDED_CALLERS";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -726,6 +725,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dmitriitrofimov.PseudoSmartStore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) VERIFY_FORWARDED_CALLERS";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
