@@ -1,21 +1,22 @@
 //
-//  LoginStatusView.swift
+//  LoginView.swift
 //  Zaploy
 //
-//  Created by Dmitrii Trofimov on 08.04.2020.
+//  Created by Dmitrii Trofimov on 24.04.2020.
 //  Copyright © 2020 Dmitrii Trofimov. All rights reserved.
 //
 
 import SwiftUI
 
-struct LoginStatusView: View {
-    @ObservedObject var loginManager = LoginManager.shared
+struct LoginView: View, AppScreen {
+    @ObservedObject var loginManager: LoginManager
+    let nextScreenResolver: (UserContext) -> AppScreen
 
     var body: some View {
         if loginManager.isInProgress {
             return Spinner(style: .medium).asAnyView
-        } else if let user = loginManager.user {
-            return Text("\(user.idData.username)").asAnyView
+        } else if let userContext = loginManager.userContext {
+            return nextScreenResolver(userContext).asAnyView
         } else {
             return Button("Login") {
                 self.loginManager.login()

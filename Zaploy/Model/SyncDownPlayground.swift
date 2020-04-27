@@ -12,33 +12,30 @@ import Then
 import PseudoSmartStore
 
 class SyncDownPlayground: ObservableObject {
-    static let shared = SyncDownPlayground()
+    let syncDownName: String
+    let syncUpName: String
+    let soupName: String
+    let userAccount: UserAccount
+    let syncManager: SyncManager
+    let externalSoup: DemoExternalSoup
+    let metadataSyncManager: MetadataSyncManager
+    let layoutSyncManager: LayoutSyncManager
 
-    var userAccount: UserAccount? { UserAccountManager.shared.currentUserAccount }
-    lazy var smartStore = SmartStore.shared(withName: SmartStore.defaultStoreName, forUserAccount: userAccount!)!
-    lazy var externalSoup = DemoExternalSoup()
-    lazy var pseudoSmartStore = PseudoSmartStore(smartStore: smartStore).then {
-        try? $0.addExternalSoup(externalSoup, name: soupName)
+    init(syncDownName: String, syncUpName: String, soupName: String, userAccount: UserAccount, syncManager: SyncManager, externalSoup: DemoExternalSoup, metadataSyncManager: MetadataSyncManager, layoutSyncManager: LayoutSyncManager) {
+        self.syncDownName = syncDownName
+        self.syncUpName = syncUpName
+        self.soupName = soupName
+        self.userAccount = userAccount
+        self.syncManager = syncManager
+        self.externalSoup = externalSoup
+        self.metadataSyncManager = metadataSyncManager
+        self.layoutSyncManager = layoutSyncManager
     }
-    lazy var replacedSmartStore = unsafeBitCast(pseudoSmartStore, to: SmartStore.self)
-    lazy var syncManager = SyncManager.sharedInstance(store: replacedSmartStore)!
-    lazy var metadataSyncManager = MetadataSyncManager.sharedInstance(userAccount!, smartStore: replacedSmartStore.name)
-    lazy var layoutSyncManager = LayoutSyncManager.sharedInstance(userAccount!, smartStore: replacedSmartStore.name)
 
-    let syncDownName = "syncDownName"
-    let syncUpName = "syncUpName"
-    let soupName = "someSoupName"
-
-    var syncDownState: SyncState? {
-        guard userAccount != nil else { return nil }
-        return syncManager.syncStatus(forName: syncDownName)
-    }
+    var syncDownState: SyncState? { syncManager.syncStatus(forName: syncDownName) }
     var syncDownStatus: String? { syncDownState.map { SyncState.syncStatus(toString: $0.status) } }
 
-    var syncUpState: SyncState? {
-        guard userAccount != nil else { return nil }
-        return syncManager.syncStatus(forName: syncUpName)
-    }
+    var syncUpState: SyncState? { syncManager.syncStatus(forName: syncUpName) }
     var syncUpStatus: String? { syncUpState.map { SyncState.syncStatus(toString: $0.status) } }
 
     private func refreshOnMainThread() {

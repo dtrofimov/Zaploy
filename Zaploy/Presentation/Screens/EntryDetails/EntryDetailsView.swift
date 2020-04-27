@@ -9,7 +9,7 @@
 import SwiftUI
 import PseudoSmartStore
 
-struct EntryDetailsView: View {
+struct EntryDetailsView: View, AppScreen {
     let entry: SoupEntry
 
     var body: some View {

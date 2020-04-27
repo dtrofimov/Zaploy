@@ -9,27 +9,39 @@
 import SalesforceSDKCore
 
 class LoginManager: ObservableObject {
-    static let shared = LoginManager()
+    let userAccountManager: UserAccountManager
+    let authHelper: AuthHelper.Type
+    let userContextResolver: (UserAccount) -> UserContext
+
+    init(userAccountManager: UserAccountManager, authHelper: AuthHelper.Type, userContextResolver: @escaping (UserAccount) -> UserContext) {
+        self.userAccountManager = userAccountManager
+        self.authHelper = authHelper
+        self.userContextResolver = userContextResolver
+        refreshUserContext()
+        authHelper.registerBlock(forCurrentUserChangeNotifications: { [weak self] in
+            self?.refreshUserContext()
+        })
+    }
+
+    private(set) var userContext: UserContext?
+
+    func refreshUserContext() {
+        let userAccount = userAccountManager.currentUserAccount
+        if userContext?.userAccount == userAccount { return }
+        self.userContext = userAccount.map { userContextResolver($0) }
+        self.objectWillChange.send()
+    }
 
     @Published private var progressTokens: Set<NSObject> = []
 
     var isInProgress: Bool { !progressTokens.isEmpty }
 
-    var user: UserAccount? { UserAccountManager.shared.currentUserAccount }
-
-    init() {
-        AuthHelper.registerBlock(forCurrentUserChangeNotifications: { [weak self] in
-            NSLog("Should reload")
-            self?.objectWillChange.send()
-        })
-    }
-
     func login() {
         let progressToken = NSObject()
         progressTokens.insert(progressToken)
-        AuthHelper.loginIfRequired { [weak self] in
-            NSLog("Should reload manually")
+        authHelper.loginIfRequired { [weak self] in
             self?.progressTokens.remove(progressToken)
+            self?.refreshUserContext()
         }
     }
 }
