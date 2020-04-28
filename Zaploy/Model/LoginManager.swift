@@ -23,13 +23,12 @@ class LoginManager: ObservableObject {
         })
     }
 
-    private(set) var userContext: UserContext?
+    @Published private(set) var userContext: UserContext?
 
     func refreshUserContext() {
         let userAccount = userAccountManager.currentUserAccount
         if userContext?.userAccount == userAccount { return }
-        self.userContext = userAccount.map { userContextResolver($0) }
-        self.objectWillChange.send()
+        userContext = userAccount.map { userContextResolver($0) }
     }
 
     @Published private var progressTokens: Set<NSObject> = []

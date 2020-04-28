@@ -16,7 +16,7 @@ struct LoginView: View, AppScreen {
         if loginManager.isInProgress {
             return Spinner(style: .medium).asAnyView
         } else if let userContext = loginManager.userContext {
-            return nextScreenResolver(userContext).asAnyView
+            return AppScreenView(resolver: self.nextScreenResolver(userContext), dependency: userContext, comparator: ===).asAnyView
         } else {
             return Button("Login") {
                 self.loginManager.login()
