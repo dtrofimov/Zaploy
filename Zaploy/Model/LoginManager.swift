@@ -8,27 +8,30 @@
 
 import SalesforceSDKCore
 
+typealias UserAccount = SalesforceSDKCore.UserAccount
+
 class LoginManager: ObservableObject {
     let userAccountManager: UserAccountManager
     let authHelper: AuthHelper.Type
-    let userContextResolver: (UserAccount) -> UserContext
+    let userContextManager: UserContextManager
 
-    init(userAccountManager: UserAccountManager, authHelper: AuthHelper.Type, userContextResolver: @escaping (UserAccount) -> UserContext) {
+    init(userAccountManager: UserAccountManager, authHelper: AuthHelper.Type, userContextManager: UserContextManager) {
         self.userAccountManager = userAccountManager
         self.authHelper = authHelper
-        self.userContextResolver = userContextResolver
+        self.userContextManager = userContextManager
         refreshUserContext()
         authHelper.registerBlock(forCurrentUserChangeNotifications: { [weak self] in
             self?.refreshUserContext()
         })
     }
 
-    @Published private(set) var userContext: UserContext?
+    @Published private(set) var userAccount: UserAccount?
 
     func refreshUserContext() {
         let userAccount = userAccountManager.currentUserAccount
-        if userContext?.userAccount == userAccount { return }
-        userContext = userAccount.map { userContextResolver($0) }
+        if self.userAccount == userAccount { return }
+        self.userAccount = userAccount
+        userContextManager.userAccountDidChange(to: userAccount)
     }
 
     @Published private var progressTokens: Set<NSObject> = []

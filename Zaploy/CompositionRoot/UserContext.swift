@@ -8,12 +8,10 @@
 
 import MobileSync
 
-protocol HavingUserAccount {
-    var userAccount: UserAccount { get }
-}
-
-/// App-specific dependencies, resolved when a user is logged in. Used in composition root only.
+/// App-specific dependencies, resolved when a user is logged in.
 /// Wrap this in a conditional compilation for unit testing.
-protocol UserContext: HavingUserAccount, AnyObject {
+protocol UserContext: AnyObject {
+    var userAccount: UserAccount { get }
+
     func resolveScreenAfterLogin() -> AppScreen
 }

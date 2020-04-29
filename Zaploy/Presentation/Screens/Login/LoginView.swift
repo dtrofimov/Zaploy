@@ -10,12 +10,13 @@ import SwiftUI
 
 struct LoginView: View, AppScreen {
     @ObservedObject var loginManager: LoginManager
+    @ObservedModel var userContextManager: UserContextManager
     let nextScreenResolver: (UserContext) -> AppScreen
 
     var body: some View {
-        if loginManager.isInProgress {
+        if loginManager.isInProgress || userContextManager.isInProgress {
             return Spinner(style: .medium).asAnyView
-        } else if let userContext = loginManager.userContext {
+        } else if let userContext = userContextManager.userContext {
             return AppScreenView(resolver: self.nextScreenResolver(userContext), dependency: userContext, comparator: ===).asAnyView
         } else {
             return Button("Login") {

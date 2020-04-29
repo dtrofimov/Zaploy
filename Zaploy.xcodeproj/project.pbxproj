@@ -19,6 +19,7 @@
 		28097D6C243DC41400F97916 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D6B243DC41400F97916 /* Spinner.swift */; };
 		28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */; };
 		2840BC502447187400C2E896 /* DemoExternalSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */; };
+		28794943245AAD0C003C1C8E /* Optional+ForceUnwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28794942245AAD0C003C1C8E /* Optional+ForceUnwrap.swift */; };
 		28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501B244D96C600E6EB83 /* Then+Update.swift */; };
 		28AF501F244ED43A00E6EB83 /* EntryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501E244ED43A00E6EB83 /* EntryDetailsView.swift */; };
 		28B8A798244F22D600FAE3A4 /* PseudoSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 28B8A796244F22D600FAE3A4 /* PseudoSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -30,6 +31,7 @@
 		28B8A7A5244F23C200FAE3A4 /* SimpleProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 28097D79243DCC1800F97916 /* SimpleProxy.m */; };
 		28B8A7A6244F252000FAE3A4 /* SimpleProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 28097D78243DCC1800F97916 /* SimpleProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28B8A7A7244F254C00FAE3A4 /* String+SafeRemove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC51244836FE00C2E896 /* String+SafeRemove.swift */; };
+		28B8A7AC2450534800FAE3A4 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 28B8A7AA2450534800FAE3A4 /* Model.xcdatamodeld */; };
 		28B8A7AD24507ABB00FAE3A4 /* CallStackFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28097D822440618C00F97916 /* CallStackFrame.swift */; };
 		28B8A7AF2450980600FAE3A4 /* AsyncLazy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B8A7AE2450980600FAE3A4 /* AsyncLazy.swift */; };
 		28B8A7B32451FC9300FAE3A4 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B8A7B22451FC9300FAE3A4 /* AppContext.swift */; };
@@ -39,6 +41,8 @@
 		28D0C4B624534414005529E2 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0C4B524534414005529E2 /* LoginView.swift */; };
 		28D0C4BA2456C449005529E2 /* UserContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0C4B92456C449005529E2 /* UserContext.swift */; };
 		28D0C4BE2456DB74005529E2 /* AppScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0C4BD2456DB74005529E2 /* AppScreenView.swift */; };
+		28D0C4C42459D0FC005529E2 /* UserContextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0C4C32459D0FC005529E2 /* UserContextManager.swift */; };
+		28D0C4C72459DE6E005529E2 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0C4C62459DE6E005529E2 /* CoreDataStack.swift */; };
 		902F10E86C78C3FCB2F1A34F /* Pods_Zaploy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */; };
 		FECB8A347424CBA610CF5086 /* Pods_PseudoSmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B9E36017328E4A16D8ECCB /* Pods_PseudoSmartStore.framework */; };
 /* End PBXBuildFile section */
@@ -91,11 +95,13 @@
 		2840BC4A2445B46900C2E896 /* SoupEntry+Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SoupEntry+Common.swift"; sourceTree = "<group>"; };
 		2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoExternalSoup.swift; sourceTree = "<group>"; };
 		2840BC51244836FE00C2E896 /* String+SafeRemove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SafeRemove.swift"; sourceTree = "<group>"; };
+		28794942245AAD0C003C1C8E /* Optional+ForceUnwrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+ForceUnwrap.swift"; sourceTree = "<group>"; };
 		28AF501B244D96C600E6EB83 /* Then+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Then+Update.swift"; sourceTree = "<group>"; };
 		28AF501E244ED43A00E6EB83 /* EntryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailsView.swift; sourceTree = "<group>"; };
 		28B8A794244F22D600FAE3A4 /* PseudoSmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PseudoSmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28B8A796244F22D600FAE3A4 /* PseudoSmartStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PseudoSmartStore.h; sourceTree = "<group>"; };
 		28B8A797244F22D600FAE3A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28B8A7AB2450534800FAE3A4 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		28B8A7AE2450980600FAE3A4 /* AsyncLazy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncLazy.swift; sourceTree = "<group>"; };
 		28B8A7B22451FC9300FAE3A4 /* AppContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
 		28B8A7B42452211400FAE3A4 /* ObservableModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservableModel.swift; sourceTree = "<group>"; };
@@ -104,6 +110,8 @@
 		28D0C4B524534414005529E2 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		28D0C4B92456C449005529E2 /* UserContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContext.swift; sourceTree = "<group>"; };
 		28D0C4BD2456DB74005529E2 /* AppScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppScreenView.swift; sourceTree = "<group>"; };
+		28D0C4C32459D0FC005529E2 /* UserContextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContextManager.swift; sourceTree = "<group>"; };
+		28D0C4C62459DE6E005529E2 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		6C4A97C3C1F76AD8FFA9F39F /* Pods-PseudoSmartStore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PseudoSmartStore.release.xcconfig"; path = "Target Support Files/Pods-PseudoSmartStore/Pods-PseudoSmartStore.release.xcconfig"; sourceTree = "<group>"; };
 		73B9E36017328E4A16D8ECCB /* Pods_PseudoSmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PseudoSmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zaploy.debug.xcconfig"; path = "Target Support Files/Pods-Zaploy/Pods-Zaploy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -158,8 +166,7 @@
 				28097D5A243D397400F97916 /* bootconfig.plist */,
 				28097D46243D281F00F97916 /* AppDelegate.swift */,
 				28097D48243D281F00F97916 /* SceneDelegate.swift */,
-				28B8A7B22451FC9300FAE3A4 /* AppContext.swift */,
-				28D0C4B92456C449005529E2 /* UserContext.swift */,
+				28D0C4C52459DE59005529E2 /* CompositionRoot */,
 				28097D812440616B00F97916 /* Utils */,
 				28097D65243DAB0200F97916 /* Model */,
 				28097D5C243DA67200F97916 /* Presentation */,
@@ -216,8 +223,10 @@
 			isa = PBXGroup;
 			children = (
 				28097D61243DA72500F97916 /* LoginManager.swift */,
+				28D0C4C32459D0FC005529E2 /* UserContextManager.swift */,
 				28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */,
 				2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */,
+				28B8A7AA2450534800FAE3A4 /* Model.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -235,6 +244,7 @@
 			children = (
 				28B8A7AE2450980600FAE3A4 /* AsyncLazy.swift */,
 				28AF501B244D96C600E6EB83 /* Then+Update.swift */,
+				28794942245AAD0C003C1C8E /* Optional+ForceUnwrap.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -277,6 +287,16 @@
 				28D0C4B524534414005529E2 /* LoginView.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		28D0C4C52459DE59005529E2 /* CompositionRoot */ = {
+			isa = PBXGroup;
+			children = (
+				28B8A7B22451FC9300FAE3A4 /* AppContext.swift */,
+				28D0C4B92456C449005529E2 /* UserContext.swift */,
+				28D0C4C62459DE6E005529E2 /* CoreDataStack.swift */,
+			);
+			path = CompositionRoot;
 			sourceTree = "<group>";
 		};
 		6C1DBF1F04B63BE20A2FC863 /* Pods */ = {
@@ -482,6 +502,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28D0C4C72459DE6E005529E2 /* CoreDataStack.swift in Sources */,
 				28B8A7AF2450980600FAE3A4 /* AsyncLazy.swift in Sources */,
 				28D0C4B624534414005529E2 /* LoginView.swift in Sources */,
 				28097D6A243DADC400F97916 /* PlaygroundView.swift in Sources */,
@@ -489,9 +510,12 @@
 				28D0C4BE2456DB74005529E2 /* AppScreenView.swift in Sources */,
 				2840BC502447187400C2E896 /* DemoExternalSoup.swift in Sources */,
 				28D0C4B124522F5F005529E2 /* LazyView.swift in Sources */,
+				28B8A7AC2450534800FAE3A4 /* Model.xcdatamodeld in Sources */,
 				28AF501F244ED43A00E6EB83 /* EntryDetailsView.swift in Sources */,
+				28794943245AAD0C003C1C8E /* Optional+ForceUnwrap.swift in Sources */,
 				28B8A7B52452211400FAE3A4 /* ObservableModel.swift in Sources */,
 				28097D6C243DC41400F97916 /* Spinner.swift in Sources */,
+				28D0C4C42459D0FC005529E2 /* UserContextManager.swift in Sources */,
 				28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */,
 				28097D47243D281F00F97916 /* AppDelegate.swift in Sources */,
 				28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */,
@@ -792,6 +816,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		28B8A7AA2450534800FAE3A4 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				28B8A7AB2450534800FAE3A4 /* Model.xcdatamodel */,
+			);
+			currentVersion = 28B8A7AB2450534800FAE3A4 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 28097D3B243D281F00F97916 /* Project object */;
 }
