@@ -17,6 +17,9 @@ struct PlaygroundView: View, AppScreen {
             Section {
                 Group {
                     Text("\(playground.userAccount.idData.username)")
+                    Button("Logout") {
+                        self.playground.logout()
+                    }
                     Text("Sync Down Status: \(playground.syncDownStatus ?? "nil")")
                     Text("Sync Up Status: \(playground.syncUpStatus ?? "nil")")
                 }

@@ -15,7 +15,7 @@ class AppContext {
 
     lazy var userAccountManager = UserAccountManager.shared
     lazy var userContextManager = UserContextManagerImpl(userContextAsyncResolver: resolveUserContext(userAccount:completion:))
-    lazy var loginManager = LoginManager(userAccountManager: userAccountManager, authHelper: AuthHelper.self, userContextManager: userContextManager)
+    lazy var loginManager = LoginManager(userAccountManager: userAccountManager, authHelper: AuthHelper.self, userContextManager: userContextManager, notificationCenter: .default)
 }
 
 class AppUserContext {
@@ -63,6 +63,7 @@ class AppUserContext {
     lazy var playground = SyncDownPlayground(syncDownName: Self.syncDownName,
                                              syncUpName: Self.syncUpName,
                                              soupName: Self.soupName,
+                                             loginManager: appContext.loginManager,
                                              userAccount: userAccount,
                                              syncManager: syncManager,
                                              externalSoup: externalSoup,

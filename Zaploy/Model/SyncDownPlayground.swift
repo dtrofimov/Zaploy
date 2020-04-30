@@ -15,21 +15,27 @@ class SyncDownPlayground: ObservableObject {
     let syncDownName: String
     let syncUpName: String
     let soupName: String
+    let loginManager: LoginManager
     let userAccount: UserAccount
     let syncManager: SyncManager
     let externalSoup: DemoExternalSoup
     let metadataSyncManager: MetadataSyncManager
     let layoutSyncManager: LayoutSyncManager
 
-    init(syncDownName: String, syncUpName: String, soupName: String, userAccount: UserAccount, syncManager: SyncManager, externalSoup: DemoExternalSoup, metadataSyncManager: MetadataSyncManager, layoutSyncManager: LayoutSyncManager) {
+    init(syncDownName: String, syncUpName: String, soupName: String, loginManager: LoginManager, userAccount: UserAccount, syncManager: SyncManager, externalSoup: DemoExternalSoup, metadataSyncManager: MetadataSyncManager, layoutSyncManager: LayoutSyncManager) {
         self.syncDownName = syncDownName
         self.syncUpName = syncUpName
         self.soupName = soupName
+        self.loginManager = loginManager
         self.userAccount = userAccount
         self.syncManager = syncManager
         self.externalSoup = externalSoup
         self.metadataSyncManager = metadataSyncManager
         self.layoutSyncManager = layoutSyncManager
+    }
+
+    func logout() {
+        loginManager.logout()
     }
 
     var syncDownState: SyncState? { syncManager.syncStatus(forName: syncDownName) }
