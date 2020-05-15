@@ -8,7 +8,7 @@
 
 import CoreData
 
-class BaseFieldMapper: FieldMapper {
+class BaseFieldMapper: FieldMapper, HavingMOField {
     let moField: MOField
     let sfField: SFField
     let warningLogger: WarningLogger

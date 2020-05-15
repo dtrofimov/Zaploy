@@ -18,10 +18,6 @@ protocol HavingMOField {
     var moField: MOField { get }
 }
 
-protocol HavingSFField {
-    var sfField: SFField { get }
-}
-
 protocol UniqueFieldMapper: FieldMapper {
     func predicateByValues(_ values: [Any]) -> NSPredicate
 
@@ -29,3 +25,5 @@ protocol UniqueFieldMapper: FieldMapper {
 
     func value(from managedObject: NSManagedObject) -> Any?
 }
+
+typealias SFIdMapper = UniqueFieldMapper & HavingMOField
