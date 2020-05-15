@@ -8,7 +8,7 @@
 
 import CoreData
 
-class CoreDataSoupContext: ExternalSoup {
+class CoreDataSoup: ExternalSoup {
     let soupMapper: CoreDataSoupMapper
     let soupEntryIdConverter: SoupEntryIdConverter
     let context: NSManagedObjectContext

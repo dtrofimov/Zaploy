@@ -30,7 +30,7 @@
 		2879495E2462D6A6003C1C8E /* CoreDataSoupMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2879495D2462D6A6003C1C8E /* CoreDataSoupMapper.swift */; };
 		287949602462D878003C1C8E /* MetadataSyncManager+LoadFromCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2879495F2462D878003C1C8E /* MetadataSyncManager+LoadFromCache.swift */; };
 		287949662464299D003C1C8E /* SoupEntryIdConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287949652464299D003C1C8E /* SoupEntryIdConverter.swift */; };
-		2879496824644374003C1C8E /* CoreDataSoupContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2879496724644374003C1C8E /* CoreDataSoupContext.swift */; };
+		2879496824644374003C1C8E /* CoreDataSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2879496724644374003C1C8E /* CoreDataSoup.swift */; };
 		2879496A246538A5003C1C8E /* BaseFieldMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28794969246538A5003C1C8E /* BaseFieldMapper.swift */; };
 		2879496D24653D78003C1C8E /* FieldMapperProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2879496C24653D78003C1C8E /* FieldMapperProtocols.swift */; };
 		2879497124653FF6003C1C8E /* SFField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2879497024653FF6003C1C8E /* SFField.swift */; };
@@ -124,7 +124,7 @@
 		2879495D2462D6A6003C1C8E /* CoreDataSoupMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSoupMapper.swift; sourceTree = "<group>"; };
 		2879495F2462D878003C1C8E /* MetadataSyncManager+LoadFromCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetadataSyncManager+LoadFromCache.swift"; sourceTree = "<group>"; };
 		287949652464299D003C1C8E /* SoupEntryIdConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoupEntryIdConverter.swift; sourceTree = "<group>"; };
-		2879496724644374003C1C8E /* CoreDataSoupContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSoupContext.swift; sourceTree = "<group>"; };
+		2879496724644374003C1C8E /* CoreDataSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSoup.swift; sourceTree = "<group>"; };
 		28794969246538A5003C1C8E /* BaseFieldMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFieldMapper.swift; sourceTree = "<group>"; };
 		2879496C24653D78003C1C8E /* FieldMapperProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldMapperProtocols.swift; sourceTree = "<group>"; };
 		2879497024653FF6003C1C8E /* SFField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFField.swift; sourceTree = "<group>"; };
@@ -327,9 +327,9 @@
 			isa = PBXGroup;
 			children = (
 				2879495D2462D6A6003C1C8E /* CoreDataSoupMapper.swift */,
+				2879496724644374003C1C8E /* CoreDataSoup.swift */,
 				2879497024653FF6003C1C8E /* SFField.swift */,
 				2879496B24653D23003C1C8E /* FieldMappers */,
-				2879496724644374003C1C8E /* CoreDataSoupContext.swift */,
 				287949652464299D003C1C8E /* SoupEntryIdConverter.swift */,
 				2879495F2462D878003C1C8E /* MetadataSyncManager+LoadFromCache.swift */,
 				28251CF8246C1D520083A97A /* WarningLogger.swift */,
@@ -609,7 +609,7 @@
 				28D0C4C72459DE6E005529E2 /* CoreDataStack.swift in Sources */,
 				28B8A7AF2450980600FAE3A4 /* AsyncLazy.swift in Sources */,
 				28251CF9246C1D520083A97A /* WarningLogger.swift in Sources */,
-				2879496824644374003C1C8E /* CoreDataSoupContext.swift in Sources */,
+				2879496824644374003C1C8E /* CoreDataSoup.swift in Sources */,
 				28794975246552BE003C1C8E /* SoupEntryIdMapper.swift in Sources */,
 				28D0C4B624534414005529E2 /* LoginView.swift in Sources */,
 				28097D6A243DADC400F97916 /* PlaygroundView.swift in Sources */,
