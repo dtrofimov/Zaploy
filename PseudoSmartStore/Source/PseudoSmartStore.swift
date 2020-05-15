@@ -175,7 +175,7 @@ open class PseudoSmartStore: SimpleProxy {
     func upsert(entries: [[AnyHashable : Any]], forSoupNamed soupName: String) -> [[AnyHashable: Any]] {
         if let externalSoup = externalSoupsForNames[soupName] {
             // For external soups, called to save the uloaded entries after a syncup, and also called with empty `entries` during a syncdown.
-            try? externalSoup.upsert(entries: entries)
+            externalSoup.upsert(entries: entries)
             return entries
         } else {
             return smartStore.upsert(entries: entries, forSoupNamed: soupName)
@@ -186,7 +186,7 @@ open class PseudoSmartStore: SimpleProxy {
     func upsert(entries: [Any], forSoupNamed soupName: String, withExternalIdPath externalIdPath: String) throws -> [Any] {
         if let externalSoup = externalSoupsForNames[soupName] {
             // Used for external soups to upsert the downloaded objects by Id.
-            try externalSoup.upsert(entries: entries as! [SoupEntry])
+            externalSoup.upsert(entries: entries as! [SoupEntry])
             return entries
         } else {
             return try smartStore.upsert(entries: entries, forSoupNamed: soupName, withExternalIdPath: externalIdPath)

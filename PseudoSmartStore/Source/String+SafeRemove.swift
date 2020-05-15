@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension String {
+public extension String {
     mutating func removePrefix(_ prefix: String) -> Bool {
         guard hasPrefix(prefix) else { return false }
         removeFirst(prefix.count)

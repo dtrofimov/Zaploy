@@ -52,7 +52,7 @@ class DemoExternalSoup: ExternalSoup {
         }
     }
 
-    func upsert(entries entriesToUpsert: [SoupEntry]) throws {
+    func upsert(entries entriesToUpsert: [SoupEntry]) {
         for entry in entriesToUpsert {
             let existingIndex: Int? = {
                 if let soupEntryId = entry.soupEntryId,

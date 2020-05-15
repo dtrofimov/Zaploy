@@ -24,7 +24,7 @@ public protocol ExternalSoup: AnyObject {
 
     func entries(soupEntryIds: [SoupEntryId]) -> [SoupEntry]
 
-    func upsert(entries: [SoupEntry]) throws
+    func upsert(entries: [SoupEntry])
 
     func remove(soupEntryIds: [SoupEntryId])
 

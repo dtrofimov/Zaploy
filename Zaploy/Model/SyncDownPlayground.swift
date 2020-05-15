@@ -55,7 +55,7 @@ class SyncDownPlayground: ObservableObject {
     }
 
     func upsertLocalRecord() {
-        try? externalSoup.upsert(entries: [[
+        externalSoup.upsert(entries: [[
             "attributes": ["type": "Lead"],
             "FirstName": "John",
             "LastName": "Local",
@@ -68,7 +68,7 @@ class SyncDownPlayground: ObservableObject {
     }
 
     func upsertNonLocalRecord() {
-        try? externalSoup.upsert(entries: [
+        externalSoup.upsert(entries: [
             [
                 "attributes": ["type": "Lead"],
                 "Id": "ausyg6d7i6qt7e6g",
