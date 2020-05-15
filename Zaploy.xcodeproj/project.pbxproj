@@ -21,6 +21,7 @@
 		28251CF7246C01F10083A97A /* BoolFieldMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28251CF6246C01F10083A97A /* BoolFieldMapper.swift */; };
 		28251CF9246C1D520083A97A /* WarningLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28251CF8246C1D520083A97A /* WarningLogger.swift */; };
 		2840BC502447187400C2E896 /* DemoExternalSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */; };
+		28610F18246EB63C0077F316 /* CoreDataSoupAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28610F17246EB63C0077F316 /* CoreDataSoupAccessor.swift */; };
 		28794943245AAD0C003C1C8E /* Optional+ForceUnwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28794942245AAD0C003C1C8E /* Optional+ForceUnwrap.swift */; };
 		28794950245AF92F003C1C8E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2879494F245AF92F003C1C8E /* User.swift */; };
 		28794952245AF983003C1C8E /* HavingName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28794951245AF983003C1C8E /* HavingName.swift */; };
@@ -115,6 +116,7 @@
 		2840BC4A2445B46900C2E896 /* SoupEntry+Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SoupEntry+Common.swift"; sourceTree = "<group>"; };
 		2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoExternalSoup.swift; sourceTree = "<group>"; };
 		2840BC51244836FE00C2E896 /* String+SafeRemove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SafeRemove.swift"; sourceTree = "<group>"; };
+		28610F17246EB63C0077F316 /* CoreDataSoupAccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSoupAccessor.swift; sourceTree = "<group>"; };
 		28794942245AAD0C003C1C8E /* Optional+ForceUnwrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+ForceUnwrap.swift"; sourceTree = "<group>"; };
 		2879494F245AF92F003C1C8E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		28794951245AF983003C1C8E /* HavingName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HavingName.swift; sourceTree = "<group>"; };
@@ -326,8 +328,9 @@
 		2879495C2462D68E003C1C8E /* CoreDataSoup */ = {
 			isa = PBXGroup;
 			children = (
-				2879495D2462D6A6003C1C8E /* CoreDataSoupMapper.swift */,
 				2879496724644374003C1C8E /* CoreDataSoup.swift */,
+				2879495D2462D6A6003C1C8E /* CoreDataSoupMapper.swift */,
+				28610F17246EB63C0077F316 /* CoreDataSoupAccessor.swift */,
 				2879497024653FF6003C1C8E /* SFField.swift */,
 				2879496B24653D23003C1C8E /* FieldMappers */,
 				287949652464299D003C1C8E /* SoupEntryIdConverter.swift */,
@@ -627,6 +630,7 @@
 				28AF501F244ED43A00E6EB83 /* EntryDetailsView.swift in Sources */,
 				28794943245AAD0C003C1C8E /* Optional+ForceUnwrap.swift in Sources */,
 				28B8A7B52452211400FAE3A4 /* ObservableModel.swift in Sources */,
+				28610F18246EB63C0077F316 /* CoreDataSoupAccessor.swift in Sources */,
 				28097D6C243DC41400F97916 /* Spinner.swift in Sources */,
 				28D0C4C42459D0FC005529E2 /* UserContextManager.swift in Sources */,
 				28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */,
