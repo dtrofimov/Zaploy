@@ -13,6 +13,7 @@ struct CoreDataStack {
     let model: NSManagedObjectModel
     let storeDescription: NSPersistentStoreDescription
     let viewContext: NSManagedObjectContext
+    let persistentContainer: NSPersistentContainer
 
     static let modelName = "Model"
 
@@ -40,7 +41,8 @@ struct CoreDataStack {
             }
             completion(.init(model: model,
                              storeDescription: storeDescription,
-                             viewContext: container.viewContext))
+                             viewContext: container.viewContext,
+                             persistentContainer: container))
         }
     }
 }

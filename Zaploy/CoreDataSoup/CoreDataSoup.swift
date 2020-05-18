@@ -14,8 +14,8 @@ class CoreDataSoup: ExternalSoup {
     let soupAccessor: CoreDataSoupAccessor
     let warningLogger: WarningLogger
 
-    init(soup: CoreDataSoupMapper, soupEntryIdConverter: SoupEntryIdConverter, soupAccessor: CoreDataSoupAccessor, warningLogger: WarningLogger) {
-        self.soupMapper = soup
+    init(soupMapper: CoreDataSoupMapper, soupEntryIdConverter: SoupEntryIdConverter, soupAccessor: CoreDataSoupAccessor, warningLogger: WarningLogger) {
+        self.soupMapper = soupMapper
         self.soupEntryIdConverter = soupEntryIdConverter
         self.soupAccessor = soupAccessor
         self.warningLogger = warningLogger
