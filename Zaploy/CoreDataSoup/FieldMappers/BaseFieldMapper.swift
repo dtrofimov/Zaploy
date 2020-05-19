@@ -10,12 +10,12 @@ import CoreData
 
 class BaseFieldMapper: FieldMapper, HavingMOField {
     let moField: MOField
-    let sfField: SFField
+    let sfKey: String
     let warningLogger: WarningLogger
 
-    init(moField: MOField, sfField: SFField, warningLogger: WarningLogger) {
+    init(moField: MOField, sfKey: String, warningLogger: WarningLogger) {
         self.moField = moField
-        self.sfField = sfField
+        self.sfKey = sfKey
         self.warningLogger = warningLogger
     }
 
@@ -36,11 +36,11 @@ class BaseFieldMapper: FieldMapper, HavingMOField {
     }
 
     func soupEntryValue(from soupEntry: SoupEntry) -> Any? {
-        soupEntry[sfField.name]
+        soupEntry[sfKey]
     }
 
     func setSoupEntryValue(_ soupEntryValue: Any?, to soupEntry: inout SoupEntry) {
-        soupEntry[sfField.name] = soupEntryValue
+        soupEntry[sfKey] = soupEntryValue
     }
 
     func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry) {

@@ -11,7 +11,7 @@ import CoreData
 
 struct CoreDataStack {
     let model: NSManagedObjectModel
-    let storeDescription: NSPersistentStoreDescription
+    let store: NSPersistentStore
     let viewContext: NSManagedObjectContext
     let persistentContainer: NSPersistentContainer
 
@@ -39,8 +39,9 @@ struct CoreDataStack {
             if let error = error {
                 fatalError("Cannot load persistent store: \(error)")
             }
+            let store = container.persistentStoreCoordinator.persistentStore(for: url).forceUnwrap("Persistent store not found in NSPersistentStoreCoordinator")
             completion(.init(model: model,
-                             storeDescription: storeDescription,
+                             store: store,
                              viewContext: container.viewContext,
                              persistentContainer: container))
         }

@@ -10,26 +10,30 @@ import Foundation
 import MobileSync
 import Then
 import PseudoSmartStore
+import CoreData
 
 class SyncDownPlayground: ObservableObject {
     let syncDownName: String
     let syncUpName: String
     let soupName: String
+    let entity: NSEntityDescription
+    let context: NSManagedObjectContext
     let loginManager: LoginManager
     let userAccount: UserAccount
     let syncManager: SyncManager
-    let externalSoup: DemoExternalSoup
+    lazy var externalSoup: DemoExternalSoup = nil!
     let metadataSyncManager: MetadataSyncManager
     let layoutSyncManager: LayoutSyncManager
 
-    init(syncDownName: String, syncUpName: String, soupName: String, loginManager: LoginManager, userAccount: UserAccount, syncManager: SyncManager, externalSoup: DemoExternalSoup, metadataSyncManager: MetadataSyncManager, layoutSyncManager: LayoutSyncManager) {
+    init(syncDownName: String, syncUpName: String, soupName: String, entity: NSEntityDescription, context: NSManagedObjectContext, loginManager: LoginManager, userAccount: UserAccount, syncManager: SyncManager, metadataSyncManager: MetadataSyncManager, layoutSyncManager: LayoutSyncManager) {
         self.syncDownName = syncDownName
         self.syncUpName = syncUpName
         self.soupName = soupName
+        self.entity = entity
+        self.context = context
         self.loginManager = loginManager
         self.userAccount = userAccount
         self.syncManager = syncManager
-        self.externalSoup = externalSoup
         self.metadataSyncManager = metadataSyncManager
         self.layoutSyncManager = layoutSyncManager
     }
@@ -179,7 +183,9 @@ class SyncDownPlayground: ObservableObject {
         refreshOnMainThread()
     }
 
-    var leadDicts: [SoupEntry] {
-        externalSoup.entries
+    var leads: [Lead] {
+        let request = ManagedLead.safeFetchRequest
+        request.sortDescriptors = [.init(key: "firstName", ascending: true)]
+        return try! context.fetch(request)
     }
 }

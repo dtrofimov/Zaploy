@@ -8,7 +8,10 @@
 
 import CoreData
 
-class ManagedUser: NSManagedObject, User {
+class ManagedUser: NSManagedObject, User, ManagedObjectType {
+    static var entityName = "User"
+
+    @NSManaged public var id: String?
     @NSManaged public var username: String
     @NSManaged public var firstName: String?
     @NSManaged public var lastName: String

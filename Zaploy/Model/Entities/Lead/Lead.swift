@@ -8,5 +8,5 @@
 
 import Foundation
 
-protocol Lead: HavingName {
+protocol Lead: HavingName, HavingId {
 }

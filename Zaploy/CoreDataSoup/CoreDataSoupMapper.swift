@@ -25,6 +25,7 @@ class CoreDataSoupMapperImpl: CoreDataSoupMapper {
         static let entitySfName = "sfName"
         static let fieldSfName = "sfName"
         static let idFieldName = kId // "Id"
+        static let syncIdFieldName = kSyncTargetSyncId // "__sync_id__"
         static let isUnique = "isUnique"
     }
 
@@ -74,11 +75,11 @@ class CoreDataSoupMapperImpl: CoreDataSoupMapper {
 
         for moField in entity.properties {
             guard let sfName = moField.userInfo?[Keys.fieldSfName] as? String else { continue }
-            guard let sfField = sfFieldsForNames[sfName] else {
-                warningLogger.logWarning("SF metadata not found for field \(moField)")
-                continue
-            }
-            guard let fieldMapper = Self.makeMapper(moField: moField, sfField: sfField, warningLogger: warningLogger) else { continue }
+            guard let fieldMapper = Self.makeMapper(moField: moField,
+                                                    sfName: sfName,
+                                                    sfField: sfFieldsForNames[sfName],
+                                                    warningLogger: warningLogger)
+                else { continue }
             childMappers.append(fieldMapper)
 
             let isSfId = sfName == Keys.idFieldName
@@ -88,7 +89,7 @@ class CoreDataSoupMapperImpl: CoreDataSoupMapper {
                     uniqueMappers.append(sfIdMapper)
                     unsafeSfIdMapper = sfIdMapper
                 } else {
-                    warningLogger.logWarning("Id mapper type doesn't correspond to UniqueFieldMapper: \(fieldMapper)")
+                    warningLogger.logWarning("Id mapper type doesn't correspond to SFIdMapper: \(fieldMapper)")
                 }
             } else if isMarkedUnique {
                 if let uniqueMapper = fieldMapper as? UniqueFieldMapper {
@@ -112,7 +113,7 @@ class CoreDataSoupMapperImpl: CoreDataSoupMapper {
         self.mappers = childMappers
     }
 
-    class func makeMapper(moField: MOField, sfField: SFField, warningLogger: WarningLogger) -> (FieldMapper & HavingMOField)? {
+    class func makeMapper(moField: MOField, sfName: String, sfField: SFField?, warningLogger: WarningLogger) -> (FieldMapper & HavingMOField)? {
         // TODO: Handle all available SF field types.
         // TODO: Support overriding with an external mapper.
         func incompatible() -> (FieldMapper & HavingMOField)? {
@@ -120,13 +121,24 @@ class CoreDataSoupMapperImpl: CoreDataSoupMapper {
             return nil
         }
         let moFieldType = (moField as? NSAttributeDescription)?.attributeType
+
+        if sfName == Keys.syncIdFieldName {
+            guard moFieldType == .integer64AttributeType else { return incompatible() }
+            return NumberFieldMapper(moField: moField, sfKey: sfName, warningLogger: warningLogger)
+        }
+
+        guard let sfField = sfField else {
+            warningLogger.logWarning("SF metadata not found for field \(moField)")
+            return nil
+        }
+
         switch sfField.type {
         case .id, .string:
             guard moFieldType == .stringAttributeType else { return incompatible() }
-            return StringFieldMapper(moField: moField, sfField: sfField, warningLogger: warningLogger)
+            return StringFieldMapper(moField: moField, sfKey: sfName, warningLogger: warningLogger)
         case .boolean:
             guard moFieldType == .booleanAttributeType else { return incompatible() }
-            return BoolFieldMapper(moField: moField, sfField: sfField, warningLogger: warningLogger)
+            return BoolFieldMapper(moField: moField, sfKey: sfName, warningLogger: warningLogger)
         case .double, .int:
             switch moFieldType {
             case .integer16AttributeType,
@@ -138,7 +150,7 @@ class CoreDataSoupMapperImpl: CoreDataSoupMapper {
                 break
             default: return incompatible()
             }
-            return NumberFieldMapper(moField: moField, sfField: sfField, warningLogger: warningLogger)
+            return NumberFieldMapper(moField: moField, sfKey: sfName, warningLogger: warningLogger)
         default:
             return incompatible()
         }

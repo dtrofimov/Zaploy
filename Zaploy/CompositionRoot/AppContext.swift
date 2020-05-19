@@ -34,10 +34,7 @@ class AppUserContext {
     static let soupName = "someSoupName"
     lazy var smartStore = SmartStore.shared(withName: SmartStore.defaultStoreName, forUserAccount: userAccount)
         .forceUnwrap("Cannot resolve shared SmartStore")
-    lazy var externalSoup = DemoExternalSoup()
-    lazy var pseudoSmartStore = PseudoSmartStore(smartStore: smartStore).then {
-        try? $0.addExternalSoup(externalSoup, name: Self.soupName)
-    }
+    lazy var pseudoSmartStore = PseudoSmartStore(smartStore: smartStore)
     lazy var replacedSmartStore = unsafeBitCast(pseudoSmartStore, to: SmartStore.self)
     lazy var syncManager = SyncManager.sharedInstance(store: replacedSmartStore)
         .forceUnwrap("Cannot resolve shared SyncManager")
@@ -51,22 +48,48 @@ class AppUserContext {
             .deletingLastPathComponent()
             .appendingPathComponent("coreDataStore.sqlite")
     var coreDataStack: CoreDataStack!
+    let entityName = "Lead"
+    lazy var entity = coreDataStack.model.entitiesByName[entityName].forceUnwrap("Lead entity not found")
+    var sfMetadata: Metadata!
+    lazy var soupEntryIdConverter = SoupEntryIdConverterImpl(persistentStore: coreDataStack.store,
+                                                             entityName: entityName)
+        .forceUnwrap("Unable to create SoupEntryIdConverter")
+    lazy var warningLogger = ConsoleWarningLogger()
+    lazy var soupMapper: CoreDataSoupMapperImpl = Result {
+        try .init(entity: entity,
+                  sfMetadata: sfMetadata,
+                  soupEntryIdConverter: soupEntryIdConverter,
+                  warningLogger: warningLogger)
+    }.forceUnwrap("Cannot create CoreDataSoupMapperImpl")
+    lazy var soupAccessor = PersistentContainerCoreDataSoupAccessor(persistentContainer: coreDataStack.persistentContainer)
+    lazy var externalSoup = CoreDataSoup(soupMapper: soupMapper,
+                                         soupEntryIdConverter: soupEntryIdConverter,
+                                         soupAccessor: soupAccessor,
+                                         warningLogger: warningLogger)
 
     static func make(appContext: AppContext, userAccount: UserAccount, completion: @escaping (AppUserContext) -> Void) {
         let result = AppUserContext(appContext: appContext, userAccount: userAccount)
+        _ = result.syncManager
         CoreDataStack.make(url: result.coreDataUrl) {
             result.coreDataStack = $0
-            completion(result)
+            result.metadataSyncManager.fetchMetadata(forObject: "Lead", mode: .cacheFirst) {
+                result.sfMetadata = $0.forceUnwrap("Cannot load SF metadata")
+                Result {
+                    try result.pseudoSmartStore.addExternalSoup(result.externalSoup, name: soupName)
+                }.forceUnwrap("Unable to add an external soup")
+                completion(result)
+            }
         }
     }
 
     lazy var playground = SyncDownPlayground(syncDownName: Self.syncDownName,
                                              syncUpName: Self.syncUpName,
                                              soupName: Self.soupName,
+                                             entity: entity,
+                                             context: coreDataStack.persistentContainer.viewContext,
                                              loginManager: appContext.loginManager,
                                              userAccount: userAccount,
                                              syncManager: syncManager,
-                                             externalSoup: externalSoup,
                                              metadataSyncManager: metadataSyncManager,
                                              layoutSyncManager: layoutSyncManager)
 
@@ -85,10 +108,10 @@ extension AppContext {
 
 extension AppUserContext: UserContext {
     func resolveScreenAfterLogin() -> AppScreen {
-        PlaygroundView(playground: playground, entryDetailsScreenResolver: resolveEntryDetailsScreen(entry:))
+        PlaygroundView(playground: playground, leadDetailsScreenResolver: resolveLeadDetailsScreen(lead:))
     }
 
-    func resolveEntryDetailsScreen(entry: SoupEntry) -> AppScreen {
-        EntryDetailsView(entry: entry)
+    func resolveLeadDetailsScreen(lead: Lead) -> AppScreen {
+        LeadDetailsView(lead: lead)
     }
 }

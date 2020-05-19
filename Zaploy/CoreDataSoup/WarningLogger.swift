@@ -48,6 +48,6 @@ class ConsoleWarningLogger: WarningLogger {
             }
             message.append("Error: \(error).")
         }
-        NSLog(message)
+        NSLog("WARNING! \(message)")
     }
 }

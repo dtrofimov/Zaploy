@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Lead" representedClassName="Lead" syncable="YES">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E287" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Lead" representedClassName=".ManagedLead" syncable="YES">
         <attribute name="company" optional="YES" attributeType="String">
             <userInfo>
                 <entry key="sfName" value="Company"/>
@@ -30,7 +30,7 @@
             <entry key="sfName" value="Lead"/>
         </userInfo>
     </entity>
-    <entity name="User" representedClassName="User" syncable="YES">
+    <entity name="User" representedClassName=".ManagedUser" syncable="YES">
         <attribute name="company" optional="YES" attributeType="String">
             <userInfo>
                 <entry key="sfName" value="Company"/>

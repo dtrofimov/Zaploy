@@ -10,7 +10,7 @@ import SwiftUI
 
 struct PlaygroundView: View, AppScreen {
     @ObservedObject var playground: SyncDownPlayground
-    let entryDetailsScreenResolver: (SoupEntry) -> AppScreen
+    let leadDetailsScreenResolver: (Lead) -> AppScreen
 
     var body: some View {
         List {
@@ -72,9 +72,9 @@ struct PlaygroundView: View, AppScreen {
                     }
                     Text("")
                 }
-                ForEach(playground.leadDicts, id: \.soupEntryId) { dict in
-                    NavigationLink(destination: LazyView(self.entryDetailsScreenResolver(dict).asAnyView)) {
-                        Text("\(dict["FirstName"] as! String) \(dict["LastName"] as! String)")
+                ForEach(playground.leads, id: \.id) { lead in
+                    NavigationLink(destination: LazyView(self.leadDetailsScreenResolver(lead).asAnyView)) {
+                        Text([lead.firstName, lead.lastName].compactMap { $0 }.joined(separator: " "))
                     }
                 }
             }
