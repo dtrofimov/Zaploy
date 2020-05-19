@@ -74,10 +74,12 @@ class AppUserContext {
             result.coreDataStack = $0
             result.metadataSyncManager.fetchMetadata(forObject: "Lead", mode: .cacheFirst) {
                 result.sfMetadata = $0.forceUnwrap("Cannot load SF metadata")
-                Result {
-                    try result.pseudoSmartStore.addExternalSoup(result.externalSoup, name: soupName)
-                }.forceUnwrap("Unable to add an external soup")
-                completion(result)
+                DispatchQueue.main.async {
+                    Result {
+                        try result.pseudoSmartStore.addExternalSoup(result.externalSoup, name: soupName)
+                    }.forceUnwrap("Unable to add an external soup")
+                    completion(result)
+                }
             }
         }
     }

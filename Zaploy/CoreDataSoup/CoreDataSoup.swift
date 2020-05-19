@@ -27,6 +27,7 @@ class CoreDataSoup: ExternalSoup {
         return soupAccessor.accessStore { context in
             let request = NSFetchRequest<NSDictionary>()
             request.entity = soupMapper.entity
+            request.resultType = .dictionaryResultType
             // TODO: Add syncSoupEntryId filtering support
             // TODO: Exclude dirty entries
             let moIdField = soupMapper.sfIdMapper.moField

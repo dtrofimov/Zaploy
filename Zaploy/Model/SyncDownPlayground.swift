@@ -21,7 +21,6 @@ class SyncDownPlayground: ObservableObject {
     let loginManager: LoginManager
     let userAccount: UserAccount
     let syncManager: SyncManager
-    lazy var externalSoup: DemoExternalSoup = nil!
     let metadataSyncManager: MetadataSyncManager
     let layoutSyncManager: LayoutSyncManager
 
@@ -59,33 +58,28 @@ class SyncDownPlayground: ObservableObject {
     }
 
     func upsertLocalRecord() {
-        externalSoup.upsert(entries: [[
-            "attributes": ["type": "Lead"],
-            "FirstName": "John",
-            "LastName": "Local",
-            "Company": "Big Company, inc",
-            "__local__": true,
-            "__locally_created__": true,
-            "__locally_updated__": true,
-            ]])
-        refreshOnMainThread()
+        // TODO: Raise __local__, __locally_created__, __locally_updated__ flags
+//        ManagedLead(context: context).do {
+//            $0.firstName = "John"
+//            $0.lastName = "Local"
+//            $0.company = "Big Company, inc"
+//        }
+//        try! context.save()
+//        refreshOnMainThread()
     }
 
     func upsertNonLocalRecord() {
-        externalSoup.upsert(entries: [
-            [
-                "attributes": ["type": "Lead"],
-                "Id": "ausyg6d7i6qt7e6g",
-                "FirstName": "Jane",
-                "LastName": "Non-Local",
-            ],
-            [
-                "attributes": ["type": "Lead"],
-                "Id": "aiusytd78q8w67t",
-                "FirstName": "David",
-                "LastName": "Non-Local",
-            ],
-        ])
+        ManagedLead.findOrCreate(byId: "ausyg6d7i6qt7e6g", in: context).do {
+            $0.firstName = "Jane"
+            $0.lastName = "Non-Local"
+            $0.company = "Little Company, inc"
+        }
+        ManagedLead.findOrCreate(byId: "aiusytd78q8w67t", in: context).do {
+            $0.firstName = "David"
+            $0.lastName = "Non-Local"
+            $0.company = "Small Company, inc"
+        }
+        try! context.save()
         refreshOnMainThread()
     }
 
@@ -144,22 +138,22 @@ class SyncDownPlayground: ObservableObject {
     }
 
     func markFirstAsDeleted() {
-        guard !externalSoup.entries.isEmpty else { return }
-        externalSoup.entries[0].update {
-            $0["__local__"] = NSNumber(value: true)
-            $0["__locally_deleted__"] = NSNumber(value: true)
-        }
-        refreshOnMainThread()
+//        guard !externalSoup.entries.isEmpty else { return }
+//        externalSoup.entries[0].update {
+//            $0["__local__"] = NSNumber(value: true)
+//            $0["__locally_deleted__"] = NSNumber(value: true)
+//        }
+//        refreshOnMainThread()
     }
 
     func modifyFirst() {
-        guard !externalSoup.entries.isEmpty else { return }
-        externalSoup.entries[0].update {
-            $0["FirstName"] = $0["FirstName"] as! String + "1"
-            $0["__local__"] = NSNumber(value: true)
-            $0["__locally_updated__"] = NSNumber(value: true)
-        }
-        refreshOnMainThread()
+//        guard !externalSoup.entries.isEmpty else { return }
+//        externalSoup.entries[0].update {
+//            $0["FirstName"] = $0["FirstName"] as! String + "1"
+//            $0["__local__"] = NSNumber(value: true)
+//            $0["__locally_updated__"] = NSNumber(value: true)
+//        }
+//        refreshOnMainThread()
     }
 
     func syncDownMetadata() {
