@@ -8,7 +8,7 @@
 
 import CoreData
 
-class SoupEntryIdMapper: FieldMapper {
+class SoupEntryIdMapper: EntryMapper {
     let soupEntryIdConverter: SoupEntryIdConverter
     let warningLogger: WarningLogger
 
@@ -34,7 +34,7 @@ class SoupEntryIdMapper: FieldMapper {
     }
 }
 
-extension SoupEntryIdMapper: UniqueFieldMapper {
+extension SoupEntryIdMapper: FetchableField {
     func predicateByValues(_ values: [Any]) -> NSPredicate {
         // TODO: Rewrite the predicate with a type-safe expression.
         NSPredicate(format: "self in %@", values)

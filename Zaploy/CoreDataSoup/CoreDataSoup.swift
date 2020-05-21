@@ -9,12 +9,14 @@
 import CoreData
 
 class CoreDataSoup: ExternalSoup {
-    let soupMapper: CoreDataSoupMapper
+    let soupMetadata: CoreDataSoupMetadata
+    let soupMapper: EntryMapper
     let soupEntryIdConverter: SoupEntryIdConverter
     let soupAccessor: CoreDataSoupAccessor
     let warningLogger: WarningLogger
 
-    init(soupMapper: CoreDataSoupMapper, soupEntryIdConverter: SoupEntryIdConverter, soupAccessor: CoreDataSoupAccessor, warningLogger: WarningLogger) {
+    init(soupMetadata: CoreDataSoupMetadata, soupMapper: EntryMapper, soupEntryIdConverter: SoupEntryIdConverter, soupAccessor: CoreDataSoupAccessor, warningLogger: WarningLogger) {
+        self.soupMetadata = soupMetadata
         self.soupMapper = soupMapper
         self.soupEntryIdConverter = soupEntryIdConverter
         self.soupAccessor = soupAccessor
@@ -26,11 +28,11 @@ class CoreDataSoup: ExternalSoup {
     func nonDirtySfIds(syncSoupEntryId: SoupEntryId?) -> [SfId] {
         return soupAccessor.accessStore { context in
             let request = NSFetchRequest<NSDictionary>()
-            request.entity = soupMapper.entity
+            request.entity = soupMetadata.entity
             request.resultType = .dictionaryResultType
             // TODO: Add syncSoupEntryId filtering support
             // TODO: Exclude dirty entries
-            let moIdField = soupMapper.sfIdMapper.moField
+            let moIdField = soupMetadata.sfIdField.moField
             request.propertiesToFetch = [moIdField]
             guard let dicts = warningLogger.handle({ try context.fetch(request) },
                                                    "Unable to fetch nonDirtySfIds: \(request)")
@@ -51,14 +53,14 @@ class CoreDataSoup: ExternalSoup {
     func entries(soupEntryIds: [SoupEntryId]) -> [SoupEntry] {
         return soupAccessor.accessStore { context in
             let request = NSFetchRequest<NSManagedObject>()
-            request.entity = soupMapper.entity
+            request.entity = soupMetadata.entity
             let managedObjectIds: [NSManagedObjectID] = soupEntryIds.compactMap { soupEntryId in
                 guard let managedObjectId = warningLogger.handle({ try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) },
                                                                  "Unable to build managedObjectId from soupEntryId \(soupEntryId)")
                     else { return nil }
                 return managedObjectId
             }
-            request.predicate = soupMapper.soupEntryIdMapper.predicateByValues(managedObjectIds)
+            request.predicate = soupMetadata.soupEntryIdField.predicateByValues(managedObjectIds)
             request.returnsObjectsAsFaults = false
             guard let fetchedObjects = warningLogger.handle({ try context.fetch(request) },
                                                             "Unable to fetch entries for soupEntryIds: \(request)")
@@ -80,15 +82,15 @@ class CoreDataSoup: ExternalSoup {
 
     func upsert(entries: [SoupEntry]) {
         return soupAccessor.accessStore { context in
-            let predicates: [NSPredicate] = soupMapper.uniqueMappers.compactMap { mapper in
-                let values = entries.compactMap { mapper.value(from: $0) }
+            let predicates: [NSPredicate] = soupMetadata.uniqueFields.compactMap { field in
+                let values = entries.compactMap { field.value(from: $0) }
                 guard !values.isEmpty else { return nil }
-                return mapper.predicateByValues(values)
+                return field.predicateByValues(values)
             }
             let existingObjects: [NSManagedObject] = {
                 guard !predicates.isEmpty else { return [] }
                 let request = NSFetchRequest<NSManagedObject>()
-                request.entity = soupMapper.entity
+                request.entity = soupMetadata.entity
                 request.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
                 request.returnsObjectsAsFaults = false
                 guard let objects = warningLogger.handle({ try context.fetch(request) },
@@ -98,16 +100,16 @@ class CoreDataSoup: ExternalSoup {
             }()
             for entry in entries {
                 let matchingObjects: [NSManagedObject] = existingObjects.filter { object in
-                    soupMapper.uniqueMappers.contains { mapper in
-                        let valueFromObject = mapper.value(from: object)
-                        let valueFromEntry = mapper.value(from: entry)
+                    soupMetadata.uniqueFields.contains { field in
+                        let valueFromObject = field.value(from: object)
+                        let valueFromEntry = field.value(from: entry)
                         if let valueFromObject = valueFromObject, !(valueFromObject is NSObject) {
-                            warningLogger.logWarning("Value cannot be mapped to NSObject: \(mapper) returns \(valueFromObject) from \(object)")
+                            warningLogger.logWarning("Value cannot be mapped to NSObject: \(field) returns \(valueFromObject) from \(object)")
                         }
                         if let valueFromEntry = valueFromEntry, !(valueFromEntry is NSObject) {
-                            warningLogger.logWarning("Value cannot be mapped to NSObject: \(mapper) returns \(valueFromEntry) from \(entry)")
+                            warningLogger.logWarning("Value cannot be mapped to NSObject: \(field) returns \(valueFromEntry) from \(entry)")
                         }
-                        return mapper.value(from: object) as? NSObject == mapper.value(from: entry) as? NSObject
+                        return field.value(from: object) as? NSObject == field.value(from: entry) as? NSObject
                     }
                 }
                 guard matchingObjects.count <= 1 else {
@@ -116,19 +118,19 @@ class CoreDataSoup: ExternalSoup {
                 }
                 let targetObject: NSManagedObject = {
                     if let existing = matchingObjects.first {
-                        for mapper in soupMapper.uniqueMappers {
-                            if let existingValue = mapper.value(from: existing) as? NSObject,
-                                let newValue = mapper.value(from: entry) as? NSObject,
+                        for field in soupMetadata.uniqueFields {
+                            if let existingValue = field.value(from: existing) as? NSObject,
+                                let newValue = field.value(from: entry) as? NSObject,
                                 existingValue != newValue {
-                                warningLogger.logWarning("Unique value doesn't match for \(mapper): existingObject = \(existing), upsertedEntry = \(entry)")
+                                warningLogger.logWarning("Unique value doesn't match for \(field): existingObject = \(existing), upsertedEntry = \(entry)")
                             }
                         }
                         return existing
                     } else {
-                        if soupMapper.soupEntryIdMapper.value(from: entry) != nil {
+                        if soupMetadata.soupEntryIdField.value(from: entry) != nil {
                             warningLogger.logWarning("Object not found by soupEntryId while upserting \(entry)")
                         }
-                        return NSEntityDescription.insertNewObject(forEntityName: soupMapper.entityName, into: context)
+                        return NSManagedObject(entity: soupMetadata.entity, insertInto: context)
                     }
                 }()
                 soupMapper.map(from: entry, to: targetObject)
@@ -141,12 +143,12 @@ class CoreDataSoup: ExternalSoup {
     func remove(soupEntryIds: [SoupEntryId]) {
         return soupAccessor.accessStore { context in
             let request = NSFetchRequest<NSManagedObject>()
-            request.entity = soupMapper.entity
+            request.entity = soupMetadata.entity
             let managedObjectIds = soupEntryIds.compactMap { soupEntryId in
                 warningLogger.handle({ try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) },
                                      "Cannot get managedObjectId from soupEntryId \(soupEntryId)")
             }
-            request.predicate = soupMapper.soupEntryIdMapper.predicateByValues(managedObjectIds)
+            request.predicate = soupMetadata.soupEntryIdField.predicateByValues(managedObjectIds)
             request.includesPropertyValues = false
             guard let objects = warningLogger.handle({ try context.fetch(request) },
                                                      "Cannot fetch objects to remove by soupEntryIds: \(request)")
@@ -162,8 +164,8 @@ class CoreDataSoup: ExternalSoup {
     func remove(sfIds: [SfId]) {
         return soupAccessor.accessStore { context in
             let request = NSFetchRequest<NSManagedObject>()
-            request.entity = soupMapper.entity
-            request.predicate = soupMapper.sfIdMapper.predicateByValues(sfIds)
+            request.entity = soupMetadata.entity
+            request.predicate = soupMetadata.sfIdField.predicateByValues(sfIds)
             request.includesPropertyValues = false
             guard let objects = warningLogger.handle({ try context.fetch(request) },
                                                      "Cannot fetch objects to remove by sfIds: \(request)")

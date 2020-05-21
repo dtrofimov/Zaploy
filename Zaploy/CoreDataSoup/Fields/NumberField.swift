@@ -1,5 +1,5 @@
 //
-//  StringFieldMapper.swift
+//  NumberField.swift
 //  Zaploy
 //
 //  Created by Dmitrii Trofimov on 08.05.2020.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-class StringFieldMapper: BaseFieldMapper {
+class NumberField: BaseField {
     override func kvcValue(forSoupEntryValue soupEntryValue: Any?) -> Any? {
-        return checkType(soupEntryValue, expected: String.self)
+        return checkType(soupEntryValue, expected: NSNumber.self)
     }
 }

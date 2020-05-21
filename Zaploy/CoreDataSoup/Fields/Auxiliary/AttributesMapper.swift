@@ -1,5 +1,5 @@
 //
-//  AttributesFieldMapper.swift
+//  AttributesMapper.swift
 //  Zaploy
 //
 //  Created by Dmitrii Trofimov on 08.05.2020.
@@ -8,7 +8,7 @@
 
 import CoreData
 
-class AttributesFieldMapper: FieldMapper {
+class AttributesMapper: EntryMapper {
     let entity: NSEntityDescription
     let entitySfName: String
     let warningLogger: WarningLogger

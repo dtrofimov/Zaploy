@@ -1,5 +1,5 @@
 //
-//  FieldMapperProtocols.swift
+//  FieldProtocols.swift
 //  Zaploy
 //
 //  Created by Dmitrii Trofimov on 08.05.2020.
@@ -8,7 +8,9 @@
 
 import CoreData
 
-protocol FieldMapper: AnyObject {
+typealias MOField = NSPropertyDescription
+
+protocol EntryMapper: AnyObject {
     func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry)
 
     func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject)
@@ -18,12 +20,10 @@ protocol HavingMOField {
     var moField: MOField { get }
 }
 
-protocol UniqueFieldMapper: FieldMapper {
+protocol FetchableField {
     func predicateByValues(_ values: [Any]) -> NSPredicate
 
     func value(from soupEntry: SoupEntry) -> Any?
 
     func value(from managedObject: NSManagedObject) -> Any?
 }
-
-typealias SFIdMapper = UniqueFieldMapper & HavingMOField

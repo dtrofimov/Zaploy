@@ -49,20 +49,22 @@ class AppUserContext {
             .appendingPathComponent("coreDataStore.sqlite")
     var coreDataStack: CoreDataStack!
     let entityName = "Lead"
-    lazy var entity = coreDataStack.model.entitiesByName[entityName].forceUnwrap("Lead entity not found")
+    lazy var entity = coreDataStack.model.entitiesByName[entityName]
+        .forceUnwrap("Lead entity not found")
     var sfMetadata: Metadata!
     lazy var soupEntryIdConverter = SoupEntryIdConverterImpl(persistentStore: coreDataStack.store,
                                                              entityName: entityName)
         .forceUnwrap("Unable to create SoupEntryIdConverter")
     lazy var warningLogger = ConsoleWarningLogger()
-    lazy var soupMapper: CoreDataSoupMapperImpl = Result {
-        try .init(entity: entity,
-                  sfMetadata: sfMetadata,
-                  soupEntryIdConverter: soupEntryIdConverter,
-                  warningLogger: warningLogger)
-    }.forceUnwrap("Cannot create CoreDataSoupMapperImpl")
+    lazy var soupFactoryOutput = CoreDataSoupMetadataFactory(entity: entity,
+                                                     sfMetadata: sfMetadata,
+                                                     soupEntryIdConverter: soupEntryIdConverter,
+                                                     warningLogger: warningLogger)
+        .output
+        .forceUnwrap("Cannot resolve CoreDataSoupMetadataFactory output")
     lazy var soupAccessor = PersistentContainerCoreDataSoupAccessor(persistentContainer: coreDataStack.persistentContainer)
-    lazy var externalSoup = CoreDataSoup(soupMapper: soupMapper,
+    lazy var externalSoup = CoreDataSoup(soupMetadata: soupFactoryOutput.metadata,
+                                         soupMapper: soupFactoryOutput.soupMapper,
                                          soupEntryIdConverter: soupEntryIdConverter,
                                          soupAccessor: soupAccessor,
                                          warningLogger: warningLogger)

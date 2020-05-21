@@ -1,5 +1,5 @@
 //
-//  CoreDataSoupMapper.swift
+//  CoreDataSoupMetadataFactory.swift
 //  Zaploy
 //
 //  Created by Dmitrii Trofimov on 06.05.2020.
@@ -10,17 +10,7 @@ import CoreData
 import MobileSync
 import Then
 
-typealias MOField = NSPropertyDescription
-
-protocol CoreDataSoupMapper: FieldMapper {
-    var entity: NSEntityDescription { get }
-    var entityName: String { get }
-    var sfIdMapper: SFIdMapper { get }
-    var soupEntryIdMapper: UniqueFieldMapper { get }
-    var uniqueMappers: [UniqueFieldMapper] { get }
-}
-
-class CoreDataSoupMapperImpl: CoreDataSoupMapper {
+class CoreDataSoupMetadataFactory {
     struct Keys {
         static let entitySfName = "sfName"
         static let fieldSfName = "sfName"
@@ -29,94 +19,102 @@ class CoreDataSoupMapperImpl: CoreDataSoupMapper {
         static let isUnique = "isUnique"
     }
 
-    static func sfName(entity: NSEntityDescription) -> String? {
-        entity.userInfo?[Keys.entitySfName] as? String
+    let entity: NSEntityDescription
+    let sfMetadata: Metadata
+    let soupEntryIdConverter: SoupEntryIdConverter
+    let warningLogger: WarningLogger
+
+    internal init(entity: NSEntityDescription, sfMetadata: Metadata, soupEntryIdConverter: SoupEntryIdConverter, warningLogger: WarningLogger) {
+        self.entity = entity
+        self.sfMetadata = sfMetadata
+        self.soupEntryIdConverter = soupEntryIdConverter
+        self.warningLogger = warningLogger
     }
 
-    let entity: NSEntityDescription
-    let entityName: String
-    let sfName: String
-    let soupEntryIdConverter: SoupEntryIdConverter
-    let sfIdMapper: SFIdMapper
-    let soupEntryIdMapper: UniqueFieldMapper
-    let uniqueMappers: [UniqueFieldMapper]
-    let mappers: [FieldMapper]
-
     public enum CustomError: Error {
-        case entityHasNoName
-        case entitySfNameNotFound
         case validIdFieldNotFound
     }
 
-    init(entity: NSEntityDescription, sfMetadata: Metadata, soupEntryIdConverter: SoupEntryIdConverter, warningLogger: WarningLogger) throws {
-        guard let entityName = entity.name else {
-            throw CustomError.entityHasNoName
-        }
-        guard let sfName = Self.sfName(entity: entity) else {
-            throw CustomError.entitySfNameNotFound
-        }
-        let sfFieldsForNames: [String: SFField] = try (sfMetadata.fields ?? []).reduce(into: [:]) {
-            let sfField = try SFField(metadata: $1)
-            $0[sfField.name] = sfField
-        }
+    lazy var sfFieldsForNames: [String: SFField] = (sfMetadata.fields ?? []).reduce(into: [:]) { result, fieldDict in
+        guard let sfField = warningLogger.handle({
+            try SFField(metadata: fieldDict)
+        }, "Cannot create field metadata: \(fieldDict)")
+            else { return }
+        result[sfField.name] = sfField
+    }
 
-        var uniqueMappers: [UniqueFieldMapper] = []
-        var childMappers: [FieldMapper] = []
-        var unsafeSfIdMapper: SFIdMapper?
+    typealias SFIdField = FetchableField & HavingMOField
 
-        let soupEntryIdMapper = SoupEntryIdMapper(soupEntryIdConverter: soupEntryIdConverter, warningLogger: warningLogger)
-        uniqueMappers.append(soupEntryIdMapper)
-        childMappers.append(soupEntryIdMapper)
+    var sfIdField: SFIdField?
+    var otherUniqueFields: [FetchableField] = []
+    var fieldMappers: [EntryMapper] = []
+    var sfFieldsForMOFields: [MOField: SFField] = [:]
 
-        let attributesMapper = AttributesFieldMapper(entity: entity, entitySfName: sfName, warningLogger: warningLogger)
-        childMappers.append(attributesMapper)
+    struct Output {
+        let metadata: CoreDataSoupMetadata
+        let soupMapper: EntryMapper
+    }
 
-        // TODO: Add syncId mapper
+    lazy var output: Result<Output, Error> = Result {
+        processAllMetadata()
 
-        for moField in entity.properties {
-            guard let sfName = moField.userInfo?[Keys.fieldSfName] as? String else { continue }
-            guard let fieldMapper = Self.makeMapper(moField: moField,
-                                                    sfName: sfName,
-                                                    sfField: sfFieldsForNames[sfName],
-                                                    warningLogger: warningLogger)
-                else { continue }
-            childMappers.append(fieldMapper)
+        let soupEntryIdField = resolveSoupEntryIdMapper()
+        fieldMappers.append(soupEntryIdField)
 
-            let isSfId = sfName == Keys.idFieldName
-            let isMarkedUnique = moField.userInfo?[Keys.isUnique] as? Bool ?? false
-            if isSfId {
-                if let sfIdMapper = fieldMapper as? SFIdMapper {
-                    uniqueMappers.append(sfIdMapper)
-                    unsafeSfIdMapper = sfIdMapper
-                } else {
-                    warningLogger.logWarning("Id mapper type doesn't correspond to SFIdMapper: \(fieldMapper)")
-                }
-            } else if isMarkedUnique {
-                if let uniqueMapper = fieldMapper as? UniqueFieldMapper {
-                    uniqueMappers.append(uniqueMapper)
-                } else {
-                    warningLogger.logWarning("Unique mapper type doesn't correspond to UniqueFieldMapper: \(fieldMapper)")
-                }
-            }
-        }
-        guard let sfIdMapper = unsafeSfIdMapper else {
+        guard let sfIdField = sfIdField else {
             throw CustomError.validIdFieldNotFound
         }
 
-        self.entity = entity
-        self.entityName = entityName
-        self.soupEntryIdConverter = soupEntryIdConverter
-        self.sfName = sfName
-        self.sfIdMapper = sfIdMapper
-        self.soupEntryIdMapper = soupEntryIdMapper
-        self.uniqueMappers = uniqueMappers
-        self.mappers = childMappers
+        return Output(metadata: .init(entity: entity,
+                                      sfIdField: sfIdField,
+                                      soupEntryIdField: soupEntryIdField,
+                                      otherUniqueFields: otherUniqueFields,
+                                      sfFieldsForMOFields: sfFieldsForMOFields),
+                      soupMapper: CompoundEntryMapper(childMappers: fieldMappers))
     }
 
-    class func makeMapper(moField: MOField, sfName: String, sfField: SFField?, warningLogger: WarningLogger) -> (FieldMapper & HavingMOField)? {
+    open func processAllMetadata() {
+        if let attributesMapper = resolveAttributesMapper() {
+            fieldMappers.append(attributesMapper)
+        }
+        for moField in entity.properties {
+            process(moField: moField)
+        }
+    }
+
+    open func process(moField: MOField) {
+        guard let sfName = moField.sfName else { return }
+        let sfField = sfFieldsForNames[sfName]
+        guard let fieldMapper = Self.makeMapper(moField: moField,
+                                                sfName: sfName,
+                                                sfField: sfField,
+                                                warningLogger: warningLogger)
+            else { return }
+        fieldMappers.append(fieldMapper)
+        sfFieldsForMOFields[moField] = sfField
+
+        if sfName == Keys.idFieldName {
+            if let sfIdField = fieldMapper as? SFIdField {
+                if let existingSfIdField = self.sfIdField {
+                    warningLogger.logWarning("SFIdField duplicate found: \(existingSfIdField) vs \(sfIdField)")
+                } else {
+                    self.sfIdField = sfIdField
+                }
+            } else {
+                warningLogger.logWarning("Id mapper type doesn't correspond to SFIdField: \(fieldMapper)")
+            }
+        } else if moField.isMarkedUnique {
+            if let uniqueMapper = fieldMapper as? FetchableField {
+                otherUniqueFields.append(uniqueMapper)
+            } else {
+                warningLogger.logWarning("Unique mapper type doesn't correspond to FetchableField: \(fieldMapper)")
+            }
+        }
+    }
+
+    open class func makeMapper(moField: MOField, sfName: String, sfField: SFField?, warningLogger: WarningLogger) -> EntryMapper? {
         // TODO: Handle all available SF field types.
-        // TODO: Support overriding with an external mapper.
-        func incompatible() -> (FieldMapper & HavingMOField)? {
+        func incompatible() -> EntryMapper? {
             warningLogger.logWarning("Incompatible CoreData and SF field types: \(moField)")
             return nil
         }
@@ -124,7 +122,7 @@ class CoreDataSoupMapperImpl: CoreDataSoupMapper {
 
         if sfName == Keys.syncIdFieldName {
             guard moFieldType == .integer64AttributeType else { return incompatible() }
-            return NumberFieldMapper(moField: moField, sfKey: sfName, warningLogger: warningLogger)
+            return SyncIdMapper(moField: moField, sfKey: sfName, warningLogger: warningLogger)
         }
 
         guard let sfField = sfField else {
@@ -134,11 +132,12 @@ class CoreDataSoupMapperImpl: CoreDataSoupMapper {
 
         switch sfField.type {
         case .id, .string:
+            // TODO: Check id metadata type with Keys.idFieldName matching
             guard moFieldType == .stringAttributeType else { return incompatible() }
-            return StringFieldMapper(moField: moField, sfKey: sfName, warningLogger: warningLogger)
+            return StringField(moField: moField, sfField: sfField, warningLogger: warningLogger)
         case .boolean:
             guard moFieldType == .booleanAttributeType else { return incompatible() }
-            return BoolFieldMapper(moField: moField, sfKey: sfName, warningLogger: warningLogger)
+            return BoolField(moField: moField, sfField: sfField, warningLogger: warningLogger)
         case .double, .int:
             switch moFieldType {
             case .integer16AttributeType,
@@ -150,21 +149,37 @@ class CoreDataSoupMapperImpl: CoreDataSoupMapper {
                 break
             default: return incompatible()
             }
-            return NumberFieldMapper(moField: moField, sfKey: sfName, warningLogger: warningLogger)
+            return NumberField(moField: moField, sfField: sfField, warningLogger: warningLogger)
         default:
             return incompatible()
         }
     }
 
-    func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry) {
-        for mapper in mappers {
-            mapper.map(from: managedObject, to: &soupEntry)
-        }
+    open func resolveSoupEntryIdMapper() -> EntryMapper & FetchableField {
+        SoupEntryIdMapper(soupEntryIdConverter: soupEntryIdConverter, warningLogger: warningLogger)
     }
 
-    func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject) {
-        for mapper in mappers {
-            mapper.map(from: soupEntry, to: managedObject)
+    open func resolveAttributesMapper() -> EntryMapper? {
+        guard let sfName = entity.sfName else {
+            warningLogger.logWarning("Entity sfName not found")
+            return nil
         }
+        return AttributesMapper(entity: entity, entitySfName: sfName, warningLogger: warningLogger)
+    }
+}
+
+extension NSPropertyDescription {
+    var isMarkedUnique: Bool {
+        userInfo?[CoreDataSoupMetadataFactory.Keys.isUnique] as? Bool ?? false
+    }
+
+    var sfName: String? {
+        userInfo?[CoreDataSoupMetadataFactory.Keys.fieldSfName] as? String
+    }
+}
+
+extension NSEntityDescription {
+    var sfName: String? {
+        userInfo?[CoreDataSoupMetadataFactory.Keys.entitySfName] as? String
     }
 }

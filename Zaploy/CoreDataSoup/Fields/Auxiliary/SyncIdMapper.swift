@@ -1,14 +1,14 @@
 //
-//  NumberFieldMapper.swift
+//  SyncIdMapper.swift
 //  Zaploy
 //
-//  Created by Dmitrii Trofimov on 08.05.2020.
+//  Created by Dmitrii Trofimov on 20.05.2020.
 //  Copyright © 2020 Dmitrii Trofimov. All rights reserved.
 //
 
-import Foundation
+import CoreData
 
-class NumberFieldMapper: BaseFieldMapper {
+class SyncIdMapper: BaseFieldMapper {
     override func kvcValue(forSoupEntryValue soupEntryValue: Any?) -> Any? {
         return checkType(soupEntryValue, expected: NSNumber.self)
     }

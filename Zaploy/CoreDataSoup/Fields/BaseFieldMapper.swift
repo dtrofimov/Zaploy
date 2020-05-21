@@ -8,7 +8,7 @@
 
 import CoreData
 
-class BaseFieldMapper: FieldMapper, HavingMOField {
+class BaseFieldMapper: EntryMapper, HavingMOField {
     let moField: MOField
     let sfKey: String
     let warningLogger: WarningLogger
@@ -56,7 +56,7 @@ class BaseFieldMapper: FieldMapper, HavingMOField {
     }
 }
 
-extension BaseFieldMapper: UniqueFieldMapper {
+extension BaseFieldMapper: FetchableField {
     func predicateByValues(_ values: [Any]) -> NSPredicate {
         // TODO: Rewrite the predicate with a type-safe expression.
         NSPredicate(format: "self.\(moField.name) in %@", values)

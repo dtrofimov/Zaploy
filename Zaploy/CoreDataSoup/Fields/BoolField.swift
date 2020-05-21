@@ -1,5 +1,5 @@
 //
-//  BoolFieldMapper.swift
+//  BoolField.swift
 //  Zaploy
 //
 //  Created by Dmitrii Trofimov on 13.05.2020.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BoolFieldMapper: BaseFieldMapper {
+class BoolField: BaseField {
     override func kvcValue(forSoupEntryValue soupEntryValue: Any?) -> Any? {
         return checkType(soupEntryValue, expected: Bool.self)
     }
