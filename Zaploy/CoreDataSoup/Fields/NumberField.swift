@@ -10,6 +10,6 @@ import Foundation
 
 class NumberField: BaseField {
     override func kvcValue(forSoupEntryValue soupEntryValue: Any?) -> Any? {
-        return checkType(soupEntryValue, expected: NSNumber.self)
+        warningLogger.checkType(soupEntryValue, "NumberFieldDecoding") as NSNumber?
     }
 }

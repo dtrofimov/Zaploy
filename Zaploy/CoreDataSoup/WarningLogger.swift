@@ -34,6 +34,13 @@ extension WarningLogger {
             return nil
         }
     }
+
+    func checkType<T>(_ value: Any?, _ messagePrefix: String) -> T? {
+        if let value = value, !(value is T) {
+            logWarning("\(messagePrefix). Unexpected value type: \(value) is \(type(of: value)) instead of \(T.self)")
+        }
+        return value as? T
+    }
 }
 
 class ConsoleWarningLogger: WarningLogger {

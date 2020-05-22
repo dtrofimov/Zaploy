@@ -14,9 +14,10 @@ class CoreDataSoupMetadataFactory {
     struct Keys {
         static let entitySfName = "sfName"
         static let fieldSfName = "sfName"
-        static let idFieldName = kId // "Id"
-        static let syncIdFieldName = kSyncTargetSyncId // "__sync_id__"
+        static let id = kId // "Id"
+        static let syncId = kSyncTargetSyncId // "__sync_id__"
         static let isUnique = "isUnique"
+        static let urlFieldName = "urlField"
     }
 
     let entity: NSEntityDescription
@@ -83,17 +84,16 @@ class CoreDataSoupMetadataFactory {
     }
 
     open func process(moField: MOField) {
-        guard let sfName = moField.sfName else { return }
-        let sfField = sfFieldsForNames[sfName]
-        guard let fieldMapper = Self.makeMapper(moField: moField,
-                                                sfName: sfName,
-                                                sfField: sfField,
-                                                warningLogger: warningLogger)
+        let sfName = moField.sfName
+        let sfField = sfName.flatMap { sfFieldsForNames[$0] }
+        guard let fieldMapper = makeMapper(moField: moField,
+                                           sfName: sfName,
+                                           sfField: sfField)
             else { return }
         fieldMappers.append(fieldMapper)
         sfFieldsForMOFields[moField] = sfField
 
-        if sfName == Keys.idFieldName {
+        if sfName == Keys.id {
             if let sfIdField = fieldMapper as? SFIdField {
                 if let existingSfIdField = self.sfIdField {
                     warningLogger.logWarning("SFIdField duplicate found: \(existingSfIdField) vs \(sfIdField)")
@@ -112,46 +112,75 @@ class CoreDataSoupMetadataFactory {
         }
     }
 
-    open class func makeMapper(moField: MOField, sfName: String, sfField: SFField?, warningLogger: WarningLogger) -> EntryMapper? {
+    open func makeMapper(moField: MOField, sfName: String?, sfField: SFField?) -> EntryMapper? {
+        guard let sfName = sfName else { return nil }
         // TODO: Handle all available SF field types.
+        func failure(_ message: String) -> EntryMapper? {
+            warningLogger.logWarning(message)
+            return nil
+        }
         func incompatible() -> EntryMapper? {
-            warningLogger.logWarning("Incompatible CoreData and SF field types: \(moField)")
-            return nil
+            failure("Incompatible CoreData and SF field types: \(moField)")
         }
-        let moFieldType = (moField as? NSAttributeDescription)?.attributeType
+        if let moAttribute = moField as? NSAttributeDescription {
+            let moFieldType = moAttribute.attributeType
 
-        if sfName == Keys.syncIdFieldName {
-            guard moFieldType == .integer64AttributeType else { return incompatible() }
-            return SyncIdMapper(moField: moField, sfKey: sfName, warningLogger: warningLogger)
-        }
-
-        guard let sfField = sfField else {
-            warningLogger.logWarning("SF metadata not found for field \(moField)")
-            return nil
-        }
-
-        switch sfField.type {
-        case .id, .string:
-            // TODO: Check id metadata type with Keys.idFieldName matching
-            guard moFieldType == .stringAttributeType else { return incompatible() }
-            return StringField(moField: moField, sfField: sfField, warningLogger: warningLogger)
-        case .boolean:
-            guard moFieldType == .booleanAttributeType else { return incompatible() }
-            return BoolField(moField: moField, sfField: sfField, warningLogger: warningLogger)
-        case .double, .int:
-            switch moFieldType {
-            case .integer16AttributeType,
-                 .integer32AttributeType,
-                 .integer64AttributeType,
-                 .decimalAttributeType,
-                 .doubleAttributeType,
-                 .floatAttributeType:
-                break
-            default: return incompatible()
+            if sfName == Keys.syncId {
+                guard moFieldType == .integer64AttributeType else { return incompatible() }
+                return SyncIdMapper(moField: moField, sfKey: sfName, warningLogger: warningLogger)
             }
-            return NumberField(moField: moField, sfField: sfField, warningLogger: warningLogger)
-        default:
+
+            guard let sfField = sfField else {
+                warningLogger.logWarning("SF metadata not found for field \(moField)")
+                return nil
+            }
+
+            switch sfField.type {
+            case .anyType:
+                guard moFieldType == .transformableAttributeType else { return incompatible() }
+                return BaseField(moField: moField, sfField: sfField, warningLogger: warningLogger)
+            case .base64:
+                guard moFieldType == .transformableAttributeType else { return incompatible() }
+                guard let urlFieldName = moField.userInfo?[Keys.urlFieldName] as? String else { return failure("Base64 URL field name not found: \(moField)") }
+                guard let urlMoField = entity.propertiesByName[urlFieldName] else { return failure("Base64 URL field not found: \(moField)") }
+                guard (urlMoField as? NSAttributeDescription)?.attributeType == .stringAttributeType else { return failure("Base64 URL field must be of string type: \(moField)")}
+                return Base64Field(bodyMoField: moField, urlMoField: urlMoField, sfField: sfField, warningLogger: warningLogger)
+            case .currency:
+                guard moFieldType == .decimalAttributeType else { return incompatible() }
+                guard let scale = sfField.scale else { return failure("Currency scale not found: \(moField), \(sfField.metadata)")}
+                return CurrencyField(moField: moField, sfField: sfField, warningLogger: warningLogger, scale: scale)
+            case .id, .string:
+                let isIdType = sfField.type == .id
+                let isIdField = sfField.name == Keys.id
+                if isIdType != isIdField {
+                    warningLogger.logWarning("Id type doesn't match with id field name: isIdType = \(isIdType), isIdField = \(isIdField), field = \(moField)")
+                }
+                guard moFieldType == .stringAttributeType else { return incompatible() }
+                return StringField(moField: moField, sfField: sfField, warningLogger: warningLogger)
+            case .boolean:
+                guard moFieldType == .booleanAttributeType else { return incompatible() }
+                return BoolField(moField: moField, sfField: sfField, warningLogger: warningLogger)
+            case .double, .int:
+                switch moFieldType {
+                case .integer16AttributeType,
+                     .integer32AttributeType,
+                     .integer64AttributeType,
+                     .decimalAttributeType,
+                     .doubleAttributeType,
+                     .floatAttributeType:
+                    break
+                default: return incompatible()
+                }
+                return NumberField(moField: moField, sfField: sfField, warningLogger: warningLogger)
+            default:
+                return incompatible()
+            }
+        } else if let moRelationship = moField as? NSRelationshipDescription {
+            // TODO
             return incompatible()
+        } else {
+            warningLogger.logWarning("Unknown CoreData field type: \(moField)")
+            return nil
         }
     }
 

@@ -10,6 +10,6 @@ import Foundation
 
 class BoolField: BaseField {
     override func kvcValue(forSoupEntryValue soupEntryValue: Any?) -> Any? {
-        return checkType(soupEntryValue, expected: Bool.self)
+        warningLogger.checkType(soupEntryValue, "BoolField decoding") as Bool?
     }
 }

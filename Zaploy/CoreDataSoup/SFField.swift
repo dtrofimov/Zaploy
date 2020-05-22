@@ -14,6 +14,7 @@ class SFField {
     }
 
     enum FieldType: String {
+        case anyType = "anyType"
         case base64 = "base64"
         case boolean = "boolean"
         case byte = "byte"
@@ -36,7 +37,6 @@ class SFField {
 
     let metadata: [AnyHashable: Any]
     let name: String
-    let type: FieldType?
 
     init(metadata: [AnyHashable: Any]) throws {
         self.metadata = metadata
@@ -44,6 +44,8 @@ class SFField {
             throw CustomError.nameNotFound
         }
         self.name = name
-        self.type = (metadata["type"] as? String).flatMap { FieldType(rawValue: $0) }
     }
+
+    lazy var type: FieldType? = (metadata["type"] as? String).flatMap { FieldType(rawValue: $0) }
+    lazy var scale = metadata["scale"] as? Int
 }

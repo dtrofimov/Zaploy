@@ -85,7 +85,7 @@ class SyncDownPlayground: ObservableObject {
 
     func syncDown() {
         syncManager.deleteSync(forName: syncDownName)
-        try! syncManager.syncDown(target: SoqlSyncDownTarget.newSyncTarget("select Id, FirstName, LastName, Company from Lead"),
+        try! syncManager.syncDown(target: SoqlSyncDownTarget.newSyncTarget("select Id, FirstName, LastName, Company, SomeBool__c, SomeCurrency__c from Lead"),
                                   options: SyncOptions.newSyncOptions(forSyncDown: .overwrite),
                                   soupName: soupName,
                                   syncName: syncDownName) { [weak self] syncState in

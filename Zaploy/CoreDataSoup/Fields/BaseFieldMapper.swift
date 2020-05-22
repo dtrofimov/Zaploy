@@ -71,12 +71,3 @@ extension BaseFieldMapper: FetchableField {
         kvcValue(from: managedObject)
     }
 }
-
-extension BaseFieldMapper {
-    func checkType<T>(_ value: Any?, expected: T.Type) -> T? {
-        if let value = value, !(value is T) {
-            warningLogger.logWarning("Unexpected value type in \(self): \(value) is \(type(of: value)) instead of \(T.self)")
-        }
-        return value as? T
-    }
-}
