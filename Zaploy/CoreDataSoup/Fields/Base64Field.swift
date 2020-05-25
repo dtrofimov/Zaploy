@@ -24,7 +24,6 @@ class Base64Field: EntryMapper, HavingMOField {
 
     func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry) {
         soupEntry[sfField.name] = {
-            // TODO: Print warnings if there are incorrect types
             if let url: String = warningLogger.checkType(managedObject.value(forKey: urlMoField.name), "Base64Field.url encoding") {
                 return url
             } else if let body: Data = warningLogger.checkType(managedObject.value(forKey: bodyMoField.name), "Base64Field.body encoding") {
