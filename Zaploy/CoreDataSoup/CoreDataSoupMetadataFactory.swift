@@ -8,7 +8,6 @@
 
 import CoreData
 import MobileSync
-import Then
 
 class CoreDataSoupMetadataFactory {
     struct Keys {
@@ -47,6 +46,7 @@ class CoreDataSoupMetadataFactory {
     typealias SFIdField = FetchableField & HavingMOField
 
     var sfIdField: SFIdField?
+    var syncIdField: FetchableField?
     var otherUniqueFields: [FetchableField] = []
     var fieldMappers: [EntryMapper] = []
     var sfFieldsForMOFields: [MOField: SFField] = [:]
@@ -69,6 +69,7 @@ class CoreDataSoupMetadataFactory {
         return Output(metadata: .init(entity: entity,
                                       sfIdField: sfIdField,
                                       soupEntryIdField: soupEntryIdField,
+                                      syncIdField: syncIdField,
                                       otherUniqueFields: otherUniqueFields,
                                       sfFieldsForMOFields: sfFieldsForMOFields),
                       soupMapper: CompoundEntryMapper(childMappers: fieldMappers))
@@ -127,7 +128,9 @@ class CoreDataSoupMetadataFactory {
 
             if sfName == Keys.syncId {
                 guard moFieldType == .integer64AttributeType else { return incompatible() }
-                return SyncIdMapper(moField: moField, sfKey: sfName, warningLogger: warningLogger)
+                let syncIdMapper = SyncIdMapper(moField: moField, sfKey: sfName, warningLogger: warningLogger)
+                self.syncIdField = syncIdMapper
+                return syncIdMapper
             }
 
             guard let sfField = sfField else {

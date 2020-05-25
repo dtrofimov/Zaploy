@@ -12,6 +12,7 @@ struct CoreDataSoupMetadata {
     let entity: NSEntityDescription
     let sfIdField: FetchableField & HavingMOField
     let soupEntryIdField: FetchableField
+    let syncIdField: FetchableField?
     let otherUniqueFields: [FetchableField]
     let sfFieldsForMOFields: [MOField: SFField]
 

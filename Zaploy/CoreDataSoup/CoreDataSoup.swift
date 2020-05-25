@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import Then
 
 class CoreDataSoup: ExternalSoup {
     let soupMetadata: CoreDataSoupMetadata
@@ -30,8 +31,16 @@ class CoreDataSoup: ExternalSoup {
             let request = NSFetchRequest<NSDictionary>()
             request.entity = soupMetadata.entity
             request.resultType = .dictionaryResultType
-            // TODO: Add syncSoupEntryId filtering support
-            // TODO: Exclude dirty entries
+            let predicates: [NSPredicate] = [].with {
+                if let syncIdField = soupMetadata.syncIdField,
+                    let syncId = syncSoupEntryId {
+                    $0.append(syncIdField.predicateByValues([syncId]))
+                }
+                // TODO: Exclude dirty entries
+            }
+            if !predicates.isEmpty {
+                request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+            }
             let moIdField = soupMetadata.sfIdField.moField
             request.propertiesToFetch = [moIdField]
             guard let dicts = warningLogger.handle({ try context.fetch(request) },
