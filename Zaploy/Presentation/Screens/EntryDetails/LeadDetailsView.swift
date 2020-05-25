@@ -18,6 +18,8 @@ struct LeadDetailsView: View, AppScreen {
             Text("First name: \(lead.firstName.optionalDescription)")
             Text("Last name: \(lead.lastName)")
             Text("Company: \(lead.company)")
+            Text("Some bool: \(lead.someBool.description)")
+            Text("Some currency: \(lead.someCurrency.optionalDescription)")
         }
     }
 }

@@ -116,7 +116,7 @@ class SyncDownPlayground: ObservableObject {
     func syncUp() {
         syncManager.deleteSync(forName: syncUpName)
         try! syncManager.syncUp(target: SyncUpTarget(createFieldlist: nil, updateFieldlist: nil),
-                                options: SyncOptions.newSyncOptions(forSyncUp: ["Id", "FirstName", "LastName", "Company"], mergeMode: .overwrite),
+                                options: SyncOptions.newSyncOptions(forSyncUp: ["Id", "FirstName", "LastName", "Company", "SomeBool__c", "SomeCurrency__c"], mergeMode: .overwrite),
                                 soupName: soupName,
                                 syncName: syncUpName,
                                 onUpdate: { [weak self] syncState in

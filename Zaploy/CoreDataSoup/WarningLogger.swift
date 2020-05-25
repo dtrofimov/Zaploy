@@ -36,7 +36,7 @@ extension WarningLogger {
     }
 
     func checkType<T>(_ value: Any?, _ messagePrefix: String) -> T? {
-        if let value = value, !(value is T) {
+        if let value = value, !(value is T), !(value is NSNull) {
             logWarning("\(messagePrefix). Unexpected value type: \(value) is \(type(of: value)) instead of \(T.self)")
         }
         return value as? T

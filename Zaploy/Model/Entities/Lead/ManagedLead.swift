@@ -11,8 +11,10 @@ import CoreData
 class ManagedLead: NSManagedObject, Lead, ManagedObjectType {
     static let entityName = "Lead"
 
-    @NSManaged public var id: String?
-    @NSManaged public var firstName: String?
-    @NSManaged public var lastName: String
-    @NSManaged public var company: String
+    @NSManaged var id: String?
+    @NSManaged var firstName: String?
+    @NSManaged var lastName: String
+    @NSManaged var company: String
+    @NSManaged var someBool: Bool
+    @KVC("someCurrency") var someCurrency: Decimal?
 }

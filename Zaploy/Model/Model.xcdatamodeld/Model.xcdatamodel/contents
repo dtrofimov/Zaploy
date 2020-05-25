@@ -21,6 +21,16 @@
                 <entry key="sfName" value="LastName"/>
             </userInfo>
         </attribute>
+        <attribute name="someBool" optional="YES" attributeType="Boolean" usesScalarValueType="YES">
+            <userInfo>
+                <entry key="sfName" value="SomeBool__c"/>
+            </userInfo>
+        </attribute>
+        <attribute name="someCurrency" optional="YES" attributeType="Decimal">
+            <userInfo>
+                <entry key="sfName" value="SomeCurrency__c"/>
+            </userInfo>
+        </attribute>
         <attribute name="syncDownId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES">
             <userInfo>
                 <entry key="sfName" value="__sync_id__"/>
@@ -66,7 +76,7 @@
         </userInfo>
     </entity>
     <elements>
-        <element name="Lead" positionX="-63" positionY="-18" width="128" height="118"/>
+        <element name="Lead" positionX="-63" positionY="-18" width="128" height="148"/>
         <element name="User" positionX="-63" positionY="18" width="128" height="133"/>
     </elements>
 </model>

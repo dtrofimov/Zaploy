@@ -9,4 +9,6 @@
 import Foundation
 
 protocol Lead: HavingName, HavingId {
+    var someBool: Bool { get }
+    var someCurrency: Decimal? { get }
 }

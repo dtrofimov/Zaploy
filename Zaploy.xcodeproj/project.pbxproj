@@ -66,6 +66,7 @@
 		28B8A7B32451FC9300FAE3A4 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B8A7B22451FC9300FAE3A4 /* AppContext.swift */; };
 		28B8A7B52452211400FAE3A4 /* ObservableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B8A7B42452211400FAE3A4 /* ObservableModel.swift */; };
 		28B8A7B72452245A00FAE3A4 /* AppScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B8A7B62452245A00FAE3A4 /* AppScreen.swift */; };
+		28C0D341247B9A4200AD2FE3 /* KVCProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C0D340247B9A4200AD2FE3 /* KVCProperty.swift */; };
 		28D0C4B124522F5F005529E2 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0C4B024522F5F005529E2 /* LazyView.swift */; };
 		28D0C4B624534414005529E2 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0C4B524534414005529E2 /* LoginView.swift */; };
 		28D0C4BA2456C449005529E2 /* UserContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0C4B92456C449005529E2 /* UserContext.swift */; };
@@ -164,6 +165,7 @@
 		28B8A7B22451FC9300FAE3A4 /* AppContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
 		28B8A7B42452211400FAE3A4 /* ObservableModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservableModel.swift; sourceTree = "<group>"; };
 		28B8A7B62452245A00FAE3A4 /* AppScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppScreen.swift; sourceTree = "<group>"; };
+		28C0D340247B9A4200AD2FE3 /* KVCProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVCProperty.swift; sourceTree = "<group>"; };
 		28D0C4B024522F5F005529E2 /* LazyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
 		28D0C4B524534414005529E2 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		28D0C4B92456C449005529E2 /* UserContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContext.swift; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				28794942245AAD0C003C1C8E /* Optional+ForceUnwrap.swift */,
 				283DC3BF2472860B00DAFF60 /* ManagedObjectType.swift */,
 				283DC3D02472A7F000DAFF60 /* Optional+Description.swift */,
+				28C0D340247B9A4200AD2FE3 /* KVCProperty.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -670,6 +673,7 @@
 				28097D6A243DADC400F97916 /* PlaygroundView.swift in Sources */,
 				28097D62243DA72500F97916 /* LoginManager.swift in Sources */,
 				28D0C4BE2456DB74005529E2 /* AppScreenView.swift in Sources */,
+				28C0D341247B9A4200AD2FE3 /* KVCProperty.swift in Sources */,
 				28794979246583F8003C1C8E /* AttributesMapper.swift in Sources */,
 				2840BC502447187400C2E896 /* DemoExternalSoup.swift in Sources */,
 				28D0C4B124522F5F005529E2 /* LazyView.swift in Sources */,
