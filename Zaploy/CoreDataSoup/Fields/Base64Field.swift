@@ -29,13 +29,14 @@ class Base64Field: EntryMapper, HavingMOField {
             } else if let body: Data = warningLogger.checkType(managedObject.value(forKey: bodyMoField.name), "Base64Field.body encoding") {
                 return body.base64EncodedString()
             } else {
-                return nil
+                return NSNull()
             }
         }()
     }
 
     func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject) {
-        if let string: String = warningLogger.checkType(soupEntry[sfField.name], "Base64Field decoding") {
+        guard let soupEntryValue = soupEntry[sfField.name] else { return }
+        if let string: String = warningLogger.checkType(soupEntryValue, "Base64Field decoding") {
             if let body = Data(base64Encoded: string) {
                 let oldBody: Data? = warningLogger.checkType(managedObject.value(forKey: bodyMoField.name), "Base64Field.oldBody getting")
                 if body != oldBody {

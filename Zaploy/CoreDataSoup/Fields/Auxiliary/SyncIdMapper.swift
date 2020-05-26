@@ -9,7 +9,7 @@
 import CoreData
 
 class SyncIdMapper: BaseFieldMapper {
-    override func kvcValue(forSoupEntryValue soupEntryValue: Any?) -> Any? {
+    override func kvcValue(forSoupEntryValue soupEntryValue: Any) -> Any? {
         warningLogger.checkType(soupEntryValue, "SyncIdMapper decoding") as NSNumber?
     }
 }

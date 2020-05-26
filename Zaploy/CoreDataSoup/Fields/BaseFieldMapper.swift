@@ -19,12 +19,12 @@ class BaseFieldMapper: EntryMapper, HavingMOField {
         self.warningLogger = warningLogger
     }
 
-    func kvcValue(forSoupEntryValue soupEntryValue: Any?) -> Any? {
+    func kvcValue(forSoupEntryValue soupEntryValue: Any) -> Any? {
         soupEntryValue
     }
 
-    func soupEntryValue(forKvcValue kvcValue: Any?) -> Any? {
-        kvcValue
+    func soupEntryValue(forKvcValue kvcValue: Any?) -> Any {
+        kvcValue ?? NSNull()
     }
 
     func kvcValue(from managedObject: NSManagedObject) -> Any? {
@@ -39,7 +39,7 @@ class BaseFieldMapper: EntryMapper, HavingMOField {
         soupEntry[sfKey]
     }
 
-    func setSoupEntryValue(_ soupEntryValue: Any?, to soupEntry: inout SoupEntry) {
+    func setSoupEntryValue(_ soupEntryValue: Any, to soupEntry: inout SoupEntry) {
         soupEntry[sfKey] = soupEntryValue
     }
 
@@ -50,7 +50,7 @@ class BaseFieldMapper: EntryMapper, HavingMOField {
     }
 
     func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject) {
-        let soupEntryValue = self.soupEntryValue(from: soupEntry)
+        guard let soupEntryValue = self.soupEntryValue(from: soupEntry) else { return }
         let kvcValue = self.kvcValue(forSoupEntryValue: soupEntryValue)
         setKvcValue(kvcValue, to: managedObject)
     }
@@ -63,7 +63,7 @@ extension BaseFieldMapper: FetchableField {
     }
 
     func value(from soupEntry: SoupEntry) -> Any? {
-        let soupEntryValue = self.soupEntryValue(from: soupEntry)
+        guard let soupEntryValue = self.soupEntryValue(from: soupEntry) else { return nil }
         return kvcValue(forSoupEntryValue: soupEntryValue)
     }
 

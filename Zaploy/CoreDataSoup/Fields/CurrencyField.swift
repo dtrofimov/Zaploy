@@ -25,13 +25,13 @@ class CurrencyField: BaseField {
                                                                raiseOnUnderflow: false,
                                                                raiseOnDivideByZero: true)
 
-    override func kvcValue(forSoupEntryValue soupEntryValue: Any?) -> Any? {
+    override func kvcValue(forSoupEntryValue soupEntryValue: Any) -> Any? {
         guard let number: NSNumber = warningLogger.checkType(soupEntryValue, "CurrencyField decoding") else { return nil }
         return NSDecimalNumber(decimal: number.decimalValue).rounding(accordingToBehavior: roundingBehavior)
     }
 
-    override func soupEntryValue(forKvcValue kvcValue: Any?) -> Any? {
-        guard let decimalNumber: NSDecimalNumber = warningLogger.checkType(kvcValue, "CurrencyField encoding") else { return nil }
+    override func soupEntryValue(forKvcValue kvcValue: Any?) -> Any {
+        guard let decimalNumber: NSDecimalNumber = warningLogger.checkType(kvcValue, "CurrencyField encoding") else { return NSNull() }
         return decimalNumber.rounding(accordingToBehavior: roundingBehavior)
     }
 }

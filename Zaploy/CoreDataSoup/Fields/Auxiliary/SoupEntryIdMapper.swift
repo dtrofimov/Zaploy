@@ -42,7 +42,8 @@ extension SoupEntryIdMapper: FetchableField {
 
     func value(from soupEntry: SoupEntry) -> Any? {
         guard let soupEntryId = soupEntry.soupEntryId else { return nil }
-        return try? soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId)
+        return warningLogger.handle({ try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) },
+                                    "Unable to convert soupEntryId value from a soupEntry: \(soupEntryId)")
     }
 
     func value(from managedObject: NSManagedObject) -> Any? {

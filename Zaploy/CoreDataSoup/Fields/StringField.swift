@@ -9,7 +9,7 @@
 import Foundation
 
 class StringField: BaseField {
-    override func kvcValue(forSoupEntryValue soupEntryValue: Any?) -> Any? {
+    override func kvcValue(forSoupEntryValue soupEntryValue: Any) -> Any? {
         warningLogger.checkType(soupEntryValue, "StringField decoding") as String?
     }
 }
