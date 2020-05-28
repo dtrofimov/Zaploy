@@ -73,6 +73,7 @@
 		28D0C4BE2456DB74005529E2 /* AppScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0C4BD2456DB74005529E2 /* AppScreenView.swift */; };
 		28D0C4C42459D0FC005529E2 /* UserContextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0C4C32459D0FC005529E2 /* UserContextManager.swift */; };
 		28D0C4C72459DE6E005529E2 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0C4C62459DE6E005529E2 /* CoreDataStack.swift */; };
+		28DBED04247FE0E8002FE90C /* ThenTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DBED03247FE0E8002FE90C /* ThenTypes.swift */; };
 		902F10E86C78C3FCB2F1A34F /* Pods_Zaploy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */; };
 		FECB8A347424CBA610CF5086 /* Pods_PseudoSmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B9E36017328E4A16D8ECCB /* Pods_PseudoSmartStore.framework */; };
 /* End PBXBuildFile section */
@@ -172,6 +173,7 @@
 		28D0C4BD2456DB74005529E2 /* AppScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppScreenView.swift; sourceTree = "<group>"; };
 		28D0C4C32459D0FC005529E2 /* UserContextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContextManager.swift; sourceTree = "<group>"; };
 		28D0C4C62459DE6E005529E2 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		28DBED03247FE0E8002FE90C /* ThenTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThenTypes.swift; sourceTree = "<group>"; };
 		6C4A97C3C1F76AD8FFA9F39F /* Pods-PseudoSmartStore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PseudoSmartStore.release.xcconfig"; path = "Target Support Files/Pods-PseudoSmartStore/Pods-PseudoSmartStore.release.xcconfig"; sourceTree = "<group>"; };
 		73B9E36017328E4A16D8ECCB /* Pods_PseudoSmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PseudoSmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zaploy.debug.xcconfig"; path = "Target Support Files/Pods-Zaploy/Pods-Zaploy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 			children = (
 				28B8A7AE2450980600FAE3A4 /* AsyncLazy.swift */,
 				28AF501B244D96C600E6EB83 /* Then+Update.swift */,
+				28DBED03247FE0E8002FE90C /* ThenTypes.swift */,
 				28794942245AAD0C003C1C8E /* Optional+ForceUnwrap.swift */,
 				283DC3BF2472860B00DAFF60 /* ManagedObjectType.swift */,
 				283DC3D02472A7F000DAFF60 /* Optional+Description.swift */,
@@ -687,6 +690,7 @@
 				2879495B245AFB40003C1C8E /* ManagedLead.swift in Sources */,
 				28AF501F244ED43A00E6EB83 /* LeadDetailsView.swift in Sources */,
 				28794943245AAD0C003C1C8E /* Optional+ForceUnwrap.swift in Sources */,
+				28DBED04247FE0E8002FE90C /* ThenTypes.swift in Sources */,
 				28B8A7B52452211400FAE3A4 /* ObservableModel.swift in Sources */,
 				28610F18246EB63C0077F316 /* CoreDataSoupAccessor.swift in Sources */,
 				28097D6C243DC41400F97916 /* Spinner.swift in Sources */,

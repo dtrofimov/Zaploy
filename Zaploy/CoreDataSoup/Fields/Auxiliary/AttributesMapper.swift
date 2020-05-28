@@ -34,8 +34,11 @@ class AttributesMapper: EntryMapper {
     }
 
     func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject) {
-        if let attributes: [AnyHashable: Any] = warningLogger.checkType(soupEntry[Keys.attributes], "AttributesMapper attributes decoding"),
-            let entitySfName: String = warningLogger.checkType(attributes[Keys.type], "AttributesMapper type decoding") {
+        if warningLogger.isEnabled,
+            let attributes: [AnyHashable: Any] = soupEntry[Keys.attributes]
+                .checkType(warningLogger, "AttributesMapper attributes decoding"),
+            let entitySfName: String = attributes[Keys.type]
+                .checkType(warningLogger, "AttributesMapper type decoding") {
             warningLogger.assert(entitySfName == self.entitySfName,
                                  "Wrong entity when mapping attributes from \(soupEntry) to \(managedObject)")
         }

@@ -7,7 +7,6 @@
 //
 
 import CoreData
-import Then
 
 class CoreDataSoup: ExternalSoup {
     let soupMetadata: CoreDataSoupMetadata
@@ -47,10 +46,10 @@ class CoreDataSoup: ExternalSoup {
                 .check(warningLogger, "Unable to fetch nonDirtySfIds: \(request)")
                 else { return [] }
             return dicts.compactMap {
-                let sfId = $0[moIdField.name] as? SfId
-                warningLogger.assert(sfId != nil,
-                                     "No sfId found when fetching nonDirtySfIds: \($0)")
-                return sfId
+                $0[moIdField.name]
+                    .check(warningLogger, "No sfId found when fetching nonDirtySfIds: \($0)")
+                    .checkType(warningLogger, "CoreDataSoup.nonDirtySfIds sfId extracting")
+                    as SfId?
             }
         }
     }
@@ -110,17 +109,13 @@ class CoreDataSoup: ExternalSoup {
             for entry in entries {
                 let matchingObjects: [NSManagedObject] = existingObjects.filter { object in
                     soupMetadata.uniqueFields.contains { field in
-                        let valueFromObject = field.value(from: object)
-                        let valueFromEntry = field.value(from: entry)
-                        if let valueFromObject = valueFromObject {
-                            warningLogger.assert(valueFromObject is NSObject,
-                                                 "Value from object cannot be converted to NSObject: \(field) returns \(valueFromObject) from \(object)")
-                        }
-                        if let valueFromEntry = valueFromEntry {
-                            warningLogger.assert(valueFromEntry is NSObject,
-                                                 "Value from entry cannot be converted to NSObject: \(field) returns \(valueFromEntry) from \(entry)")
-                        }
-                        return field.value(from: object) as? NSObject == field.value(from: entry) as? NSObject
+                        field.value(from: object)
+                            .checkType(warningLogger, "CoreDataSoup.upsert matchingObjects left")
+                            as NSObject?
+                            ==
+                            field.value(from: entry)
+                                .checkType(warningLogger, "CoreDataSoup.upsert matchingObjects left")
+                            as NSObject?
                     }
                 }
                 guard (matchingObjects.count <= 1)
@@ -128,11 +123,13 @@ class CoreDataSoup: ExternalSoup {
                     else { continue }
                 let targetObject: NSManagedObject = {
                     if let existing = matchingObjects.first {
-                        for field in soupMetadata.uniqueFields {
-                            if let existingValue = field.value(from: existing) as? NSObject,
-                                let newValue = field.value(from: entry) as? NSObject {
-                                warningLogger.assert(existingValue == newValue,
-                                                     "Unique value doesn't match for \(field): existingObject = \(existing), upsertedEntry = \(entry)")
+                        if warningLogger.isEnabled {
+                            for field in soupMetadata.uniqueFields {
+                                if let existingValue = field.value(from: existing) as? NSObject,
+                                    let newValue = field.value(from: entry) as? NSObject {
+                                    warningLogger.assert(existingValue == newValue,
+                                                         "Unique value doesn't match for \(field): existingObject = \(existing), upsertedEntry = \(entry)")
+                                }
                             }
                         }
                         return existing

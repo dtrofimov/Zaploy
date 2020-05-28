@@ -9,10 +9,9 @@
 import Foundation
 
 protocol WarningLogger {
-    func logWarning(_ message: @autoclosure () -> String, error: Error?)
+    var isEnabled: Bool { get }
 
-    // depending on the optimization, the condition is not guaranteed to be called in assert
-    func assert(_ condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String)
+    func logWarning(_ message: @autoclosure () -> String, error: Error?)
 }
 
 extension WarningLogger {
@@ -21,16 +20,10 @@ extension WarningLogger {
     }
 
     func assert(_ condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String) {
+        guard isEnabled else { return }
         if !condition() {
             logWarning(message())
         }
-    }
-
-    func checkType<T>(_ value: Any?, _ messagePrefix: String) -> T? {
-        if let value = value, !(value is T), !(value is NSNull) {
-            logWarning("\(messagePrefix). Unexpected value type: \(value) is \(type(of: value)) instead of \(T.self)")
-        }
-        return value as? T
     }
 }
 
@@ -52,6 +45,15 @@ extension Optional {
     }
 }
 
+extension Optional where Wrapped == Any {
+    func checkType<T>(_ warningLogger: WarningLogger, _ messagePrefix: @autoclosure () -> String) -> T? {
+        if let value = self, !(value is T), !(value is NSNull) {
+            warningLogger.logWarning("\(messagePrefix()). Unexpected value type: \(value) is \(type(of: value)) instead of \(T.self)")
+        }
+        return self as? T
+    }
+}
+
 extension Result {
     func check(_ warningLogger: WarningLogger, _ message: @autoclosure () -> String) -> Optional<Success> {
         switch self {
@@ -65,7 +67,10 @@ extension Result {
 }
 
 class ConsoleWarningLogger: WarningLogger {
+    var isEnabled = true
+
     func logWarning(_ message: @autoclosure () -> String, error: Error?) {
+        guard isEnabled else { return }
         var message = message()
         if !message.isEmpty, !message.hasSuffix(".") {
             message.append(".")

@@ -25,7 +25,8 @@ class SoupEntryIdMapper: EntryMapper {
     }
 
     func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject) {
-        if let soupEntryId = soupEntry.soupEntryId {
+        if warningLogger.isEnabled,
+            let soupEntryId = soupEntry.soupEntryId {
             guard let expectedManagedObjectId = (Result { try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
                 .check(warningLogger, "Unable to map soupEntryId \(soupEntryId) to \(managedObject)")
                 else { return }

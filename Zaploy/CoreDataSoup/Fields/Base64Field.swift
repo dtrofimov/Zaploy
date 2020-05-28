@@ -24,9 +24,11 @@ class Base64Field: EntryMapper, HavingMOField {
 
     func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry) {
         soupEntry[sfField.name] = {
-            if let url: String = warningLogger.checkType(managedObject.value(forKey: urlMoField.name), "Base64Field.url encoding") {
+            if let url: String = managedObject.value(forKey: urlMoField.name)
+                .checkType(warningLogger, "Base64Field.url encoding") {
                 return url
-            } else if let body: Data = warningLogger.checkType(managedObject.value(forKey: bodyMoField.name), "Base64Field.body encoding") {
+            } else if let body: Data = managedObject.value(forKey: bodyMoField.name)
+                .checkType(warningLogger, "Base64Field.body encoding") {
                 return body.base64EncodedString()
             } else {
                 return NSNull()
@@ -36,16 +38,19 @@ class Base64Field: EntryMapper, HavingMOField {
 
     func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject) {
         guard let soupEntryValue = soupEntry[sfField.name] else { return }
-        if let string: String = warningLogger.checkType(soupEntryValue, "Base64Field decoding") {
+        if let string: String = Optional(soupEntryValue)
+            .checkType(warningLogger, "Base64Field decoding") {
             if let body = Data(base64Encoded: string) {
-                let oldBody: Data? = warningLogger.checkType(managedObject.value(forKey: bodyMoField.name), "Base64Field.oldBody getting")
+                let oldBody: Data? = managedObject.value(forKey: bodyMoField.name)
+                    .checkType(warningLogger, "Base64Field.oldBody getting")
                 if body != oldBody {
                     managedObject.setValue(body, forKey: bodyMoField.name)
                     managedObject.setValue(nil, forKey: urlMoField.name)
                 }
             } else {
                 let url = string
-                let oldUrl: String? = warningLogger.checkType(managedObject.value(forKey: urlMoField.name), "Base64Field.oldUrl getting")
+                let oldUrl: String? = managedObject.value(forKey: urlMoField.name)
+                    .checkType(warningLogger, "Base64Field.oldUrl getting")
                 if url != oldUrl {
                     managedObject.setValue(nil, forKey: bodyMoField.name)
                     managedObject.setValue(url, forKey: urlMoField.name)

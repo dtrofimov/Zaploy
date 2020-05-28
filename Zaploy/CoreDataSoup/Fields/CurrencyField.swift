@@ -6,10 +6,6 @@
 //  Copyright © 2020 Dmitrii Trofimov. All rights reserved.
 //
 
-import Then
-
-extension Decimal: Then { }
-
 class CurrencyField: BaseField {
     let scale: Int
 
@@ -26,12 +22,16 @@ class CurrencyField: BaseField {
                                                                raiseOnDivideByZero: true)
 
     override func kvcValue(forSoupEntryValue soupEntryValue: Any) -> Any? {
-        guard let number: NSNumber = warningLogger.checkType(soupEntryValue, "CurrencyField decoding") else { return nil }
+        guard let number: NSNumber = Optional(soupEntryValue)
+            .checkType(warningLogger, "CurrencyField decoding")
+            else { return nil }
         return NSDecimalNumber(decimal: number.decimalValue).rounding(accordingToBehavior: roundingBehavior)
     }
 
     override func soupEntryValue(forKvcValue kvcValue: Any?) -> Any {
-        guard let decimalNumber: NSDecimalNumber = warningLogger.checkType(kvcValue, "CurrencyField encoding") else { return NSNull() }
+        guard let decimalNumber: NSDecimalNumber = kvcValue
+            .checkType(warningLogger, "CurrencyField encoding")
+            else { return NSNull() }
         return decimalNumber.rounding(accordingToBehavior: roundingBehavior)
     }
 }

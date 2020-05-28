@@ -149,10 +149,12 @@ class CoreDataSoupMetadataFactory {
                 guard let scale = sfField.scale else { return failure("Currency scale not found: \(moField), \(sfField.metadata)")}
                 return CurrencyField(moField: moField, sfField: sfField, warningLogger: warningLogger, scale: scale)
             case .id, .string:
-                let isIdType = sfField.type == .id
-                let isIdField = sfField.name == Keys.id
-                warningLogger.assert(isIdType == isIdField,
-                                     "Id type doesn't match with id field name: isIdType = \(isIdType), isIdField = \(isIdField), field = \(moField)")
+                if warningLogger.isEnabled {
+                    let isIdType = sfField.type == .id
+                    let isIdField = sfField.name == Keys.id
+                    warningLogger.assert(isIdType == isIdField,
+                                         "Id type doesn't match with id field name: isIdType = \(isIdType), isIdField = \(isIdField), field = \(moField)")
+                }
                 guard moFieldType == .stringAttributeType else { return incompatible() }
                 return StringField(moField: moField, sfField: sfField, warningLogger: warningLogger)
             case .boolean:

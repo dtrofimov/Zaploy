@@ -8,7 +8,6 @@
 
 import Foundation
 import MobileSync
-import Then
 import PseudoSmartStore
 import CoreData
 

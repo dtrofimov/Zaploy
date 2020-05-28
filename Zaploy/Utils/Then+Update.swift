@@ -8,7 +8,7 @@
 
 import Then
 
-extension Then where Self: Any {
+extension Then {
     public mutating func update(_ block: (inout Self) throws -> Void) rethrows {
         try block(&self)
     }
