@@ -25,7 +25,9 @@ class AttributesMapper: EntryMapper {
     }
 
     func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry) {
-        guard managedObject.entity == entity else { return warningLogger.logWarning("NSManagedObject has no entity to encode attributes: \(managedObject)") }
+        guard (managedObject.entity == entity)
+            .check(warningLogger, "NSManagedObject has no entity to encode attributes: \(managedObject)")
+            else { return }
         soupEntry[Keys.attributes] = (soupEntry[Keys.attributes] as? [AnyHashable: Any] ?? [:]).with {
             $0[Keys.type] = entitySfName
         }
@@ -34,7 +36,8 @@ class AttributesMapper: EntryMapper {
     func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject) {
         if let attributes: [AnyHashable: Any] = warningLogger.checkType(soupEntry[Keys.attributes], "AttributesMapper attributes decoding"),
             let entitySfName: String = warningLogger.checkType(attributes[Keys.type], "AttributesMapper type decoding") {
-            warningLogger.assert(entitySfName == self.entitySfName, "Wrong entity when mapping attributes from \(soupEntry) to \(managedObject)")
+            warningLogger.assert(entitySfName == self.entitySfName,
+                                 "Wrong entity when mapping attributes from \(soupEntry) to \(managedObject)")
         }
     }
 }

@@ -36,9 +36,8 @@ class CoreDataSoupMetadataFactory {
     }
 
     lazy var sfFieldsForNames: [String: SFField] = (sfMetadata.fields ?? []).reduce(into: [:]) { result, fieldDict in
-        guard let sfField = warningLogger.handle({
-            try SFField(metadata: fieldDict)
-        }, "Cannot create field metadata: \(fieldDict)")
+        guard let sfField = (Result { try SFField(metadata: fieldDict) })
+            .check(warningLogger, "Cannot create field metadata: \(fieldDict)")
             else { return }
         result[sfField.name] = sfField
     }
@@ -133,10 +132,7 @@ class CoreDataSoupMetadataFactory {
                 return syncIdMapper
             }
 
-            guard let sfField = sfField else {
-                warningLogger.logWarning("SF metadata not found for field \(moField)")
-                return nil
-            }
+            guard let sfField = sfField else { return failure("SF metadata not found for field \(moField)") }
 
             switch sfField.type {
             case .anyType:
@@ -155,9 +151,8 @@ class CoreDataSoupMetadataFactory {
             case .id, .string:
                 let isIdType = sfField.type == .id
                 let isIdField = sfField.name == Keys.id
-                if isIdType != isIdField {
-                    warningLogger.logWarning("Id type doesn't match with id field name: isIdType = \(isIdType), isIdField = \(isIdField), field = \(moField)")
-                }
+                warningLogger.assert(isIdType == isIdField,
+                                     "Id type doesn't match with id field name: isIdType = \(isIdType), isIdField = \(isIdField), field = \(moField)")
                 guard moFieldType == .stringAttributeType else { return incompatible() }
                 return StringField(moField: moField, sfField: sfField, warningLogger: warningLogger)
             case .boolean:
@@ -182,8 +177,7 @@ class CoreDataSoupMetadataFactory {
             // TODO
             return incompatible()
         } else {
-            warningLogger.logWarning("Unknown CoreData field type: \(moField)")
-            return nil
+            return failure("Unknown CoreData field type: \(moField)")
         }
     }
 
@@ -192,10 +186,9 @@ class CoreDataSoupMetadataFactory {
     }
 
     open func resolveAttributesMapper() -> EntryMapper? {
-        guard let sfName = entity.sfName else {
-            warningLogger.logWarning("Entity sfName not found")
-            return nil
-        }
+        guard let sfName = entity.sfName
+            .check(warningLogger, "Entity sfName not found")
+            else { return nil }
         return AttributesMapper(entity: entity, entitySfName: sfName, warningLogger: warningLogger)
     }
 }

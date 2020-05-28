@@ -18,18 +18,19 @@ class SoupEntryIdMapper: EntryMapper {
     }
 
     func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry) {
-        guard let soupEntryId = warningLogger.handle({ try soupEntryIdConverter.soupEntryId(managedObjectId: managedObject.objectID) },
-                                                     "Unable to export soupEntryId from \(managedObject)")
+        guard let soupEntryId = (Result { try soupEntryIdConverter.soupEntryId(managedObjectId: managedObject.objectID) })
+            .check(warningLogger, "Unable to export soupEntryId from \(managedObject)")
             else { return }
         soupEntry.soupEntryId = soupEntryId
     }
 
     func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject) {
         if let soupEntryId = soupEntry.soupEntryId {
-            guard let expectedManagedObjectId = warningLogger.handle({ try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) },
-                                                                     "Unable to map soupEntryId \(soupEntryId) to \(managedObject)")
+            guard let expectedManagedObjectId = (Result { try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
+                .check(warningLogger, "Unable to map soupEntryId \(soupEntryId) to \(managedObject)")
                 else { return }
-            warningLogger.assert(expectedManagedObjectId == managedObject.objectID, "Wrong soupEntryId \(soupEntryId) mapped to \(managedObject)")
+            warningLogger.assert(expectedManagedObjectId == managedObject.objectID,
+                                 "Wrong soupEntryId \(soupEntryId) mapped to \(managedObject)")
         }
     }
 }
@@ -42,8 +43,8 @@ extension SoupEntryIdMapper: FetchableField {
 
     func value(from soupEntry: SoupEntry) -> Any? {
         guard let soupEntryId = soupEntry.soupEntryId else { return nil }
-        return warningLogger.handle({ try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) },
-                                    "Unable to convert soupEntryId value from a soupEntry: \(soupEntryId)")
+        return (Result { try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
+            .check(warningLogger, "Unable to convert soupEntryId value from a soupEntry: \(soupEntryId)")
     }
 
     func value(from managedObject: NSManagedObject) -> Any? {

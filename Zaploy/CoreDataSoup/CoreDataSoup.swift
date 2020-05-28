@@ -43,12 +43,13 @@ class CoreDataSoup: ExternalSoup {
             }
             let moIdField = soupMetadata.sfIdField.moField
             request.propertiesToFetch = [moIdField]
-            guard let dicts = warningLogger.handle({ try context.fetch(request) },
-                                                   "Unable to fetch nonDirtySfIds: \(request)")
+            guard let dicts = (Result { try context.fetch(request) })
+                .check(warningLogger, "Unable to fetch nonDirtySfIds: \(request)")
                 else { return [] }
             return dicts.compactMap {
                 let sfId = $0[moIdField.name] as? SfId
-                warningLogger.assert(sfId != nil, "No sfId found when fetching nonDirtySfIds: \($0)")
+                warningLogger.assert(sfId != nil,
+                                     "No sfId found when fetching nonDirtySfIds: \($0)")
                 return sfId
             }
         }
@@ -64,24 +65,23 @@ class CoreDataSoup: ExternalSoup {
             let request = NSFetchRequest<NSManagedObject>()
             request.entity = soupMetadata.entity
             let managedObjectIds: [NSManagedObjectID] = soupEntryIds.compactMap { soupEntryId in
-                guard let managedObjectId = warningLogger.handle({ try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) },
-                                                                 "Unable to build managedObjectId from soupEntryId \(soupEntryId)")
+                guard let managedObjectId = (Result { try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
+                    .check(warningLogger, "Unable to build managedObjectId from soupEntryId \(soupEntryId)")
                     else { return nil }
                 return managedObjectId
             }
             request.predicate = soupMetadata.soupEntryIdField.predicateByValues(managedObjectIds)
             request.returnsObjectsAsFaults = false
-            guard let fetchedObjects = warningLogger.handle({ try context.fetch(request) },
-                                                            "Unable to fetch entries for soupEntryIds: \(request)")
+            guard let fetchedObjects = (Result { try context.fetch(request) })
+                .check(warningLogger, "Unable to fetch entries for soupEntryIds: \(request)")
                 else { return [] }
             let objectsForManagedObjectIds: [NSManagedObjectID: NSManagedObject] = fetchedObjects.reduce(into: [:]) {
                 $0[$1.objectID] = $1
             }
             return managedObjectIds.compactMap {
-                guard let object = objectsForManagedObjectIds[$0] else {
-                    warningLogger.logWarning("Entry not found for managedObjectId \($0)")
-                    return nil
-                }
+                guard let object = objectsForManagedObjectIds[$0]
+                    .check(warningLogger, "Entry not found for managedObjectId \($0)")
+                    else { return nil }
                 return SoupEntry().with {
                     soupMapper.map(from: object, to: &$0)
                 }
@@ -102,8 +102,8 @@ class CoreDataSoup: ExternalSoup {
                 request.entity = soupMetadata.entity
                 request.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
                 request.returnsObjectsAsFaults = false
-                guard let objects = warningLogger.handle({ try context.fetch(request) },
-                                                         "Cannot fetch by ids: \(request)")
+                guard let objects = (Result { try context.fetch(request) })
+                    .check(warningLogger, "Cannot fetch by ids: \(request)")
                     else { return [] }
                 return objects
             }()
@@ -112,40 +112,40 @@ class CoreDataSoup: ExternalSoup {
                     soupMetadata.uniqueFields.contains { field in
                         let valueFromObject = field.value(from: object)
                         let valueFromEntry = field.value(from: entry)
-                        if let valueFromObject = valueFromObject, !(valueFromObject is NSObject) {
-                            warningLogger.logWarning("Value cannot be mapped to NSObject: \(field) returns \(valueFromObject) from \(object)")
+                        if let valueFromObject = valueFromObject {
+                            warningLogger.assert(valueFromObject is NSObject,
+                                                 "Value from object cannot be converted to NSObject: \(field) returns \(valueFromObject) from \(object)")
                         }
-                        if let valueFromEntry = valueFromEntry, !(valueFromEntry is NSObject) {
-                            warningLogger.logWarning("Value cannot be mapped to NSObject: \(field) returns \(valueFromEntry) from \(entry)")
+                        if let valueFromEntry = valueFromEntry {
+                            warningLogger.assert(valueFromEntry is NSObject,
+                                                 "Value from entry cannot be converted to NSObject: \(field) returns \(valueFromEntry) from \(entry)")
                         }
                         return field.value(from: object) as? NSObject == field.value(from: entry) as? NSObject
                     }
                 }
-                guard matchingObjects.count <= 1 else {
-                    warningLogger.logWarning("Multiple matching objects found for \(entry): \(matchingObjects)")
-                    continue
-                }
+                guard (matchingObjects.count <= 1)
+                    .check(warningLogger, "Multiple matching objects found for \(entry): \(matchingObjects)")
+                    else { continue }
                 let targetObject: NSManagedObject = {
                     if let existing = matchingObjects.first {
                         for field in soupMetadata.uniqueFields {
                             if let existingValue = field.value(from: existing) as? NSObject,
-                                let newValue = field.value(from: entry) as? NSObject,
-                                existingValue != newValue {
-                                warningLogger.logWarning("Unique value doesn't match for \(field): existingObject = \(existing), upsertedEntry = \(entry)")
+                                let newValue = field.value(from: entry) as? NSObject {
+                                warningLogger.assert(existingValue == newValue,
+                                                     "Unique value doesn't match for \(field): existingObject = \(existing), upsertedEntry = \(entry)")
                             }
                         }
                         return existing
                     } else {
-                        if soupMetadata.soupEntryIdField.value(from: entry) != nil {
-                            warningLogger.logWarning("Object not found by soupEntryId while upserting \(entry)")
-                        }
+                        warningLogger.assert(soupMetadata.soupEntryIdField.value(from: entry) == nil,
+                                             "Object not found by soupEntryId while upserting \(entry)")
                         return NSManagedObject(entity: soupMetadata.entity, insertInto: context)
                     }
                 }()
                 soupMapper.map(from: entry, to: targetObject)
             }
-            warningLogger.handle({ try context.save() },
-                                 "Unable to save a context after upserting")
+            (Result { try context.save() })
+                .check(warningLogger, "Unable to save a context after upserting")
         }
     }
 
@@ -154,19 +154,19 @@ class CoreDataSoup: ExternalSoup {
             let request = NSFetchRequest<NSManagedObject>()
             request.entity = soupMetadata.entity
             let managedObjectIds = soupEntryIds.compactMap { soupEntryId in
-                warningLogger.handle({ try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) },
-                                     "Cannot get managedObjectId from soupEntryId \(soupEntryId)")
+                (Result { try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
+                    .check(warningLogger, "Cannot get managedObjectId from soupEntryId \(soupEntryId)")
             }
             request.predicate = soupMetadata.soupEntryIdField.predicateByValues(managedObjectIds)
             request.includesPropertyValues = false
-            guard let objects = warningLogger.handle({ try context.fetch(request) },
-                                                     "Cannot fetch objects to remove by soupEntryIds: \(request)")
+            guard let objects = (Result { try context.fetch(request) })
+                .check(warningLogger, "Cannot fetch objects to remove by soupEntryIds: \(request)")
                 else { return }
             for object in objects {
                 context.delete(object)
             }
-            warningLogger.handle({ try context.save() },
-                                 "Unable to save a context after removing by soupEntryIds")
+            (Result { try context.save() })
+                .check(warningLogger, "Unable to save a context after removing by soupEntryIds")
         }
     }
 
@@ -176,14 +176,14 @@ class CoreDataSoup: ExternalSoup {
             request.entity = soupMetadata.entity
             request.predicate = soupMetadata.sfIdField.predicateByValues(sfIds)
             request.includesPropertyValues = false
-            guard let objects = warningLogger.handle({ try context.fetch(request) },
-                                                     "Cannot fetch objects to remove by sfIds: \(request)")
+            guard let objects = (Result { try context.fetch(request) })
+                .check(warningLogger, "Cannot fetch objects to remove by sfIds: \(request)")
                 else { return }
             for object in objects {
                 context.delete(object)
             }
-            warningLogger.handle({ try context.save() },
-                                 "Unable to save a context after removing by sfIds")
+            (Result { try context.save() })
+                .check(warningLogger, "Unable to save a context after removing by sfIds")
         }
     }
 }

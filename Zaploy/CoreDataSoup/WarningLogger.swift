@@ -11,6 +11,7 @@ import Foundation
 protocol WarningLogger {
     func logWarning(_ message: @autoclosure () -> String, error: Error?)
 
+    // depending on the optimization, the condition is not guaranteed to be called in assert
     func assert(_ condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String)
 }
 
@@ -19,19 +20,9 @@ extension WarningLogger {
         logWarning(message(), error: nil)
     }
 
-    func assert(_ expression: @autoclosure () -> Bool, _ message: @autoclosure () -> String) {
-        if !expression() {
+    func assert(_ condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String) {
+        if !condition() {
             logWarning(message())
-        }
-    }
-
-    // we cannot use autoclosure for expression because of https://bugs.swift.org/browse/SR-487
-    func handle<T>(_ expression: () throws -> T, _ message: @autoclosure () -> String) -> T? {
-        do {
-            return try expression()
-        } catch {
-            logWarning(message(), error: error)
-            return nil
         }
     }
 
@@ -40,6 +31,36 @@ extension WarningLogger {
             logWarning("\(messagePrefix). Unexpected value type: \(value) is \(type(of: value)) instead of \(T.self)")
         }
         return value as? T
+    }
+}
+
+extension Bool {
+    func check(_ warningLogger: WarningLogger, _ message: @autoclosure () -> String) -> Bool {
+        if !self {
+            warningLogger.logWarning(message())
+        }
+        return self
+    }
+}
+
+extension Optional {
+    func check(_ warningLogger: WarningLogger, _ message: @autoclosure () -> String) -> Optional {
+        if self == nil {
+            warningLogger.logWarning(message())
+        }
+        return self
+    }
+}
+
+extension Result {
+    func check(_ warningLogger: WarningLogger, _ message: @autoclosure () -> String) -> Optional<Success> {
+        switch self {
+        case let .success(success):
+            return success
+        case let .failure(error):
+            warningLogger.logWarning(message(), error: error)
+            return nil
+        }
     }
 }
 
