@@ -73,8 +73,12 @@
 		28D0C4BE2456DB74005529E2 /* AppScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0C4BD2456DB74005529E2 /* AppScreenView.swift */; };
 		28D0C4C42459D0FC005529E2 /* UserContextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0C4C32459D0FC005529E2 /* UserContextManager.swift */; };
 		28D0C4C72459DE6E005529E2 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0C4C62459DE6E005529E2 /* CoreDataStack.swift */; };
+		28DBED00247E8BF5002FE90C /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DBECFF247E8BF5002FE90C /* Relationship.swift */; };
+		28DBED02247E9237002FE90C /* CoreDataSoupRelationshipResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DBED01247E9237002FE90C /* CoreDataSoupRelationshipResolver.swift */; };
 		28DBED04247FE0E8002FE90C /* ThenTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DBED03247FE0E8002FE90C /* ThenTypes.swift */; };
 		28DBED06247FF226002FE90C /* AppDelegate+WindowPatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DBED05247FF226002FE90C /* AppDelegate+WindowPatch.swift */; };
+		28DBED0A24800859002FE90C /* ChildRelationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DBED0924800859002FE90C /* ChildRelationship.swift */; };
+		28DBED0E24811B56002FE90C /* MultiTaskTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DBED0D24811B56002FE90C /* MultiTaskTracker.swift */; };
 		902F10E86C78C3FCB2F1A34F /* Pods_Zaploy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2978527E0375EDFF1938411 /* Pods_Zaploy.framework */; };
 		FECB8A347424CBA610CF5086 /* Pods_PseudoSmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B9E36017328E4A16D8ECCB /* Pods_PseudoSmartStore.framework */; };
 /* End PBXBuildFile section */
@@ -174,8 +178,12 @@
 		28D0C4BD2456DB74005529E2 /* AppScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppScreenView.swift; sourceTree = "<group>"; };
 		28D0C4C32459D0FC005529E2 /* UserContextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContextManager.swift; sourceTree = "<group>"; };
 		28D0C4C62459DE6E005529E2 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		28DBECFF247E8BF5002FE90C /* Relationship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Relationship.swift; sourceTree = "<group>"; };
+		28DBED01247E9237002FE90C /* CoreDataSoupRelationshipResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSoupRelationshipResolver.swift; sourceTree = "<group>"; };
 		28DBED03247FE0E8002FE90C /* ThenTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThenTypes.swift; sourceTree = "<group>"; };
 		28DBED05247FF226002FE90C /* AppDelegate+WindowPatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+WindowPatch.swift"; sourceTree = "<group>"; };
+		28DBED0924800859002FE90C /* ChildRelationship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildRelationship.swift; sourceTree = "<group>"; };
+		28DBED0D24811B56002FE90C /* MultiTaskTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiTaskTracker.swift; sourceTree = "<group>"; };
 		6C4A97C3C1F76AD8FFA9F39F /* Pods-PseudoSmartStore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PseudoSmartStore.release.xcconfig"; path = "Target Support Files/Pods-PseudoSmartStore/Pods-PseudoSmartStore.release.xcconfig"; sourceTree = "<group>"; };
 		73B9E36017328E4A16D8ECCB /* Pods_PseudoSmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PseudoSmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		87DCBC6CD4ECE74F6D7FDFAE /* Pods-Zaploy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zaploy.debug.xcconfig"; path = "Target Support Files/Pods-Zaploy/Pods-Zaploy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -316,6 +324,7 @@
 				283DC3D02472A7F000DAFF60 /* Optional+Description.swift */,
 				28C0D340247B9A4200AD2FE3 /* KVCProperty.swift */,
 				28DBED05247FF226002FE90C /* AppDelegate+WindowPatch.swift */,
+				28DBED0D24811B56002FE90C /* MultiTaskTracker.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -383,6 +392,7 @@
 				286BD4352474081700162533 /* CoreDataSoupMetadata.swift */,
 				2879495D2462D6A6003C1C8E /* CoreDataSoupMetadataFactory.swift */,
 				28610F17246EB63C0077F316 /* CoreDataSoupAccessor.swift */,
+				28DBED01247E9237002FE90C /* CoreDataSoupRelationshipResolver.swift */,
 				2879497024653FF6003C1C8E /* SFField.swift */,
 				2879496B24653D23003C1C8E /* Fields */,
 				287949652464299D003C1C8E /* SoupEntryIdConverter.swift */,
@@ -403,6 +413,8 @@
 				28251CF6246C01F10083A97A /* BoolField.swift */,
 				284DEC232476A8BA0071F32C /* Base64Field.swift */,
 				284DEC252476DB390071F32C /* CurrencyField.swift */,
+				28DBECFF247E8BF5002FE90C /* Relationship.swift */,
+				28DBED0924800859002FE90C /* ChildRelationship.swift */,
 				28278A75247556F2003597A0 /* Auxiliary */,
 			);
 			path = Fields;
@@ -671,6 +683,7 @@
 				28251CF9246C1D520083A97A /* WarningLogger.swift in Sources */,
 				2879496824644374003C1C8E /* CoreDataSoup.swift in Sources */,
 				283DC3C02472860B00DAFF60 /* ManagedObjectType.swift in Sources */,
+				28DBED0A24800859002FE90C /* ChildRelationship.swift in Sources */,
 				283DC3D12472A7F000DAFF60 /* Optional+Description.swift in Sources */,
 				28794975246552BE003C1C8E /* SoupEntryIdMapper.swift in Sources */,
 				28D0C4B624534414005529E2 /* LoginView.swift in Sources */,
@@ -693,12 +706,14 @@
 				287949662464299D003C1C8E /* SoupEntryIdConverter.swift in Sources */,
 				2879495B245AFB40003C1C8E /* ManagedLead.swift in Sources */,
 				28AF501F244ED43A00E6EB83 /* LeadDetailsView.swift in Sources */,
+				28DBED00247E8BF5002FE90C /* Relationship.swift in Sources */,
 				28794943245AAD0C003C1C8E /* Optional+ForceUnwrap.swift in Sources */,
 				28DBED04247FE0E8002FE90C /* ThenTypes.swift in Sources */,
 				28B8A7B52452211400FAE3A4 /* ObservableModel.swift in Sources */,
 				28610F18246EB63C0077F316 /* CoreDataSoupAccessor.swift in Sources */,
 				28097D6C243DC41400F97916 /* Spinner.swift in Sources */,
 				284DEC262476DB390071F32C /* CurrencyField.swift in Sources */,
+				28DBED0E24811B56002FE90C /* MultiTaskTracker.swift in Sources */,
 				28D0C4C42459D0FC005529E2 /* UserContextManager.swift in Sources */,
 				28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */,
 				28794952245AF983003C1C8E /* HavingName.swift in Sources */,
@@ -710,6 +725,7 @@
 				287949602462D878003C1C8E /* MetadataSyncManager+LoadFromCache.swift in Sources */,
 				2879496D24653D78003C1C8E /* FieldProtocols.swift in Sources */,
 				28097D49243D281F00F97916 /* SceneDelegate.swift in Sources */,
+				28DBED02247E9237002FE90C /* CoreDataSoupRelationshipResolver.swift in Sources */,
 				28B8A7B72452245A00FAE3A4 /* AppScreen.swift in Sources */,
 				28794950245AF92F003C1C8E /* User.swift in Sources */,
 				28794977246581B0003C1C8E /* NumberField.swift in Sources */,
