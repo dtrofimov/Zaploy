@@ -21,9 +21,8 @@ class SyncDownPlayground: ObservableObject {
     let userAccount: UserAccount
     let syncManager: SyncManager
     let metadataSyncManager: MetadataSyncManager
-    let layoutSyncManager: LayoutSyncManager
 
-    init(syncDownName: String, syncUpName: String, soupName: String, entity: NSEntityDescription, context: NSManagedObjectContext, loginManager: LoginManager, userAccount: UserAccount, syncManager: SyncManager, metadataSyncManager: MetadataSyncManager, layoutSyncManager: LayoutSyncManager) {
+    init(syncDownName: String, syncUpName: String, soupName: String, entity: NSEntityDescription, context: NSManagedObjectContext, loginManager: LoginManager, userAccount: UserAccount, syncManager: SyncManager, metadataSyncManager: MetadataSyncManager) {
         self.syncDownName = syncDownName
         self.syncUpName = syncUpName
         self.soupName = soupName
@@ -33,7 +32,6 @@ class SyncDownPlayground: ObservableObject {
         self.userAccount = userAccount
         self.syncManager = syncManager
         self.metadataSyncManager = metadataSyncManager
-        self.layoutSyncManager = layoutSyncManager
     }
 
     func logout() {
@@ -87,7 +85,7 @@ class SyncDownPlayground: ObservableObject {
 
     func syncDown() {
         syncManager.deleteSync(forName: syncDownName)
-        try! syncManager.syncDown(target: SoqlSyncDownTarget.newSyncTarget("select Id, FirstName, LastName, Company, SomeBool__c, SomeCurrency__c from Lead"),
+        try! syncManager.syncDown(target: SoqlSyncDownTarget.newSyncTarget("select Id, FirstName, LastName, Company, SomeBool__c, SomeCurrency__c, CreatedBy.Id, CreatedBy.FirstName, CreatedBy.LastName, CreatedBy.Username from Lead"),
                                   options: SyncOptions.newSyncOptions(forSyncDown: .overwrite),
                                   soupName: soupName,
                                   syncName: syncDownName) { [weak self] syncState in
@@ -156,27 +154,6 @@ class SyncDownPlayground: ObservableObject {
 //            $0["__locally_updated__"] = NSNumber(value: true)
 //        }
 //        refreshOnMainThread()
-    }
-
-    func syncDownMetadata() {
-        metadataSyncManager.fetchMetadata(forObject: "Lead", mode: .serverFirst) { [weak self] metadata in
-            self?.refreshOnMainThread()
-        }
-        refreshOnMainThread()
-    }
-
-    func loadMetadataFromCache() {
-        metadataSyncManager.fetchMetadata(forObject: "Lead", mode: .cacheOnly) { [weak self] metadata in
-            self?.refreshOnMainThread()
-        }
-        refreshOnMainThread()
-    }
-
-    func syncDownLayout() {
-        layoutSyncManager.fetchLayout(forObject: "Lead", layoutType: nil, mode: .serverFirst) { [weak self] string, layout in
-            self?.refreshOnMainThread()
-        }
-        refreshOnMainThread()
     }
 
     var leads: [Lead] {

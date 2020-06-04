@@ -36,16 +36,16 @@
                 <entry key="sfName" value="__sync_id__"/>
             </userInfo>
         </attribute>
+        <relationship name="managedCreatedBy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="createdUsers" inverseEntity="User">
+            <userInfo>
+                <entry key="sfName" value="CreatedById"/>
+            </userInfo>
+        </relationship>
         <userInfo>
             <entry key="sfName" value="Lead"/>
         </userInfo>
     </entity>
     <entity name="User" representedClassName=".ManagedUser" syncable="YES">
-        <attribute name="company" optional="YES" attributeType="String">
-            <userInfo>
-                <entry key="sfName" value="Company"/>
-            </userInfo>
-        </attribute>
         <attribute name="firstName" optional="YES" attributeType="String">
             <userInfo>
                 <entry key="sfName" value="FirstName"/>
@@ -71,12 +71,13 @@
                 <entry key="sfName" value="Username"/>
             </userInfo>
         </attribute>
+        <relationship name="createdUsers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Lead" inverseName="managedCreatedBy" inverseEntity="Lead"/>
         <userInfo>
             <entry key="sfName" value="User"/>
         </userInfo>
     </entity>
     <elements>
-        <element name="Lead" positionX="-63" positionY="-18" width="128" height="148"/>
+        <element name="Lead" positionX="-63" positionY="-18" width="128" height="163"/>
         <element name="User" positionX="-63" positionY="18" width="128" height="133"/>
     </elements>
 </model>

@@ -16,7 +16,7 @@ protocol CoreDataSoupRelationshipContext {
     func metadata(entity: NSEntityDescription) -> CoreDataSoupMetadata?
 }
 
-class CoreDataRelationshipContextImpl: CoreDataSoupRelationshipContext {
+class CoreDataSoupRelationshipContextImpl: CoreDataSoupRelationshipContext {
     let upsertQueue: CoreDataSoupEntryUpsertQueue
     init(upsertQueue: CoreDataSoupEntryUpsertQueue) {
         self.upsertQueue = upsertQueue

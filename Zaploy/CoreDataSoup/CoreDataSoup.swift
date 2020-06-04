@@ -105,9 +105,17 @@ class CoreDataSoup: ExternalSoup, CoreDataSoupEntryUpserter {
         let predicates: [NSPredicate] = soupMetadata.uniqueFields.compactMap { field in
             let values = entries.compactMap { field.value(from: $0) }
             guard !values.isEmpty else { return nil }
-            return field.predicateByValues(values)
+
+            // remove duplicates
+            var passedValuesAsObjects = Set<NSObject>()
+            let uniqueValues = values.filter { value in
+                guard let object = value as? NSObject else { return true }
+                let (wasNew, _) = passedValuesAsObjects.insert(object)
+                return wasNew
+            }
+            return field.predicateByValues(uniqueValues)
         }
-        let existingObjects: [NSManagedObject] = {
+        var existingObjects: [NSManagedObject] = {
             guard !predicates.isEmpty else { return [] }
             let request = NSFetchRequest<NSManagedObject>()
             request.entity = soupMetadata.entity
@@ -151,7 +159,9 @@ class CoreDataSoup: ExternalSoup, CoreDataSoupEntryUpserter {
                 } else {
                     warningLogger.assert(soupMetadata.soupEntryIdField.value(from: entry) == nil,
                                          "Object not found by soupEntryId while upserting \(entry)")
-                    return NSManagedObject(entity: soupMetadata.entity, insertInto: context)
+                    return NSManagedObject(entity: soupMetadata.entity, insertInto: context).then {
+                        existingObjects.append($0)
+                    }
                 }
             }()
             soupMetadata.soupMapper.map(from: entry, to: targetObject, in: relationshipContext)

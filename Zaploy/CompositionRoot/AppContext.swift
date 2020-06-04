@@ -31,7 +31,7 @@ class AppUserContext {
 
     static let syncDownName = "syncDownName"
     static let syncUpName = "syncUpName"
-    static let soupName = "someSoupName"
+    static let leadsSoupName = "Lead"
     lazy var smartStore = SmartStore.shared(withName: SmartStore.defaultStoreName, forUserAccount: userAccount)
         .forceUnwrap("Cannot resolve shared SmartStore")
     lazy var pseudoSmartStore = PseudoSmartStore(smartStore: smartStore)
@@ -39,7 +39,6 @@ class AppUserContext {
     lazy var syncManager = SyncManager.sharedInstance(store: replacedSmartStore)
         .forceUnwrap("Cannot resolve shared SyncManager")
     lazy var metadataSyncManager = MetadataSyncManager.sharedInstance(userAccount, smartStore: replacedSmartStore.name)
-    lazy var layoutSyncManager = LayoutSyncManager.sharedInstance(userAccount, smartStore: replacedSmartStore.name)
 
     // MARK: Core Data
 
@@ -47,60 +46,48 @@ class AppUserContext {
         URL(fileURLWithPath: smartStore.path.forceUnwrap("SmartStore has no path"))
             .deletingLastPathComponent()
             .appendingPathComponent("coreDataStore.sqlite")
-    var coreDataStack: CoreDataStack!
-    let entityName = "Lead"
-    lazy var entity = coreDataStack.model.entitiesByName[entityName]
-        .forceUnwrap("Lead entity not found")
-    var sfMetadata: Metadata!
-    lazy var soupEntryIdConverter = SoupEntryIdConverterImpl(persistentStore: coreDataStack.store,
-                                                             entityName: entityName)
-        .forceUnwrap("Unable to create SoupEntryIdConverter")
-    lazy var warningLogger = ConsoleWarningLogger()
-    lazy var soupMetadata = CoreDataSoupMetadataFactory(entity: entity,
-                                                        sfMetadata: sfMetadata,
-                                                        soupEntryIdConverter: soupEntryIdConverter,
-                                                        warningLogger: warningLogger)
-        .metadata
-        .forceUnwrap("Cannot resolve CoreDataSoupMetadataFactory output")
+    var coreDataStack: CoreDataStack! // assigned asynchronously
+
+    // MARK: CoreDataSoupPool
+
     lazy var soupAccessor = PersistentContainerCoreDataSoupAccessor(persistentContainer: coreDataStack.persistentContainer)
-    lazy var upsertQueue = CoreDataSoupEntryUpsertQueueImpl(warningLogger: warningLogger)
-    lazy var relationshipContext = CoreDataRelationshipContextImpl(upsertQueue: upsertQueue)
-    lazy var externalSoup = CoreDataSoup(soupMetadata: soupMetadata,
-                                         soupEntryIdConverter: soupEntryIdConverter,
-                                         soupAccessor: soupAccessor,
-                                         relationshipContextResolver: { [weak self] _ in self?.relationshipContext },
-                                         warningLogger: warningLogger)
-        .then {
-            relationshipContext.register(metadata: soupMetadata, upserter: $0)
-    }
+    lazy var warningLogger = ConsoleWarningLogger()
+    lazy var soupPoolFactory = CoreDataSoupPoolFactory(model: coreDataStack.model,
+                                                       persistentStore: coreDataStack.store,
+                                                       pseudoSmartStore: pseudoSmartStore,
+                                                       metadataSyncManager: metadataSyncManager,
+                                                       soupAccessor: soupAccessor,
+                                                       warningLogger: warningLogger)
+    var soupPool: CoreDataSoupPoolFactory.Output!
+
+    // MARK: Leads entity
+
+    let leadsEntityName = "Lead"
+    lazy var leadsEntity = coreDataStack.model.entitiesByName[leadsEntityName]
+        .forceUnwrap("Lead entity not found")
 
     static func make(appContext: AppContext, userAccount: UserAccount, completion: @escaping (AppUserContext) -> Void) {
         let result = AppUserContext(appContext: appContext, userAccount: userAccount)
         _ = result.syncManager
         CoreDataStack.make(url: result.coreDataUrl) {
             result.coreDataStack = $0
-            result.metadataSyncManager.fetchMetadata(forObject: "Lead", mode: .cacheFirst) {
-                result.sfMetadata = $0.forceUnwrap("Cannot load SF metadata")
-                DispatchQueue.main.async {
-                    Result {
-                        try result.pseudoSmartStore.addExternalSoup(result.externalSoup, name: soupName)
-                    }.forceUnwrap("Unable to add an external soup")
-                    completion(result)
-                }
+            result.soupPoolFactory.make { soupPoolResult in
+                result.soupPool = soupPoolResult
+                    .forceUnwrap("Cannot make soup pool")
+                completion(result)
             }
         }
     }
 
     lazy var playground = SyncDownPlayground(syncDownName: Self.syncDownName,
                                              syncUpName: Self.syncUpName,
-                                             soupName: Self.soupName,
-                                             entity: entity,
+                                             soupName: Self.leadsSoupName,
+                                             entity: leadsEntity,
                                              context: coreDataStack.persistentContainer.viewContext,
                                              loginManager: appContext.loginManager,
                                              userAccount: userAccount,
                                              syncManager: syncManager,
-                                             metadataSyncManager: metadataSyncManager,
-                                             layoutSyncManager: layoutSyncManager)
+                                             metadataSyncManager: metadataSyncManager)
 
 
 }

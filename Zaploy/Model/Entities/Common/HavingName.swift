@@ -11,5 +11,4 @@ import Foundation
 protocol HavingName {
     var firstName: String? { get }
     var lastName: String { get }
-    var company: String { get }
 }

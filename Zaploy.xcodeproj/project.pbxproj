@@ -24,7 +24,6 @@
 		283DC3CD247297F900DAFF60 /* Result+ForceUnwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283DC3CC247297F900DAFF60 /* Result+ForceUnwrap.swift */; };
 		283DC3CF2472A61300DAFF60 /* HavingId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283DC3CE2472A61300DAFF60 /* HavingId.swift */; };
 		283DC3D12472A7F000DAFF60 /* Optional+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283DC3D02472A7F000DAFF60 /* Optional+Description.swift */; };
-		2840BC502447187400C2E896 /* DemoExternalSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */; };
 		284DEC242476A8BA0071F32C /* Base64Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284DEC232476A8BA0071F32C /* Base64Field.swift */; };
 		284DEC262476DB390071F32C /* CurrencyField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284DEC252476DB390071F32C /* CurrencyField.swift */; };
 		28610F18246EB63C0077F316 /* CoreDataSoupAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28610F17246EB63C0077F316 /* CoreDataSoupAccessor.swift */; };
@@ -32,6 +31,7 @@
 		286536802484EA1E0063DF83 /* Array+RemoveAndReturn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2865367F2484EA1E0063DF83 /* Array+RemoveAndReturn.swift */; };
 		286536822485130B0063DF83 /* SFChildRelationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286536812485130B0063DF83 /* SFChildRelationship.swift */; };
 		28653684248634980063DF83 /* CoreDataSoupRelationshipContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28653683248634980063DF83 /* CoreDataSoupRelationshipContext.swift */; };
+		2865368C248908650063DF83 /* CoreDataSoupPoolFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2865368B248908650063DF83 /* CoreDataSoupPoolFactory.swift */; };
 		286BD4322473DDA400162533 /* CompoundEntryMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286BD4312473DDA400162533 /* CompoundEntryMapper.swift */; };
 		286BD4362474081700162533 /* CoreDataSoupMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286BD4352474081700162533 /* CoreDataSoupMetadata.swift */; };
 		28794943245AAD0C003C1C8E /* Optional+ForceUnwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28794942245AAD0C003C1C8E /* Optional+ForceUnwrap.swift */; };
@@ -138,7 +138,6 @@
 		283DC3D02472A7F000DAFF60 /* Optional+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Description.swift"; sourceTree = "<group>"; };
 		2840BC482445B3CB00C2E896 /* ExternalSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalSoup.swift; sourceTree = "<group>"; };
 		2840BC4A2445B46900C2E896 /* SoupEntry+Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SoupEntry+Common.swift"; sourceTree = "<group>"; };
-		2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoExternalSoup.swift; sourceTree = "<group>"; };
 		2840BC51244836FE00C2E896 /* String+SafeRemove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SafeRemove.swift"; sourceTree = "<group>"; };
 		284DEC232476A8BA0071F32C /* Base64Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base64Field.swift; sourceTree = "<group>"; };
 		284DEC252476DB390071F32C /* CurrencyField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyField.swift; sourceTree = "<group>"; };
@@ -147,6 +146,7 @@
 		2865367F2484EA1E0063DF83 /* Array+RemoveAndReturn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+RemoveAndReturn.swift"; sourceTree = "<group>"; };
 		286536812485130B0063DF83 /* SFChildRelationship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFChildRelationship.swift; sourceTree = "<group>"; };
 		28653683248634980063DF83 /* CoreDataSoupRelationshipContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSoupRelationshipContext.swift; sourceTree = "<group>"; };
+		2865368B248908650063DF83 /* CoreDataSoupPoolFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSoupPoolFactory.swift; sourceTree = "<group>"; };
 		286BD4312473DDA400162533 /* CompoundEntryMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundEntryMapper.swift; sourceTree = "<group>"; };
 		286BD4352474081700162533 /* CoreDataSoupMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSoupMetadata.swift; sourceTree = "<group>"; };
 		28794942245AAD0C003C1C8E /* Optional+ForceUnwrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+ForceUnwrap.swift"; sourceTree = "<group>"; };
@@ -304,7 +304,6 @@
 				28097D61243DA72500F97916 /* LoginManager.swift */,
 				28D0C4C32459D0FC005529E2 /* UserContextManager.swift */,
 				28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */,
-				2840BC4F2447187400C2E896 /* DemoExternalSoup.swift */,
 				28794946245AF702003C1C8E /* Entities */,
 				28B8A7AA2450534800FAE3A4 /* Model.xcdatamodeld */,
 			);
@@ -401,6 +400,7 @@
 				28610F17246EB63C0077F316 /* CoreDataSoupAccessor.swift */,
 				2865367D2484DE780063DF83 /* CoreDataSoupEntryUpsertQueue.swift */,
 				28653683248634980063DF83 /* CoreDataSoupRelationshipContext.swift */,
+				2865368B248908650063DF83 /* CoreDataSoupPoolFactory.swift */,
 				2879497024653FF6003C1C8E /* SFField.swift */,
 				286536812485130B0063DF83 /* SFChildRelationship.swift */,
 				2879496B24653D23003C1C8E /* Fields */,
@@ -688,6 +688,7 @@
 				2879495E2462D6A6003C1C8E /* CoreDataSoupMetadataFactory.swift in Sources */,
 				28D0C4C72459DE6E005529E2 /* CoreDataStack.swift in Sources */,
 				286BD4322473DDA400162533 /* CompoundEntryMapper.swift in Sources */,
+				2865368C248908650063DF83 /* CoreDataSoupPoolFactory.swift in Sources */,
 				28B8A7AF2450980600FAE3A4 /* AsyncLazy.swift in Sources */,
 				28251CF9246C1D520083A97A /* WarningLogger.swift in Sources */,
 				2879496824644374003C1C8E /* CoreDataSoup.swift in Sources */,
@@ -706,7 +707,6 @@
 				28D0C4BE2456DB74005529E2 /* AppScreenView.swift in Sources */,
 				28C0D341247B9A4200AD2FE3 /* KVCProperty.swift in Sources */,
 				28794979246583F8003C1C8E /* AttributesMapper.swift in Sources */,
-				2840BC502447187400C2E896 /* DemoExternalSoup.swift in Sources */,
 				28D0C4B124522F5F005529E2 /* LazyView.swift in Sources */,
 				286BD4362474081700162533 /* CoreDataSoupMetadata.swift in Sources */,
 				28B8A7AC2450534800FAE3A4 /* Model.xcdatamodeld in Sources */,

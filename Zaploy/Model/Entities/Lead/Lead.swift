@@ -9,6 +9,8 @@
 import Foundation
 
 protocol Lead: HavingName, HavingId {
+    var company: String { get }
     var someBool: Bool { get }
     var someCurrency: Decimal? { get }
+    var createdBy: User? { get }
 }

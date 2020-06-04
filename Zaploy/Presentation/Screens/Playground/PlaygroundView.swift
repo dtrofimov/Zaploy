@@ -59,17 +59,6 @@ struct PlaygroundView: View, AppScreen {
                     Button("Modify First") {
                         self.playground.modifyFirst()
                     }
-                }
-                Group {
-                    Button("Sync Down Metadata") {
-                        self.playground.syncDownMetadata()
-                    }
-                    Button("Load Metadata from Cache") {
-                        self.playground.loadMetadataFromCache()
-                    }
-                    Button("Sync Down Layout") {
-                        self.playground.syncDownLayout()
-                    }
                     Text("")
                 }
                 ForEach(playground.leads, id: \.id) { lead in
