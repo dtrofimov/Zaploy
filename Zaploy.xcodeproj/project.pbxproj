@@ -32,6 +32,7 @@
 		286536822485130B0063DF83 /* SFChildRelationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286536812485130B0063DF83 /* SFChildRelationship.swift */; };
 		28653684248634980063DF83 /* CoreDataSoupRelationshipContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28653683248634980063DF83 /* CoreDataSoupRelationshipContext.swift */; };
 		2865368C248908650063DF83 /* CoreDataSoupPoolFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2865368B248908650063DF83 /* CoreDataSoupPoolFactory.swift */; };
+		2865368E24894EAA0063DF83 /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2865368D24894EAA0063DF83 /* UserDetailsView.swift */; };
 		286BD4322473DDA400162533 /* CompoundEntryMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286BD4312473DDA400162533 /* CompoundEntryMapper.swift */; };
 		286BD4362474081700162533 /* CoreDataSoupMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286BD4352474081700162533 /* CoreDataSoupMetadata.swift */; };
 		28794943245AAD0C003C1C8E /* Optional+ForceUnwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28794942245AAD0C003C1C8E /* Optional+ForceUnwrap.swift */; };
@@ -147,6 +148,7 @@
 		286536812485130B0063DF83 /* SFChildRelationship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFChildRelationship.swift; sourceTree = "<group>"; };
 		28653683248634980063DF83 /* CoreDataSoupRelationshipContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSoupRelationshipContext.swift; sourceTree = "<group>"; };
 		2865368B248908650063DF83 /* CoreDataSoupPoolFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSoupPoolFactory.swift; sourceTree = "<group>"; };
+		2865368D24894EAA0063DF83 /* UserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsView.swift; sourceTree = "<group>"; };
 		286BD4312473DDA400162533 /* CompoundEntryMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundEntryMapper.swift; sourceTree = "<group>"; };
 		286BD4352474081700162533 /* CoreDataSoupMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSoupMetadata.swift; sourceTree = "<group>"; };
 		28794942245AAD0C003C1C8E /* Optional+ForceUnwrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+ForceUnwrap.swift"; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 			isa = PBXGroup;
 			children = (
 				28AF501E244ED43A00E6EB83 /* LeadDetailsView.swift */,
+				2865368D24894EAA0063DF83 /* UserDetailsView.swift */,
 			);
 			path = EntryDetails;
 			sourceTree = "<group>";
@@ -741,6 +744,7 @@
 				28B8A7B72452245A00FAE3A4 /* AppScreen.swift in Sources */,
 				28794950245AF92F003C1C8E /* User.swift in Sources */,
 				28794977246581B0003C1C8E /* NumberField.swift in Sources */,
+				2865368E24894EAA0063DF83 /* UserDetailsView.swift in Sources */,
 				28097D67243DAB6700F97916 /* View+AnyView.swift in Sources */,
 				28D0C4BA2456C449005529E2 /* UserContext.swift in Sources */,
 				28B8A7B32451FC9300FAE3A4 /* AppContext.swift in Sources */,

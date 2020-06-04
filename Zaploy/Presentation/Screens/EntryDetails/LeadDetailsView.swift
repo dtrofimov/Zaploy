@@ -13,13 +13,20 @@ struct LeadDetailsView: View, AppScreen {
     let lead: Lead
 
     var body: some View {
-        VStack {
+        return VStack {
             Text("Id: \(lead.id.optionalDescription)")
             Text("First name: \(lead.firstName.optionalDescription)")
             Text("Last name: \(lead.lastName)")
             Text("Company: \(lead.company)")
             Text("Some bool: \(lead.someBool.description)")
             Text("Some currency: \(lead.someCurrency.optionalDescription)")
+            Text(" ")
+            Text("CREATED BY:")
+            if lead.createdBy != nil {
+                UserDetailsView(user: lead.createdBy!)
+            } else {
+                Text("nil")
+            }
         }
     }
 }
