@@ -17,6 +17,8 @@ class CoreDataSoupMetadataFactory {
         static let syncId = kSyncTargetSyncId // "__sync_id__"
         static let isUnique = "isUnique"
         static let urlFieldName = "urlField"
+        static let shouldRemoveUnlinked = "shouldRemoveUnlinked"
+        static let shouldUnlinkAbsent = "shouldUnlinkAbsent"
     }
 
     let entity: NSEntityDescription
@@ -24,7 +26,10 @@ class CoreDataSoupMetadataFactory {
     let soupEntryIdConverter: SoupEntryIdConverter
     let warningLogger: WarningLogger
 
-    internal init(entity: NSEntityDescription, sfMetadata: Metadata, soupEntryIdConverter: SoupEntryIdConverter, warningLogger: WarningLogger) {
+    internal init(entity: NSEntityDescription,
+                  sfMetadata: Metadata,
+                  soupEntryIdConverter: SoupEntryIdConverter,
+                  warningLogger: WarningLogger) {
         self.entity = entity
         self.sfMetadata = sfMetadata
         self.soupEntryIdConverter = soupEntryIdConverter
@@ -42,42 +47,48 @@ class CoreDataSoupMetadataFactory {
         result[sfField.name] = sfField
     }
 
+    lazy var sfChildRelationshipsForNames: [String: SFChildRelationship] = (sfMetadata.childRelationships ?? []).reduce(into: [:]) { result, childRelationshipDict in
+        guard let sfChildRelationship = (Result { try SFChildRelationship(metadata: childRelationshipDict) })
+            .check(warningLogger, "Cannot create child relationship metadata: \(childRelationshipDict)")
+            else { return }
+        result[sfChildRelationship.name] = sfChildRelationship
+    }
+
     typealias SFIdField = FetchableField & HavingMOField
 
+    lazy var sfName: String? = entity.sfName
     var sfIdField: SFIdField?
     var syncIdField: FetchableField?
     var otherUniqueFields: [FetchableField] = []
     var fieldMappers: [EntryMapper] = []
     var sfFieldsForMOFields: [MOField: SFField] = [:]
 
-    struct Output {
-        let metadata: CoreDataSoupMetadata
-        let soupMapper: EntryMapper
-    }
-
-    lazy var output: Result<Output, Error> = Result {
+    lazy var metadata: Result<CoreDataSoupMetadata, Error> = Result {
         processAllMetadata()
-
-        let soupEntryIdField = resolveSoupEntryIdMapper()
-        fieldMappers.append(soupEntryIdField)
 
         guard let sfIdField = sfIdField else {
             throw CustomError.validIdFieldNotFound
         }
 
-        return Output(metadata: .init(entity: entity,
-                                      sfIdField: sfIdField,
-                                      soupEntryIdField: soupEntryIdField,
-                                      syncIdField: syncIdField,
-                                      otherUniqueFields: otherUniqueFields,
-                                      sfFieldsForMOFields: sfFieldsForMOFields),
-                      soupMapper: CompoundEntryMapper(childMappers: fieldMappers))
+        return .init(
+            entity: entity,
+            sfName: sfName,
+            sfIdField: sfIdField,
+            soupEntryIdField: soupEntryIdMapper,
+            syncIdField: syncIdField,
+            attributesMapper: attributesMapper,
+            otherUniqueFields: otherUniqueFields,
+            sfFieldsForMOFields: sfFieldsForMOFields,
+            soupMapper: CompoundEntryMapper(childMappers: fieldMappers)
+        )
     }
 
     open func processAllMetadata() {
-        if let attributesMapper = resolveAttributesMapper() {
+        if let attributesMapper = attributesMapper {
             fieldMappers.append(attributesMapper)
         }
+        fieldMappers.append(soupEntryIdMapper)
+
         for moField in entity.properties {
             process(moField: moField)
         }
@@ -148,7 +159,7 @@ class CoreDataSoupMetadataFactory {
                 guard moFieldType == .decimalAttributeType else { return incompatible() }
                 guard let scale = sfField.scale else { return failure("Currency scale not found: \(moField), \(sfField.metadata)")}
                 return CurrencyField(moField: moField, sfField: sfField, warningLogger: warningLogger, scale: scale)
-            case .id, .string:
+            case .id, .string, .reference:
                 if warningLogger.isEnabled {
                     let isIdType = sfField.type == .id
                     let isIdField = sfField.name == Keys.id
@@ -176,19 +187,36 @@ class CoreDataSoupMetadataFactory {
                 return incompatible()
             }
         } else if let moRelationship = moField as? NSRelationshipDescription {
-            // TODO
-            return incompatible()
+            if moRelationship.isToMany {
+                guard let sfChildRelationship = sfChildRelationshipsForNames[sfName] else { return failure("SF metadata not found for child relationship \(sfName)") }
+                return ChildRelationship(moRelationship: moRelationship,
+                                         sfChildRelationship: sfChildRelationship,
+                                         shouldUnlinkAbsent: moRelationship.isMarkedShouldUnlinkAbsent,
+                                         shouldRemoveUnlinked: moRelationship.isMarkedShouldRemoveUnlinked,
+                                         warningLogger: warningLogger)
+            } else {
+                guard let sfField = sfField else { return failure("SF metadata not found for relationship \(moRelationship)") }
+                guard let sfRelationshipName = sfField.relationshipName else { return failure("SF relationship metadata has no sfRelationshipName: \(moRelationship), \(sfField.metadata)") }
+                guard sfField.type == .reference else { return incompatible() }
+                return Relationship(moRelationship: moRelationship,
+                                    sfField: sfField,
+                                    sfRelationshipName: sfRelationshipName,
+                                    shouldRemoveUnlinked: moRelationship.isMarkedShouldRemoveUnlinked,
+                                    warningLogger: warningLogger)
+            }
         } else {
             return failure("Unknown CoreData field type: \(moField)")
         }
     }
 
+    lazy var soupEntryIdMapper: EntryMapper & FetchableField = resolveSoupEntryIdMapper()
     open func resolveSoupEntryIdMapper() -> EntryMapper & FetchableField {
         SoupEntryIdMapper(soupEntryIdConverter: soupEntryIdConverter, warningLogger: warningLogger)
     }
 
+    lazy var attributesMapper: EntryMapper? = resolveAttributesMapper()
     open func resolveAttributesMapper() -> EntryMapper? {
-        guard let sfName = entity.sfName
+        guard let sfName = sfName
             .check(warningLogger, "Entity sfName not found")
             else { return nil }
         return AttributesMapper(entity: entity, entitySfName: sfName, warningLogger: warningLogger)
@@ -202,6 +230,14 @@ extension NSPropertyDescription {
 
     var sfName: String? {
         userInfo?[CoreDataSoupMetadataFactory.Keys.fieldSfName] as? String
+    }
+
+    var isMarkedShouldRemoveUnlinked: Bool {
+        userInfo?[CoreDataSoupMetadataFactory.Keys.shouldRemoveUnlinked] as? Bool ?? false
+    }
+
+    var isMarkedShouldUnlinkAbsent: Bool {
+        userInfo?[CoreDataSoupMetadataFactory.Keys.shouldUnlinkAbsent] as? Bool ?? false
     }
 }
 

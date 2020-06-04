@@ -11,19 +11,25 @@ import CoreData
 typealias MOField = NSPropertyDescription
 
 protocol EntryMapper: AnyObject {
-    func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry)
+    func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry, in relationshipContext: CoreDataSoupRelationshipContext)
 
-    func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject)
+    func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject, in relationshipContext: CoreDataSoupRelationshipContext)
 }
 
 protocol HavingMOField {
     var moField: MOField { get }
 }
 
+protocol HavingSFField {
+    var sfField: SFField { get }
+}
+
 protocol FetchableField {
     func predicateByValues(_ values: [Any]) -> NSPredicate
 
     func value(from soupEntry: SoupEntry) -> Any?
+
+    func setValue(_ value: Any?, to soupEntry: inout SoupEntry)
 
     func value(from managedObject: NSManagedObject) -> Any?
 }

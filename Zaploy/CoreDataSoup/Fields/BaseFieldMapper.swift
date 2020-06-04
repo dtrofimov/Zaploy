@@ -43,13 +43,13 @@ class BaseFieldMapper: EntryMapper, HavingMOField {
         soupEntry[sfKey] = soupEntryValue
     }
 
-    func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry) {
+    func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry, in relationshipContext: CoreDataSoupRelationshipContext) {
         let kvcValue = self.kvcValue(from: managedObject)
         let soupEntryValue = self.soupEntryValue(forKvcValue: kvcValue)
         setSoupEntryValue(soupEntryValue, to: &soupEntry)
     }
 
-    func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject) {
+    func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject, in relationshipContext: CoreDataSoupRelationshipContext) {
         guard let soupEntryValue = self.soupEntryValue(from: soupEntry) else { return }
         let kvcValue = self.kvcValue(forSoupEntryValue: soupEntryValue)
         setKvcValue(kvcValue, to: managedObject)
@@ -65,6 +65,11 @@ extension BaseFieldMapper: FetchableField {
     func value(from soupEntry: SoupEntry) -> Any? {
         guard let soupEntryValue = self.soupEntryValue(from: soupEntry) else { return nil }
         return kvcValue(forSoupEntryValue: soupEntryValue)
+    }
+
+    func setValue(_ value: Any?, to soupEntry: inout SoupEntry) {
+        let soupEntryValue = self.soupEntryValue(forKvcValue: value)
+        setSoupEntryValue(soupEntryValue, to: &soupEntry)
     }
 
     func value(from managedObject: NSManagedObject) -> Any? {

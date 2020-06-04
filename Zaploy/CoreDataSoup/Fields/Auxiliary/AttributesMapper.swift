@@ -24,23 +24,21 @@ class AttributesMapper: EntryMapper {
         static let type = "type"
     }
 
-    func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry) {
+    func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry, in relationshipContext: CoreDataSoupRelationshipContext) {
         guard (managedObject.entity == entity)
-            .check(warningLogger, "NSManagedObject has no entity to encode attributes: \(managedObject)")
+            .check(warningLogger, "NSManagedObject has wrong entity to encode attributes: \(managedObject)")
             else { return }
-        soupEntry[Keys.attributes] = (soupEntry[Keys.attributes] as? [AnyHashable: Any] ?? [:]).with {
-            $0[Keys.type] = entitySfName
-        }
+        soupEntry.sfTypeAttribute = entitySfName
     }
 
-    func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject) {
+    func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject, in relationshipContext: CoreDataSoupRelationshipContext) {
+        guard (managedObject.entity == entity)
+            .check(warningLogger, "NSManagedObject has wrong entity to decode attributes: \(managedObject)")
+            else { return }
         if warningLogger.isEnabled,
-            let attributes: [AnyHashable: Any] = soupEntry[Keys.attributes]
-                .checkType(warningLogger, "AttributesMapper attributes decoding"),
-            let entitySfName: String = attributes[Keys.type]
-                .checkType(warningLogger, "AttributesMapper type decoding") {
+            let entitySfName = soupEntry.sfTypeAttribute {
             warningLogger.assert(entitySfName == self.entitySfName,
-                                 "Wrong entity when mapping attributes from \(soupEntry) to \(managedObject)")
+                                 "Wrong entitySfName when mapping attributes from \(soupEntry) to \(managedObject)")
         }
     }
 }

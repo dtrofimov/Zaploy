@@ -48,4 +48,6 @@ class SFField {
 
     lazy var type: FieldType? = (metadata["type"] as? String).flatMap { FieldType(rawValue: $0) }
     lazy var scale = metadata["scale"] as? Int
+    lazy var referenceTo = metadata["referenceTo"] as? String
+    lazy var relationshipName = metadata["relationshipName"] as? String
 }

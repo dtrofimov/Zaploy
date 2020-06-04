@@ -21,6 +21,17 @@ public extension SoupEntry {
         set { self[kId] = newValue }
     }
 
+    var sfTypeAttribute: String? {
+        get {
+            (self[kAttributesKey] as? [AnyHashable: Any])?["type"] as? String
+        }
+        set {
+            self[kAttributesKey] = (self[kAttributesKey] as? [AnyHashable: Any] ?? [:]).with {
+                $0["type"] = newValue
+            }
+        }
+    }
+
     var asJson: String? {
         guard let data = try? JSONSerialization.data(withJSONObject: self, options: []) else { return nil }
         return String(data: data, encoding: .utf8)

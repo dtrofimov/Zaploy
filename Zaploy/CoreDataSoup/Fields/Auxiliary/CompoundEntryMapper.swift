@@ -14,15 +14,15 @@ class CompoundEntryMapper: EntryMapper {
         self.childMappers = childMappers
     }
 
-    func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry) {
+    func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry, in relationshipContext: CoreDataSoupRelationshipContext) {
         for mapper in childMappers {
-            mapper.map(from: managedObject, to: &soupEntry)
+            mapper.map(from: managedObject, to: &soupEntry, in: relationshipContext)
         }
     }
 
-    func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject) {
+    func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject, in relationshipContext: CoreDataSoupRelationshipContext) {
         for mapper in childMappers {
-            mapper.map(from: soupEntry, to: managedObject)
+            mapper.map(from: soupEntry, to: managedObject, in: relationshipContext)
         }
     }
 }

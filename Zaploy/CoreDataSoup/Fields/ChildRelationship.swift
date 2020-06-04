@@ -8,32 +8,28 @@
 
 import CoreData
 
-class ChildRelationship: BaseField {
+class ChildRelationship: EntryMapper, HavingMOField {
     let moRelationship: NSRelationshipDescription
-    let relationshipResolver: CoreDataSoupRelationshipResolver
+    var moField: MOField { moRelationship }
+    let sfChildRelationship: SFChildRelationship
     let shouldUnlinkAbsent: Bool
     let shouldRemoveUnlinked: Bool
+    let warningLogger: WarningLogger
 
     init(moRelationship: NSRelationshipDescription,
-         sfField: SFField,
-         warningLogger: WarningLogger,
-         relationshipResolver: CoreDataSoupRelationshipResolver,
+         sfChildRelationship: SFChildRelationship,
          shouldUnlinkAbsent: Bool,
-         shouldRemoveUnlinked: Bool) {
+         shouldRemoveUnlinked: Bool,
+         warningLogger: WarningLogger) {
         self.moRelationship = moRelationship
-        self.relationshipResolver = relationshipResolver
+        self.sfChildRelationship = sfChildRelationship
         self.shouldUnlinkAbsent = shouldUnlinkAbsent
         self.shouldRemoveUnlinked = shouldRemoveUnlinked
-        super.init(moField: moRelationship, sfField: sfField, warningLogger: warningLogger)
+        self.warningLogger = warningLogger
     }
 
-    override func kvcValue(forSoupEntryValue soupEntryValue: Any) -> Any? {
-        warningLogger.logWarning("kvcValue(forSoupEntryValue:) is called for ChildRelationship. Use map(from:to:) instead.")
-        return nil
-    }
-
-    override func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject) {
-        guard let soupEntryValue = self.soupEntryValue(from: soupEntry) else { return }
+    func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject, in relationshipContext: CoreDataSoupRelationshipContext) {
+        guard let soupEntryValue = soupEntry[moRelationship.name] else { return }
         let mutableSetAccessor = managedObject.mutableSetValue(forKey: moField.name)
         var unmatchedOldSet = Optional(mutableSetAccessor)
             .checkType(warningLogger, "ChildRelationship old getting")
@@ -66,11 +62,14 @@ class ChildRelationship: BaseField {
 
         for entry in entries {
             multiTaskTracker.track { completion in
-                relationshipResolver.enqueueUpsertRelationship(entry: entry, in: context) { referencedObject in
+                relationshipContext.upsertQueue.enqueueUpsertRelationship(entry: entry) { referencedObject in
+                    let warningLogger = self.warningLogger
                     guard let referencedObject = referencedObject
-                        .check(warningLogger, "Unable to upsert child relationship \(moRelationship): \(entry)")
+                        .check(warningLogger, "Unable to upsert child relationship \(self.moRelationship): \(entry)"),
+                        (referencedObject.managedObjectContext == context)
+                            .check(warningLogger, "Upserted child relationship has a wrong MOC: \(referencedObject.managedObjectContext.optionalDescription), expected \(context)")
                         else { return completion() }
-                    if let expectedEntity = moRelationship.destinationEntity {
+                    if let expectedEntity = self.moRelationship.destinationEntity {
                         guard (referencedObject.entity == expectedEntity)
                             .check(warningLogger, "Upserted child relationship has a wrong entity: expected \(expectedEntity), the object is \(referencedObject)")
                             else { return completion() }
@@ -83,12 +82,7 @@ class ChildRelationship: BaseField {
         }
     }
 
-    override func soupEntryValue(forKvcValue kvcValue: Any?) -> Any {
-        warningLogger.logWarning("soupEntryValue(forKvcValue:) is called for ChildRelationship. Use map(from:to:) instead.")
-        return NSNull()
-    }
-
-    override func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry) {
+    func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry, in relationshipContext: CoreDataSoupRelationshipContext) {
         // do nothing: sending child relationships directly is not allowed, we should update every child instead
     }
 }

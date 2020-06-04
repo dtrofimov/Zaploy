@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BaseField: BaseFieldMapper {
+class BaseField: BaseFieldMapper, HavingSFField {
     let sfField: SFField
 
     init(moField: MOField, sfField: SFField, warningLogger: WarningLogger) {

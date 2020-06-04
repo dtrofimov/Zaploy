@@ -56,18 +56,23 @@ class AppUserContext {
                                                              entityName: entityName)
         .forceUnwrap("Unable to create SoupEntryIdConverter")
     lazy var warningLogger = ConsoleWarningLogger()
-    lazy var soupFactoryOutput = CoreDataSoupMetadataFactory(entity: entity,
-                                                     sfMetadata: sfMetadata,
-                                                     soupEntryIdConverter: soupEntryIdConverter,
-                                                     warningLogger: warningLogger)
-        .output
+    lazy var soupMetadata = CoreDataSoupMetadataFactory(entity: entity,
+                                                        sfMetadata: sfMetadata,
+                                                        soupEntryIdConverter: soupEntryIdConverter,
+                                                        warningLogger: warningLogger)
+        .metadata
         .forceUnwrap("Cannot resolve CoreDataSoupMetadataFactory output")
     lazy var soupAccessor = PersistentContainerCoreDataSoupAccessor(persistentContainer: coreDataStack.persistentContainer)
-    lazy var externalSoup = CoreDataSoup(soupMetadata: soupFactoryOutput.metadata,
-                                         soupMapper: soupFactoryOutput.soupMapper,
+    lazy var upsertQueue = CoreDataSoupEntryUpsertQueueImpl(warningLogger: warningLogger)
+    lazy var relationshipContext = CoreDataRelationshipContextImpl(upsertQueue: upsertQueue)
+    lazy var externalSoup = CoreDataSoup(soupMetadata: soupMetadata,
                                          soupEntryIdConverter: soupEntryIdConverter,
                                          soupAccessor: soupAccessor,
+                                         relationshipContextResolver: { [weak self] _ in self?.relationshipContext },
                                          warningLogger: warningLogger)
+        .then {
+            relationshipContext.register(metadata: soupMetadata, upserter: $0)
+    }
 
     static func make(appContext: AppContext, userAccount: UserAccount, completion: @escaping (AppUserContext) -> Void) {
         let result = AppUserContext(appContext: appContext, userAccount: userAccount)

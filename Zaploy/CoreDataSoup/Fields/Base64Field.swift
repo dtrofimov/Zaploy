@@ -22,7 +22,7 @@ class Base64Field: EntryMapper, HavingMOField {
         self.warningLogger = warningLogger
     }
 
-    func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry) {
+    func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry, in relationshipContext: CoreDataSoupRelationshipContext) {
         soupEntry[sfField.name] = {
             if let url: String = managedObject.value(forKey: urlMoField.name)
                 .checkType(warningLogger, "Base64Field.url encoding") {
@@ -36,7 +36,7 @@ class Base64Field: EntryMapper, HavingMOField {
         }()
     }
 
-    func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject) {
+    func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject, in relationshipContext: CoreDataSoupRelationshipContext) {
         guard let soupEntryValue = soupEntry[sfField.name] else { return }
         if let string: String = Optional(soupEntryValue)
             .checkType(warningLogger, "Base64Field decoding") {

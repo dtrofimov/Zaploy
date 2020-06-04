@@ -68,15 +68,18 @@ class SyncDownPlayground: ObservableObject {
     }
 
     func upsertNonLocalRecord() {
+        let syncDownId = syncManager.syncStatus(forName: syncDownName).map { Int64($0.syncId) }
         ManagedLead.findOrCreate(byId: "ausyg6d7i6qt7e6g", in: context).do {
             $0.firstName = "Jane"
             $0.lastName = "Non-Local"
             $0.company = "Little Company, inc"
+            $0.syncDownId = syncDownId
         }
         ManagedLead.findOrCreate(byId: "aiusytd78q8w67t", in: context).do {
             $0.firstName = "David"
             $0.lastName = "Non-Local"
             $0.company = "Small Company, inc"
+            $0.syncDownId = syncDownId
         }
         try! context.save()
         refreshOnMainThread()

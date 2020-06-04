@@ -17,4 +17,5 @@ class ManagedLead: NSManagedObject, Lead, ManagedObjectType {
     @NSManaged var company: String
     @NSManaged var someBool: Bool
     @KVC("someCurrency") var someCurrency: Decimal?
+    @KVC("syncDownId") var syncDownId: Int64?
 }

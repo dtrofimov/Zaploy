@@ -8,19 +8,30 @@
 
 import CoreData
 
-class CoreDataSoup: ExternalSoup {
+class CoreDataSoup: ExternalSoup, CoreDataSoupEntryUpserter {
     let soupMetadata: CoreDataSoupMetadata
-    let soupMapper: EntryMapper
     let soupEntryIdConverter: SoupEntryIdConverter
     let soupAccessor: CoreDataSoupAccessor
+    let relationshipContextResolver: (NSManagedObjectContext) -> CoreDataSoupRelationshipContext?
     let warningLogger: WarningLogger
 
-    init(soupMetadata: CoreDataSoupMetadata, soupMapper: EntryMapper, soupEntryIdConverter: SoupEntryIdConverter, soupAccessor: CoreDataSoupAccessor, warningLogger: WarningLogger) {
+    init(soupMetadata: CoreDataSoupMetadata,
+         soupEntryIdConverter: SoupEntryIdConverter,
+         soupAccessor: CoreDataSoupAccessor,
+         relationshipContextResolver: @escaping (NSManagedObjectContext) -> CoreDataSoupRelationshipContext?,
+         warningLogger: WarningLogger) {
         self.soupMetadata = soupMetadata
-        self.soupMapper = soupMapper
         self.soupEntryIdConverter = soupEntryIdConverter
         self.soupAccessor = soupAccessor
+        self.relationshipContextResolver = relationshipContextResolver
         self.warningLogger = warningLogger
+    }
+
+    private func performMapping<T>(in context: NSManagedObjectContext, block: (CoreDataSoupRelationshipContext) throws -> T) rethrows -> T {
+        let relationshipContext = relationshipContextResolver(context) ?? EmptyCoreDataSoupRelationshipContext.empty
+        let result = try block(relationshipContext)
+        relationshipContext.upsertQueue.processQueue(in: context, in: relationshipContext)
+        return result
     }
 
     // MARK: ExternalSoup
@@ -77,69 +88,81 @@ class CoreDataSoup: ExternalSoup {
             let objectsForManagedObjectIds: [NSManagedObjectID: NSManagedObject] = fetchedObjects.reduce(into: [:]) {
                 $0[$1.objectID] = $1
             }
-            return managedObjectIds.compactMap {
-                guard let object = objectsForManagedObjectIds[$0]
-                    .check(warningLogger, "Entry not found for managedObjectId \($0)")
-                    else { return nil }
-                return SoupEntry().with {
-                    soupMapper.map(from: object, to: &$0)
+            return performMapping(in: context) { relationshipContext in
+                managedObjectIds.compactMap {
+                    guard let object = objectsForManagedObjectIds[$0]
+                        .check(warningLogger, "Entry not found for managedObjectId \($0)")
+                        else { return nil }
+                    return SoupEntry().with {
+                        soupMetadata.soupMapper.map(from: object, to: &$0, in: relationshipContext)
+                    }
                 }
             }
         }
     }
 
-    func upsert(entries: [SoupEntry]) {
-        return soupAccessor.accessStore { context in
-            let predicates: [NSPredicate] = soupMetadata.uniqueFields.compactMap { field in
-                let values = entries.compactMap { field.value(from: $0) }
-                guard !values.isEmpty else { return nil }
-                return field.predicateByValues(values)
-            }
-            let existingObjects: [NSManagedObject] = {
-                guard !predicates.isEmpty else { return [] }
-                let request = NSFetchRequest<NSManagedObject>()
-                request.entity = soupMetadata.entity
-                request.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
-                request.returnsObjectsAsFaults = false
-                guard let objects = (Result { try context.fetch(request) })
-                    .check(warningLogger, "Cannot fetch by ids: \(request)")
-                    else { return [] }
-                return objects
-            }()
-            for entry in entries {
-                let matchingObjects: [NSManagedObject] = existingObjects.filter { object in
-                    soupMetadata.uniqueFields.contains { field in
-                        field.value(from: object)
+    func upsert(entries: [SoupEntry], in context: NSManagedObjectContext, in relationshipContext: CoreDataSoupRelationshipContext, onUpsert: (SoupEntry, Int, NSManagedObject?) -> Void) {
+        let predicates: [NSPredicate] = soupMetadata.uniqueFields.compactMap { field in
+            let values = entries.compactMap { field.value(from: $0) }
+            guard !values.isEmpty else { return nil }
+            return field.predicateByValues(values)
+        }
+        let existingObjects: [NSManagedObject] = {
+            guard !predicates.isEmpty else { return [] }
+            let request = NSFetchRequest<NSManagedObject>()
+            request.entity = soupMetadata.entity
+            request.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
+            request.returnsObjectsAsFaults = false
+            guard let objects = (Result { try context.fetch(request) })
+                .check(warningLogger, "Cannot fetch by ids: \(request)")
+                else { return [] }
+            return objects
+        }()
+        for (index, entry) in entries.enumerated() {
+            let matchingObjects: [NSManagedObject] = existingObjects.filter { object in
+                soupMetadata.uniqueFields.contains { field in
+                    field.value(from: object)
+                        .checkType(warningLogger, "CoreDataSoup.upsert matchingObjects left")
+                        as NSObject?
+                        ==
+                        field.value(from: entry)
                             .checkType(warningLogger, "CoreDataSoup.upsert matchingObjects left")
-                            as NSObject?
-                            ==
-                            field.value(from: entry)
-                                .checkType(warningLogger, "CoreDataSoup.upsert matchingObjects left")
-                            as NSObject?
-                    }
+                        as NSObject?
                 }
-                guard (matchingObjects.count <= 1)
-                    .check(warningLogger, "Multiple matching objects found for \(entry): \(matchingObjects)")
-                    else { continue }
-                let targetObject: NSManagedObject = {
-                    if let existing = matchingObjects.first {
-                        if warningLogger.isEnabled {
-                            for field in soupMetadata.uniqueFields {
-                                if let existingValue = field.value(from: existing) as? NSObject,
-                                    let newValue = field.value(from: entry) as? NSObject {
-                                    warningLogger.assert(existingValue == newValue,
-                                                         "Unique value doesn't match for \(field): existingObject = \(existing), upsertedEntry = \(entry)")
-                                }
+            }
+            guard (matchingObjects.count <= 1)
+                .check(warningLogger, "Multiple matching objects found for \(entry): \(matchingObjects)")
+                else {
+                    onUpsert(entry, index, nil)
+                    continue
+            }
+            let targetObject: NSManagedObject = {
+                if let existing = matchingObjects.first {
+                    if warningLogger.isEnabled {
+                        for field in soupMetadata.uniqueFields {
+                            if let existingValue = field.value(from: existing) as? NSObject,
+                                let newValue = field.value(from: entry) as? NSObject {
+                                warningLogger.assert(existingValue == newValue,
+                                                     "Unique value doesn't match for \(field): existingObject = \(existing), upsertedEntry = \(entry)")
                             }
                         }
-                        return existing
-                    } else {
-                        warningLogger.assert(soupMetadata.soupEntryIdField.value(from: entry) == nil,
-                                             "Object not found by soupEntryId while upserting \(entry)")
-                        return NSManagedObject(entity: soupMetadata.entity, insertInto: context)
                     }
-                }()
-                soupMapper.map(from: entry, to: targetObject)
+                    return existing
+                } else {
+                    warningLogger.assert(soupMetadata.soupEntryIdField.value(from: entry) == nil,
+                                         "Object not found by soupEntryId while upserting \(entry)")
+                    return NSManagedObject(entity: soupMetadata.entity, insertInto: context)
+                }
+            }()
+            soupMetadata.soupMapper.map(from: entry, to: targetObject, in: relationshipContext)
+            onUpsert(entry, index, targetObject)
+        }
+    }
+
+    func upsert(entries: [SoupEntry]) {
+        return soupAccessor.accessStore { context in
+            performMapping(in: context) { relationshipContext in
+                upsert(entries: entries, in: context, in: relationshipContext) { _, _ , _ in }
             }
             (Result { try context.save() })
                 .check(warningLogger, "Unable to save a context after upserting")

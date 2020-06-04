@@ -17,14 +17,14 @@ class SoupEntryIdMapper: EntryMapper {
         self.warningLogger = warningLogger
     }
 
-    func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry) {
+    func map(from managedObject: NSManagedObject, to soupEntry: inout SoupEntry, in relationshipContext: CoreDataSoupRelationshipContext) {
         guard let soupEntryId = (Result { try soupEntryIdConverter.soupEntryId(managedObjectId: managedObject.objectID) })
             .check(warningLogger, "Unable to export soupEntryId from \(managedObject)")
             else { return }
         soupEntry.soupEntryId = soupEntryId
     }
 
-    func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject) {
+    func map(from soupEntry: SoupEntry, to managedObject: NSManagedObject, in relationshipContext: CoreDataSoupRelationshipContext) {
         if warningLogger.isEnabled,
             let soupEntryId = soupEntry.soupEntryId {
             guard let expectedManagedObjectId = (Result { try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
@@ -46,6 +46,15 @@ extension SoupEntryIdMapper: FetchableField {
         guard let soupEntryId = soupEntry.soupEntryId else { return nil }
         return (Result { try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
             .check(warningLogger, "Unable to convert soupEntryId value from a soupEntry: \(soupEntryId)")
+    }
+
+    func setValue(_ value: Any?, to soupEntry: inout SoupEntry) {
+        guard let managedObjectId: NSManagedObjectID = value
+            .checkType(warningLogger, "SoupEntryIdMapper encoding"),
+            let soupEntryId = (Result { try soupEntryIdConverter.soupEntryId(managedObjectId: managedObjectId) })
+                .check(warningLogger, "Unable to map managedObjectId to soupEntryId: \(managedObjectId)")
+            else { return }
+        soupEntry.soupEntryId = soupEntryId
     }
 
     func value(from managedObject: NSManagedObject) -> Any? {
