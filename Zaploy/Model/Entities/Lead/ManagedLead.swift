@@ -18,6 +18,10 @@ class ManagedLead: NSManagedObject, Lead, ManagedObjectType {
     @NSManaged var someBool: Bool
     @KVC("someCurrency") var someCurrency: Decimal?
     @KVC("syncDownId") var syncDownId: Int64?
-    @NSManaged var managedCreatedBy: ManagedUser?
-    var createdBy: User? { managedCreatedBy }
+
+    @NSManaged var moCreatedBy: ManagedUser?
+    var createdBy: User? { moCreatedBy }
+
+    @NSManaged var moReprose: ManagedReprose?
+    var reprose: Reprose? { moReprose }
 }

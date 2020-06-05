@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol User: HavingName, HavingId {
+protocol User: HavingNameComponents, HavingId {
     var username: String { get }
 }

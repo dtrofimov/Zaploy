@@ -1,5 +1,5 @@
 //
-//  HavingName.swift
+//  HavingNameComponents.swift
 //  Zaploy
 //
 //  Created by Dmitrii Trofimov on 30.04.2020.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol HavingName {
+protocol HavingNameComponents {
     var firstName: String? { get }
     var lastName: String { get }
 }

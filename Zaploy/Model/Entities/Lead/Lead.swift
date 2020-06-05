@@ -8,9 +8,10 @@
 
 import Foundation
 
-protocol Lead: HavingName, HavingId {
+protocol Lead: HavingNameComponents, HavingId {
     var company: String { get }
     var someBool: Bool { get }
     var someCurrency: Decimal? { get }
     var createdBy: User? { get }
+    var reprose: Reprose? { get }
 }

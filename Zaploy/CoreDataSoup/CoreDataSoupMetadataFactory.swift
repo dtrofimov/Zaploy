@@ -48,8 +48,7 @@ class CoreDataSoupMetadataFactory {
     }
 
     lazy var sfChildRelationshipsForNames: [String: SFChildRelationship] = (sfMetadata.childRelationships ?? []).reduce(into: [:]) { result, childRelationshipDict in
-        guard let sfChildRelationship = (Result { try SFChildRelationship(metadata: childRelationshipDict) })
-            .check(warningLogger, "Cannot create child relationship metadata: \(childRelationshipDict)")
+        guard let sfChildRelationship = try? SFChildRelationship(metadata: childRelationshipDict)
             else { return }
         result[sfChildRelationship.name] = sfChildRelationship
     }
