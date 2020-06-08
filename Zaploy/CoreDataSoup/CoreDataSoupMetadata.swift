@@ -10,6 +10,7 @@ import CoreData
 
 struct CoreDataSoupMetadata {
     let entity: NSEntityDescription
+    let soupName: String
     let sfName: String?
     let sfIdField: FetchableField & HavingMOField
     let soupEntryIdField: FetchableField

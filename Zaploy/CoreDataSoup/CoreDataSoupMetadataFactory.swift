@@ -55,7 +55,6 @@ class CoreDataSoupMetadataFactory {
 
     typealias SFIdField = FetchableField & HavingMOField
 
-    lazy var sfName: String? = entity.sfName
     var sfIdField: SFIdField?
     var syncIdField: FetchableField?
     var otherUniqueFields: [FetchableField] = []
@@ -71,6 +70,7 @@ class CoreDataSoupMetadataFactory {
 
         return .init(
             entity: entity,
+            soupName: soupName,
             sfName: sfName,
             sfIdField: sfIdField,
             soupEntryIdField: soupEntryIdMapper,
@@ -206,6 +206,18 @@ class CoreDataSoupMetadataFactory {
         } else {
             return failure("Unknown CoreData field type: \(moField)")
         }
+    }
+
+    lazy var sfName: String? = resolveSfName()
+    open func resolveSfName() -> String? {
+        entity.sfName
+    }
+
+    lazy var soupName: String = resolveSoupName()
+    open func resolveSoupName() -> String {
+        entity.name ??
+            sfName ?? // is not going to happen
+        ""
     }
 
     lazy var soupEntryIdMapper: EntryMapper & FetchableField = resolveSoupEntryIdMapper()

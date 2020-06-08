@@ -30,12 +30,6 @@ class CoreDataSoupPoolFactory {
         self.warningLogger = warningLogger
     }
 
-    open func soupName(soup: CoreDataSoup) -> String {
-        soup.soupMetadata.entity.name ??
-            soup.soupMetadata.sfName ?? // is not going to happen
-        ""
-    }
-
     open func soupEntryIdConverter(entity: NSEntityDescription) -> SoupEntryIdConverter? {
         guard let entityName = entity.name
             .check(warningLogger, "Entity has no name to build soupEntryIdConverter: \(entity)")
@@ -103,8 +97,7 @@ class CoreDataSoupPoolFactory {
                                         soupAccessor: self.soupAccessor,
                                         relationshipContextResolver: { [weak relationshipContext] _ in relationshipContext },
                                         warningLogger: self.warningLogger)
-                let soupName = self.soupName(soup: soup)
-                guard (Result { try self.pseudoSmartStore.addExternalSoup(soup, name: soupName) })
+                guard (Result { try self.pseudoSmartStore.addExternalSoup(soup, name: soupMetadata.soupName) })
                     .check(warningLogger, "Cannot add CoreDataSoup to PseudoSmartStore: \(soup)")
                     != nil else { return }
                 self.relationshipContext.register(metadata: soupMetadata, upserter: soup)
