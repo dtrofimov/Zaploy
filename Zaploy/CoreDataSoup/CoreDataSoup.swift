@@ -8,20 +8,24 @@
 
 import CoreData
 
-class CoreDataSoup: ExternalSoup, CoreDataSoupEntryUpserter {
+protocol HavingCoreDataSoupMetadata {
+    var soupMetadata: CoreDataSoupMetadata { get }
+}
+
+protocol CoreDataSoup: ExternalSoup, CoreDataSoupEntryUpserter, HavingCoreDataSoupMetadata {
+}
+
+class CoreDataSoupImpl: CoreDataSoup {
     let soupMetadata: CoreDataSoupMetadata
-    let soupEntryIdConverter: SoupEntryIdConverter
     let soupAccessor: CoreDataSoupAccessor
     let relationshipContextResolver: (NSManagedObjectContext) -> CoreDataSoupRelationshipContext?
     let warningLogger: WarningLogger
 
     init(soupMetadata: CoreDataSoupMetadata,
-         soupEntryIdConverter: SoupEntryIdConverter,
          soupAccessor: CoreDataSoupAccessor,
          relationshipContextResolver: @escaping (NSManagedObjectContext) -> CoreDataSoupRelationshipContext?,
          warningLogger: WarningLogger) {
         self.soupMetadata = soupMetadata
-        self.soupEntryIdConverter = soupEntryIdConverter
         self.soupAccessor = soupAccessor
         self.relationshipContextResolver = relationshipContextResolver
         self.warningLogger = warningLogger
@@ -75,7 +79,7 @@ class CoreDataSoup: ExternalSoup, CoreDataSoupEntryUpserter {
             let request = NSFetchRequest<NSManagedObject>()
             request.entity = soupMetadata.entity
             let managedObjectIds: [NSManagedObjectID] = soupEntryIds.compactMap { soupEntryId in
-                guard let managedObjectId = (Result { try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
+                guard let managedObjectId = (Result { try soupMetadata.soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
                     .check(warningLogger, "Unable to build managedObjectId from soupEntryId \(soupEntryId)")
                     else { return nil }
                 return managedObjectId
@@ -184,7 +188,7 @@ class CoreDataSoup: ExternalSoup, CoreDataSoupEntryUpserter {
             let request = NSFetchRequest<NSManagedObject>()
             request.entity = soupMetadata.entity
             let managedObjectIds = soupEntryIds.compactMap { soupEntryId in
-                (Result { try soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
+                (Result { try soupMetadata.soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
                     .check(warningLogger, "Cannot get managedObjectId from soupEntryId \(soupEntryId)")
             }
             request.predicate = soupMetadata.soupEntryIdField.predicateByValues(managedObjectIds)

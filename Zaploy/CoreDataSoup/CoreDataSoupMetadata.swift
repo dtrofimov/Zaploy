@@ -13,6 +13,7 @@ struct CoreDataSoupMetadata {
     let soupName: String
     let sfName: String?
     let sfIdField: FetchableField & HavingMOField
+    let soupEntryIdConverter: SoupEntryIdConverter
     let soupEntryIdField: FetchableField
     let syncIdField: FetchableField?
     let attributesMapper: EntryMapper?

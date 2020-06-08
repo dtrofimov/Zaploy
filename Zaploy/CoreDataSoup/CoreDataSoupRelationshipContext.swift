@@ -16,31 +16,6 @@ protocol CoreDataSoupRelationshipContext {
     func metadata(entity: NSEntityDescription) -> CoreDataSoupMetadata?
 }
 
-class CoreDataSoupRelationshipContextImpl: CoreDataSoupRelationshipContext {
-    let upsertQueue: CoreDataSoupEntryUpsertQueue
-    init(upsertQueue: CoreDataSoupEntryUpsertQueue) {
-        self.upsertQueue = upsertQueue
-    }
-
-    private var upsertersForEntitySfNames: [String: CoreDataSoupEntryUpserter] = [:]
-    private var metadatasForEntities: [NSEntityDescription: CoreDataSoupMetadata] = [:]
-
-    func register(metadata: CoreDataSoupMetadata, upserter: CoreDataSoupEntryUpserter) {
-        metadatasForEntities[metadata.entity] = metadata
-        if let sfName = metadata.sfName {
-            upsertersForEntitySfNames[sfName] = upserter
-        }
-    }
-
-    func upserter(entitySfName: String) -> CoreDataSoupEntryUpserter? {
-        upsertersForEntitySfNames[entitySfName]
-    }
-
-    func metadata(entity: NSEntityDescription) -> CoreDataSoupMetadata? {
-        metadatasForEntities[entity]
-    }
-}
-
 class EmptyCoreDataSoupRelationshipContext: CoreDataSoupRelationshipContext {
     static let empty = EmptyCoreDataSoupRelationshipContext()
 

@@ -24,6 +24,7 @@
 		283DC3CD247297F900DAFF60 /* Result+ForceUnwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283DC3CC247297F900DAFF60 /* Result+ForceUnwrap.swift */; };
 		283DC3CF2472A61300DAFF60 /* HavingId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283DC3CE2472A61300DAFF60 /* HavingId.swift */; };
 		283DC3D12472A7F000DAFF60 /* Optional+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283DC3D02472A7F000DAFF60 /* Optional+Description.swift */; };
+		284BAD62248E70C400C36050 /* CoreDataSoupPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284BAD61248E70C400C36050 /* CoreDataSoupPool.swift */; };
 		284DEC242476A8BA0071F32C /* Base64Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284DEC232476A8BA0071F32C /* Base64Field.swift */; };
 		284DEC262476DB390071F32C /* CurrencyField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284DEC252476DB390071F32C /* CurrencyField.swift */; };
 		28610F18246EB63C0077F316 /* CoreDataSoupAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28610F17246EB63C0077F316 /* CoreDataSoupAccessor.swift */; };
@@ -147,6 +148,7 @@
 		2840BC482445B3CB00C2E896 /* ExternalSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalSoup.swift; sourceTree = "<group>"; };
 		2840BC4A2445B46900C2E896 /* SoupEntry+Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SoupEntry+Common.swift"; sourceTree = "<group>"; };
 		2840BC51244836FE00C2E896 /* String+SafeRemove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SafeRemove.swift"; sourceTree = "<group>"; };
+		284BAD61248E70C400C36050 /* CoreDataSoupPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSoupPool.swift; sourceTree = "<group>"; };
 		284DEC232476A8BA0071F32C /* Base64Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base64Field.swift; sourceTree = "<group>"; };
 		284DEC252476DB390071F32C /* CurrencyField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyField.swift; sourceTree = "<group>"; };
 		28610F17246EB63C0077F316 /* CoreDataSoupAccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSoupAccessor.swift; sourceTree = "<group>"; };
@@ -421,6 +423,7 @@
 				28610F17246EB63C0077F316 /* CoreDataSoupAccessor.swift */,
 				2865367D2484DE780063DF83 /* CoreDataSoupEntryUpsertQueue.swift */,
 				28653683248634980063DF83 /* CoreDataSoupRelationshipContext.swift */,
+				284BAD61248E70C400C36050 /* CoreDataSoupPool.swift */,
 				2865368B248908650063DF83 /* CoreDataSoupPoolFactory.swift */,
 				2879497024653FF6003C1C8E /* SFField.swift */,
 				286536812485130B0063DF83 /* SFChildRelationship.swift */,
@@ -725,6 +728,7 @@
 			files = (
 				283DC3CF2472A61300DAFF60 /* HavingId.swift in Sources */,
 				2879496A246538A5003C1C8E /* BaseFieldMapper.swift in Sources */,
+				284BAD62248E70C400C36050 /* CoreDataSoupPool.swift in Sources */,
 				2879495E2462D6A6003C1C8E /* CoreDataSoupMetadataFactory.swift in Sources */,
 				28D0C4C72459DE6E005529E2 /* CoreDataStack.swift in Sources */,
 				286BD4322473DDA400162533 /* CompoundEntryMapper.swift in Sources */,

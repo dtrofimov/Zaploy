@@ -73,6 +73,7 @@ class CoreDataSoupMetadataFactory {
             soupName: soupName,
             sfName: sfName,
             sfIdField: sfIdField,
+            soupEntryIdConverter: soupEntryIdConverter,
             soupEntryIdField: soupEntryIdMapper,
             syncIdField: syncIdField,
             attributesMapper: attributesMapper,

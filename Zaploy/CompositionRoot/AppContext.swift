@@ -54,11 +54,12 @@ class AppUserContext {
     lazy var warningLogger = ConsoleWarningLogger()
     lazy var soupPoolFactory = CoreDataSoupPoolFactory(model: coreDataStack.model,
                                                        persistentStore: coreDataStack.store,
-                                                       pseudoSmartStore: pseudoSmartStore,
                                                        metadataSyncManager: metadataSyncManager,
                                                        soupAccessor: soupAccessor,
+                                                       relationshipContextResolver: { [weak self] _ in self?.soupPool },
                                                        warningLogger: warningLogger)
-    var soupPool: CoreDataSoupPoolFactory.Output!
+    lazy var upsertQueue = CoreDataSoupEntryUpsertQueueImpl(warningLogger: warningLogger)
+    lazy var soupPool = CoreDataSoupPool(upsertQueue: upsertQueue)
 
     // MARK: Leads entity
 
@@ -71,9 +72,8 @@ class AppUserContext {
         _ = result.syncManager
         CoreDataStack.make(url: result.coreDataUrl) {
             result.coreDataStack = $0
-            result.soupPoolFactory.make { soupPoolResult in
-                result.soupPool = soupPoolResult
-                    .forceUnwrap("Cannot make soup pool")
+            result.soupPoolFactory.make(soupRegistrator: result.register(soup:)) { soupPoolResult in
+                soupPoolResult.forceUnwrap("Unable to run soupPoolFactory")
                 completion(result)
             }
         }
@@ -109,5 +109,11 @@ extension AppUserContext: UserContext {
 
     func resolveLeadDetailsScreen(lead: Lead) -> AppScreen {
         LeadDetailsView(lead: lead)
+    }
+
+    func register(soup: CoreDataSoup) {
+        Result { try pseudoSmartStore.addExternalSoup(soup, name: soup.soupMetadata.soupName) }
+            .forceUnwrap("Cannot add soup: \(soup.soupMetadata)")
+        soupPool.register(soup: soup)
     }
 }

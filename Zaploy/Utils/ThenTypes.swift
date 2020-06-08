@@ -9,5 +9,3 @@
 import Then
 
 extension Decimal: Then {}
-
-extension CoreDataSoup: Then {}
