@@ -112,8 +112,8 @@ extension AppUserContext: UserContext {
     }
 
     func register(soup: CoreDataSoup) {
-        Result { try pseudoSmartStore.addExternalSoup(soup, name: soup.soupMetadata.soupName) }
-            .forceUnwrap("Cannot add soup: \(soup.soupMetadata)")
+        Result { try pseudoSmartStore.addExternalSoup(soup, name: soup.metadata.soupName) }
+            .forceUnwrap("Cannot add soup: \(soup.metadata)")
         soupPool.register(soup: soup)
     }
 }

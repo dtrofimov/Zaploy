@@ -24,6 +24,16 @@
 		283DC3CD247297F900DAFF60 /* Result+ForceUnwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283DC3CC247297F900DAFF60 /* Result+ForceUnwrap.swift */; };
 		283DC3CF2472A61300DAFF60 /* HavingId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283DC3CE2472A61300DAFF60 /* HavingId.swift */; };
 		283DC3D12472A7F000DAFF60 /* Optional+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283DC3D02472A7F000DAFF60 /* Optional+Description.swift */; };
+		2842D931248E952000198F71 /* SerialSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2842D930248E952000198F71 /* SerialSyncService.swift */; };
+		2842D933248E984A00198F71 /* FavoriteReprosesSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2842D932248E984A00198F71 /* FavoriteReprosesSyncService.swift */; };
+		2842D935248F6CA300198F71 /* HavingCoreDataSoupMetadata+Soql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2842D934248F6CA300198F71 /* HavingCoreDataSoupMetadata+Soql.swift */; };
+		2842D937248F76EE00198F71 /* Soups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2842D936248F76EE00198F71 /* Soups.swift */; };
+		2842D939248F7A8100198F71 /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2842D938248F7A8100198F71 /* String+Utils.swift */; };
+		2842D93B248F7EC100198F71 /* NonFavoriteReprosesSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2842D93A248F7EC100198F71 /* NonFavoriteReprosesSyncService.swift */; };
+		2842D93D248FA8CC00198F71 /* SyncManager+ActiveSyncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2842D93C248FA8CC00198F71 /* SyncManager+ActiveSyncs.swift */; };
+		2842D941248FB0A200198F71 /* SoqlSyncDownService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2842D940248FB0A200198F71 /* SoqlSyncDownService.swift */; };
+		2842D943248FB1A000198F71 /* CleanGhostsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2842D942248FB1A000198F71 /* CleanGhostsService.swift */; };
+		284BAD60248E27DB00C36050 /* RawSoqlSyncDownService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284BAD5F248E27DB00C36050 /* RawSoqlSyncDownService.swift */; };
 		284BAD62248E70C400C36050 /* CoreDataSoupPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284BAD61248E70C400C36050 /* CoreDataSoupPool.swift */; };
 		284DEC242476A8BA0071F32C /* Base64Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284DEC232476A8BA0071F32C /* Base64Field.swift */; };
 		284DEC262476DB390071F32C /* CurrencyField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284DEC252476DB390071F32C /* CurrencyField.swift */; };
@@ -62,6 +72,7 @@
 		28B479AA248A314A00F80D07 /* ManagedDeeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B479A9248A314A00F80D07 /* ManagedDeeg.swift */; };
 		28B479AC248A51CF00F80D07 /* HavingCreatedBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B479AB248A51CF00F80D07 /* HavingCreatedBy.swift */; };
 		28B479AE248A552300F80D07 /* Set+OrderedByHash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B479AD248A552300F80D07 /* Set+OrderedByHash.swift */; };
+		28B479B0248A6FA300F80D07 /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B479AF248A6FA300F80D07 /* SyncService.swift */; };
 		28B53B07247557F900D226C2 /* SyncIdMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B53B06247557F900D226C2 /* SyncIdMapper.swift */; };
 		28B53B092475594300D226C2 /* BaseField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B53B082475594300D226C2 /* BaseField.swift */; };
 		28B8A798244F22D600FAE3A4 /* PseudoSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 28B8A796244F22D600FAE3A4 /* PseudoSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -148,6 +159,16 @@
 		2840BC482445B3CB00C2E896 /* ExternalSoup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalSoup.swift; sourceTree = "<group>"; };
 		2840BC4A2445B46900C2E896 /* SoupEntry+Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SoupEntry+Common.swift"; sourceTree = "<group>"; };
 		2840BC51244836FE00C2E896 /* String+SafeRemove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SafeRemove.swift"; sourceTree = "<group>"; };
+		2842D930248E952000198F71 /* SerialSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerialSyncService.swift; sourceTree = "<group>"; };
+		2842D932248E984A00198F71 /* FavoriteReprosesSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteReprosesSyncService.swift; sourceTree = "<group>"; };
+		2842D934248F6CA300198F71 /* HavingCoreDataSoupMetadata+Soql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HavingCoreDataSoupMetadata+Soql.swift"; sourceTree = "<group>"; };
+		2842D936248F76EE00198F71 /* Soups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Soups.swift; sourceTree = "<group>"; };
+		2842D938248F7A8100198F71 /* String+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
+		2842D93A248F7EC100198F71 /* NonFavoriteReprosesSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonFavoriteReprosesSyncService.swift; sourceTree = "<group>"; };
+		2842D93C248FA8CC00198F71 /* SyncManager+ActiveSyncs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncManager+ActiveSyncs.swift"; sourceTree = "<group>"; };
+		2842D940248FB0A200198F71 /* SoqlSyncDownService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoqlSyncDownService.swift; sourceTree = "<group>"; };
+		2842D942248FB1A000198F71 /* CleanGhostsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanGhostsService.swift; sourceTree = "<group>"; };
+		284BAD5F248E27DB00C36050 /* RawSoqlSyncDownService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawSoqlSyncDownService.swift; sourceTree = "<group>"; };
 		284BAD61248E70C400C36050 /* CoreDataSoupPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSoupPool.swift; sourceTree = "<group>"; };
 		284DEC232476A8BA0071F32C /* Base64Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base64Field.swift; sourceTree = "<group>"; };
 		284DEC252476DB390071F32C /* CurrencyField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyField.swift; sourceTree = "<group>"; };
@@ -186,6 +207,7 @@
 		28B479A9248A314A00F80D07 /* ManagedDeeg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedDeeg.swift; sourceTree = "<group>"; };
 		28B479AB248A51CF00F80D07 /* HavingCreatedBy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HavingCreatedBy.swift; sourceTree = "<group>"; };
 		28B479AD248A552300F80D07 /* Set+OrderedByHash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Set+OrderedByHash.swift"; sourceTree = "<group>"; };
+		28B479AF248A6FA300F80D07 /* SyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
 		28B53B06247557F900D226C2 /* SyncIdMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncIdMapper.swift; sourceTree = "<group>"; };
 		28B53B082475594300D226C2 /* BaseField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseField.swift; sourceTree = "<group>"; };
 		28B8A794244F22D600FAE3A4 /* PseudoSmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PseudoSmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -322,6 +344,7 @@
 				28097D61243DA72500F97916 /* LoginManager.swift */,
 				28D0C4C32459D0FC005529E2 /* UserContextManager.swift */,
 				28097D7B243DCDD400F97916 /* SyncDownPlayground.swift */,
+				28B479B1248A6FA700F80D07 /* Sync */,
 				28794946245AF702003C1C8E /* Entities */,
 				28B8A7AA2450534800FAE3A4 /* Model.xcdatamodeld */,
 			);
@@ -350,6 +373,8 @@
 				28DBED0D24811B56002FE90C /* MultiTaskTracker.swift */,
 				2865367F2484EA1E0063DF83 /* Array+RemoveAndReturn.swift */,
 				28B479AD248A552300F80D07 /* Set+OrderedByHash.swift */,
+				2842D938248F7A8100198F71 /* String+Utils.swift */,
+				2842D93C248FA8CC00198F71 /* SyncManager+ActiveSyncs.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -373,6 +398,18 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		2842D945248FC44700198F71 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				28B479AF248A6FA300F80D07 /* SyncService.swift */,
+				2842D940248FB0A200198F71 /* SoqlSyncDownService.swift */,
+				284BAD5F248E27DB00C36050 /* RawSoqlSyncDownService.swift */,
+				2842D942248FB1A000198F71 /* CleanGhostsService.swift */,
+				2842D930248E952000198F71 /* SerialSyncService.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		28794946245AF702003C1C8E /* Entities */ = {
 			isa = PBXGroup;
 			children = (
@@ -392,6 +429,7 @@
 				283DC3CE2472A61300DAFF60 /* HavingId.swift */,
 				28B479A2248A2BCD00F80D07 /* HavingGuid.swift */,
 				28B479AB248A51CF00F80D07 /* HavingCreatedBy.swift */,
+				2842D936248F76EE00198F71 /* Soups.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -425,6 +463,7 @@
 				28653683248634980063DF83 /* CoreDataSoupRelationshipContext.swift */,
 				284BAD61248E70C400C36050 /* CoreDataSoupPool.swift */,
 				2865368B248908650063DF83 /* CoreDataSoupPoolFactory.swift */,
+				2842D934248F6CA300198F71 /* HavingCoreDataSoupMetadata+Soql.swift */,
 				2879497024653FF6003C1C8E /* SFField.swift */,
 				286536812485130B0063DF83 /* SFChildRelationship.swift */,
 				2879496B24653D23003C1C8E /* Fields */,
@@ -478,6 +517,16 @@
 				28B479A9248A314A00F80D07 /* ManagedDeeg.swift */,
 			);
 			path = Deeg;
+			sourceTree = "<group>";
+		};
+		28B479B1248A6FA700F80D07 /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				2842D945248FC44700198F71 /* Base */,
+				2842D932248E984A00198F71 /* FavoriteReprosesSyncService.swift */,
+				2842D93A248F7EC100198F71 /* NonFavoriteReprosesSyncService.swift */,
+			);
+			path = Sync;
 			sourceTree = "<group>";
 		};
 		28B8A795244F22D600FAE3A4 /* PseudoSmartStore */ = {
@@ -728,9 +777,12 @@
 			files = (
 				283DC3CF2472A61300DAFF60 /* HavingId.swift in Sources */,
 				2879496A246538A5003C1C8E /* BaseFieldMapper.swift in Sources */,
+				2842D93D248FA8CC00198F71 /* SyncManager+ActiveSyncs.swift in Sources */,
 				284BAD62248E70C400C36050 /* CoreDataSoupPool.swift in Sources */,
+				2842D941248FB0A200198F71 /* SoqlSyncDownService.swift in Sources */,
 				2879495E2462D6A6003C1C8E /* CoreDataSoupMetadataFactory.swift in Sources */,
 				28D0C4C72459DE6E005529E2 /* CoreDataStack.swift in Sources */,
+				2842D943248FB1A000198F71 /* CleanGhostsService.swift in Sources */,
 				286BD4322473DDA400162533 /* CompoundEntryMapper.swift in Sources */,
 				2865368C248908650063DF83 /* CoreDataSoupPoolFactory.swift in Sources */,
 				28B8A7AF2450980600FAE3A4 /* AsyncLazy.swift in Sources */,
@@ -738,11 +790,14 @@
 				28B479AC248A51CF00F80D07 /* HavingCreatedBy.swift in Sources */,
 				2879496824644374003C1C8E /* CoreDataSoup.swift in Sources */,
 				28B479A5248A306700F80D07 /* ManagedReprose.swift in Sources */,
+				2842D937248F76EE00198F71 /* Soups.swift in Sources */,
 				283DC3C02472860B00DAFF60 /* ManagedObjectType.swift in Sources */,
 				28DBED0A24800859002FE90C /* ChildRelationship.swift in Sources */,
 				283DC3D12472A7F000DAFF60 /* Optional+Description.swift in Sources */,
+				28B479B0248A6FA300F80D07 /* SyncService.swift in Sources */,
 				28653684248634980063DF83 /* CoreDataSoupRelationshipContext.swift in Sources */,
 				28B479AE248A552300F80D07 /* Set+OrderedByHash.swift in Sources */,
+				2842D935248F6CA300198F71 /* HavingCoreDataSoupMetadata+Soql.swift in Sources */,
 				28794975246552BE003C1C8E /* SoupEntryIdMapper.swift in Sources */,
 				28D0C4B624534414005529E2 /* LoginView.swift in Sources */,
 				28B53B07247557F900D226C2 /* SyncIdMapper.swift in Sources */,
@@ -768,13 +823,16 @@
 				287949662464299D003C1C8E /* SoupEntryIdConverter.swift in Sources */,
 				2879495B245AFB40003C1C8E /* ManagedLead.swift in Sources */,
 				28AF501F244ED43A00E6EB83 /* LeadDetailsView.swift in Sources */,
+				2842D933248E984A00198F71 /* FavoriteReprosesSyncService.swift in Sources */,
 				28DBED00247E8BF5002FE90C /* Relationship.swift in Sources */,
+				2842D931248E952000198F71 /* SerialSyncService.swift in Sources */,
 				28794943245AAD0C003C1C8E /* Optional+ForceUnwrap.swift in Sources */,
 				28DBED04247FE0E8002FE90C /* ThenTypes.swift in Sources */,
 				28B8A7B52452211400FAE3A4 /* ObservableModel.swift in Sources */,
 				28B479AA248A314A00F80D07 /* ManagedDeeg.swift in Sources */,
 				28610F18246EB63C0077F316 /* CoreDataSoupAccessor.swift in Sources */,
 				28097D6C243DC41400F97916 /* Spinner.swift in Sources */,
+				284BAD60248E27DB00C36050 /* RawSoqlSyncDownService.swift in Sources */,
 				284DEC262476DB390071F32C /* CurrencyField.swift in Sources */,
 				28DBED0E24811B56002FE90C /* MultiTaskTracker.swift in Sources */,
 				28D0C4C42459D0FC005529E2 /* UserContextManager.swift in Sources */,
@@ -782,6 +840,7 @@
 				28794952245AF983003C1C8E /* HavingNameComponents.swift in Sources */,
 				28794959245AFAFA003C1C8E /* Lead.swift in Sources */,
 				28097D47243D281F00F97916 /* AppDelegate.swift in Sources */,
+				2842D939248F7A8100198F71 /* String+Utils.swift in Sources */,
 				2879497124653FF6003C1C8E /* SFField.swift in Sources */,
 				28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */,
 				286536822485130B0063DF83 /* SFChildRelationship.swift in Sources */,
@@ -796,6 +855,7 @@
 				28097D67243DAB6700F97916 /* View+AnyView.swift in Sources */,
 				28D0C4BA2456C449005529E2 /* UserContext.swift in Sources */,
 				28B8A7B32451FC9300FAE3A4 /* AppContext.swift in Sources */,
+				2842D93B248F7EC100198F71 /* NonFavoriteReprosesSyncService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

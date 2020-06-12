@@ -9,14 +9,14 @@
 import CoreData
 
 protocol HavingCoreDataSoupMetadata {
-    var soupMetadata: CoreDataSoupMetadata { get }
+    var metadata: CoreDataSoupMetadata { get }
 }
 
 protocol CoreDataSoup: ExternalSoup, CoreDataSoupEntryUpserter, HavingCoreDataSoupMetadata {
 }
 
 class CoreDataSoupImpl: CoreDataSoup {
-    let soupMetadata: CoreDataSoupMetadata
+    let metadata: CoreDataSoupMetadata
     let soupAccessor: CoreDataSoupAccessor
     let relationshipContextResolver: (NSManagedObjectContext) -> CoreDataSoupRelationshipContext?
     let warningLogger: WarningLogger
@@ -25,7 +25,7 @@ class CoreDataSoupImpl: CoreDataSoup {
          soupAccessor: CoreDataSoupAccessor,
          relationshipContextResolver: @escaping (NSManagedObjectContext) -> CoreDataSoupRelationshipContext?,
          warningLogger: WarningLogger) {
-        self.soupMetadata = soupMetadata
+        self.metadata = soupMetadata
         self.soupAccessor = soupAccessor
         self.relationshipContextResolver = relationshipContextResolver
         self.warningLogger = warningLogger
@@ -43,10 +43,10 @@ class CoreDataSoupImpl: CoreDataSoup {
     func nonDirtySfIds(syncSoupEntryId: SoupEntryId?) -> [SfId] {
         return soupAccessor.accessStore { context in
             let request = NSFetchRequest<NSDictionary>()
-            request.entity = soupMetadata.entity
+            request.entity = metadata.entity
             request.resultType = .dictionaryResultType
             let predicates: [NSPredicate] = [].with {
-                if let syncIdField = soupMetadata.syncIdField,
+                if let syncIdField = metadata.syncIdField,
                     let syncId = syncSoupEntryId {
                     $0.append(syncIdField.predicateByValues([syncId]))
                 }
@@ -55,7 +55,7 @@ class CoreDataSoupImpl: CoreDataSoup {
             if !predicates.isEmpty {
                 request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
             }
-            let moIdField = soupMetadata.sfIdField.moField
+            let moIdField = metadata.sfIdField.moField
             request.propertiesToFetch = [moIdField]
             guard let dicts = (Result { try context.fetch(request) })
                 .check(warningLogger, "Unable to fetch nonDirtySfIds: \(request)")
@@ -77,14 +77,14 @@ class CoreDataSoupImpl: CoreDataSoup {
     func entries(soupEntryIds: [SoupEntryId]) -> [SoupEntry] {
         return soupAccessor.accessStore { context in
             let request = NSFetchRequest<NSManagedObject>()
-            request.entity = soupMetadata.entity
+            request.entity = metadata.entity
             let managedObjectIds: [NSManagedObjectID] = soupEntryIds.compactMap { soupEntryId in
-                guard let managedObjectId = (Result { try soupMetadata.soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
+                guard let managedObjectId = (Result { try metadata.soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
                     .check(warningLogger, "Unable to build managedObjectId from soupEntryId \(soupEntryId)")
                     else { return nil }
                 return managedObjectId
             }
-            request.predicate = soupMetadata.soupEntryIdField.predicateByValues(managedObjectIds)
+            request.predicate = metadata.soupEntryIdField.predicateByValues(managedObjectIds)
             request.returnsObjectsAsFaults = false
             guard let fetchedObjects = (Result { try context.fetch(request) })
                 .check(warningLogger, "Unable to fetch entries for soupEntryIds: \(request)")
@@ -98,7 +98,7 @@ class CoreDataSoupImpl: CoreDataSoup {
                         .check(warningLogger, "Entry not found for managedObjectId \($0)")
                         else { return nil }
                     return SoupEntry().with {
-                        soupMetadata.soupMapper.map(from: object, to: &$0, in: relationshipContext)
+                        metadata.soupMapper.map(from: object, to: &$0, in: relationshipContext)
                     }
                 }
             }
@@ -106,7 +106,7 @@ class CoreDataSoupImpl: CoreDataSoup {
     }
 
     func upsert(entries: [SoupEntry], in context: NSManagedObjectContext, in relationshipContext: CoreDataSoupRelationshipContext, onUpsert: (SoupEntry, Int, NSManagedObject?) -> Void) {
-        let predicates: [NSPredicate] = soupMetadata.uniqueFields.compactMap { field in
+        let predicates: [NSPredicate] = metadata.uniqueFields.compactMap { field in
             let values = entries.compactMap { field.value(from: $0) }
             guard !values.isEmpty else { return nil }
 
@@ -122,7 +122,7 @@ class CoreDataSoupImpl: CoreDataSoup {
         var existingObjects: [NSManagedObject] = {
             guard !predicates.isEmpty else { return [] }
             let request = NSFetchRequest<NSManagedObject>()
-            request.entity = soupMetadata.entity
+            request.entity = metadata.entity
             request.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
             request.returnsObjectsAsFaults = false
             guard let objects = (Result { try context.fetch(request) })
@@ -132,7 +132,7 @@ class CoreDataSoupImpl: CoreDataSoup {
         }()
         for (index, entry) in entries.enumerated() {
             let matchingObjects: [NSManagedObject] = existingObjects.filter { object in
-                soupMetadata.uniqueFields.contains { field in
+                metadata.uniqueFields.contains { field in
                     field.value(from: object)
                         .checkType(warningLogger, "CoreDataSoup.upsert matchingObjects left")
                         as NSObject?
@@ -151,7 +151,7 @@ class CoreDataSoupImpl: CoreDataSoup {
             let targetObject: NSManagedObject = {
                 if let existing = matchingObjects.first {
                     if warningLogger.isEnabled {
-                        for field in soupMetadata.uniqueFields {
+                        for field in metadata.uniqueFields {
                             if let existingValue = field.value(from: existing) as? NSObject,
                                 let newValue = field.value(from: entry) as? NSObject {
                                 warningLogger.assert(existingValue == newValue,
@@ -161,14 +161,14 @@ class CoreDataSoupImpl: CoreDataSoup {
                     }
                     return existing
                 } else {
-                    warningLogger.assert(soupMetadata.soupEntryIdField.value(from: entry) == nil,
+                    warningLogger.assert(metadata.soupEntryIdField.value(from: entry) == nil,
                                          "Object not found by soupEntryId while upserting \(entry)")
-                    return NSManagedObject(entity: soupMetadata.entity, insertInto: context).then {
+                    return NSManagedObject(entity: metadata.entity, insertInto: context).then {
                         existingObjects.append($0)
                     }
                 }
             }()
-            soupMetadata.soupMapper.map(from: entry, to: targetObject, in: relationshipContext)
+            metadata.soupMapper.map(from: entry, to: targetObject, in: relationshipContext)
             onUpsert(entry, index, targetObject)
         }
     }
@@ -186,12 +186,12 @@ class CoreDataSoupImpl: CoreDataSoup {
     func remove(soupEntryIds: [SoupEntryId]) {
         return soupAccessor.accessStore { context in
             let request = NSFetchRequest<NSManagedObject>()
-            request.entity = soupMetadata.entity
+            request.entity = metadata.entity
             let managedObjectIds = soupEntryIds.compactMap { soupEntryId in
-                (Result { try soupMetadata.soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
+                (Result { try metadata.soupEntryIdConverter.managedObjectId(soupEntryId: soupEntryId) })
                     .check(warningLogger, "Cannot get managedObjectId from soupEntryId \(soupEntryId)")
             }
-            request.predicate = soupMetadata.soupEntryIdField.predicateByValues(managedObjectIds)
+            request.predicate = metadata.soupEntryIdField.predicateByValues(managedObjectIds)
             request.includesPropertyValues = false
             guard let objects = (Result { try context.fetch(request) })
                 .check(warningLogger, "Cannot fetch objects to remove by soupEntryIds: \(request)")
@@ -207,8 +207,8 @@ class CoreDataSoupImpl: CoreDataSoup {
     func remove(sfIds: [SfId]) {
         return soupAccessor.accessStore { context in
             let request = NSFetchRequest<NSManagedObject>()
-            request.entity = soupMetadata.entity
-            request.predicate = soupMetadata.sfIdField.predicateByValues(sfIds)
+            request.entity = metadata.entity
+            request.predicate = metadata.sfIdField.predicateByValues(sfIds)
             request.includesPropertyValues = false
             guard let objects = (Result { try context.fetch(request) })
                 .check(warningLogger, "Cannot fetch objects to remove by sfIds: \(request)")
