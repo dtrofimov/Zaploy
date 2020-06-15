@@ -9,3 +9,5 @@
 import Then
 
 extension Decimal: Then {}
+
+extension FetchRequestModel: Then {}

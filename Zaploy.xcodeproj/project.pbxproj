@@ -65,6 +65,16 @@
 		28794979246583F8003C1C8E /* AttributesMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28794978246583F8003C1C8E /* AttributesMapper.swift */; };
 		28A5C69A2497949A008F7B58 /* NSManagedObject+ObservableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6992497949A008F7B58 /* NSManagedObject+ObservableModel.swift */; };
 		28A5C69C24979A82008F7B58 /* PlaygroundViewLeadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C69B24979A82008F7B58 /* PlaygroundViewLeadView.swift */; };
+		28A5C69F2497B149008F7B58 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C69E2497B149008F7B58 /* HomeView.swift */; };
+		28A5C6A22497B33A008F7B58 /* ReprosesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6A12497B33A008F7B58 /* ReprosesView.swift */; };
+		28A5C6A52497B3C9008F7B58 /* DeegsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6A42497B3C9008F7B58 /* DeegsView.swift */; };
+		28A5C6A82497B417008F7B58 /* LeadsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6A72497B417008F7B58 /* LeadsView.swift */; };
+		28A5C6AA2497B578008F7B58 /* LeadsViewLeadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6A92497B578008F7B58 /* LeadsViewLeadCell.swift */; };
+		28A5C6AC2497B61A008F7B58 /* LeadsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6AB2497B61A008F7B58 /* LeadsViewModel.swift */; };
+		28A5C6AE2497E308008F7B58 /* FetchRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6AD2497E308008F7B58 /* FetchRequestModel.swift */; };
+		28A5C6B02497F113008F7B58 /* NSObject+LifetimeAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6AF2497F113008F7B58 /* NSObject+LifetimeAttachments.swift */; };
+		28A5C6B22497F768008F7B58 /* ReprosesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6B12497F768008F7B58 /* ReprosesViewModel.swift */; };
+		28A5C6B42497F7DF008F7B58 /* ReprosesViewReproseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6B32497F7DF008F7B58 /* ReprosesViewReproseCell.swift */; };
 		28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501B244D96C600E6EB83 /* Then+Update.swift */; };
 		28AF501F244ED43A00E6EB83 /* LeadDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501E244ED43A00E6EB83 /* LeadDetailsView.swift */; };
 		28B479A1248A2BBC00F80D07 /* Reprose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B479A0248A2BBC00F80D07 /* Reprose.swift */; };
@@ -202,6 +212,16 @@
 		28794978246583F8003C1C8E /* AttributesMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributesMapper.swift; sourceTree = "<group>"; };
 		28A5C6992497949A008F7B58 /* NSManagedObject+ObservableModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+ObservableModel.swift"; sourceTree = "<group>"; };
 		28A5C69B24979A82008F7B58 /* PlaygroundViewLeadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundViewLeadView.swift; sourceTree = "<group>"; };
+		28A5C69E2497B149008F7B58 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		28A5C6A12497B33A008F7B58 /* ReprosesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReprosesView.swift; sourceTree = "<group>"; };
+		28A5C6A42497B3C9008F7B58 /* DeegsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeegsView.swift; sourceTree = "<group>"; };
+		28A5C6A72497B417008F7B58 /* LeadsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeadsView.swift; sourceTree = "<group>"; };
+		28A5C6A92497B578008F7B58 /* LeadsViewLeadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeadsViewLeadCell.swift; sourceTree = "<group>"; };
+		28A5C6AB2497B61A008F7B58 /* LeadsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeadsViewModel.swift; sourceTree = "<group>"; };
+		28A5C6AD2497E308008F7B58 /* FetchRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRequestModel.swift; sourceTree = "<group>"; };
+		28A5C6AF2497F113008F7B58 /* NSObject+LifetimeAttachments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+LifetimeAttachments.swift"; sourceTree = "<group>"; };
+		28A5C6B12497F768008F7B58 /* ReprosesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReprosesViewModel.swift; sourceTree = "<group>"; };
+		28A5C6B32497F7DF008F7B58 /* ReprosesViewReproseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReprosesViewReproseCell.swift; sourceTree = "<group>"; };
 		28AF501B244D96C600E6EB83 /* Then+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Then+Update.swift"; sourceTree = "<group>"; };
 		28AF501E244ED43A00E6EB83 /* LeadDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeadDetailsView.swift; sourceTree = "<group>"; };
 		28B479A0248A2BBC00F80D07 /* Reprose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reprose.swift; sourceTree = "<group>"; };
@@ -335,6 +355,10 @@
 		28097D64243DAAE900F97916 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				28A5C69D2497B138008F7B58 /* Home */,
+				28A5C6A02497B322008F7B58 /* Reproses */,
+				28A5C6A62497B405008F7B58 /* Leads */,
+				28A5C6A32497B3BA008F7B58 /* Deegs */,
 				28D0C4B2245343BE005529E2 /* Login */,
 				28097D68243DAD5B00F97916 /* Playground */,
 				28AF501D244ED42500E6EB83 /* EntryDetails */,
@@ -381,6 +405,8 @@
 				2842D938248F7A8100198F71 /* String+Utils.swift */,
 				2842D93C248FA8CC00198F71 /* SyncManager+ActiveSyncs.swift */,
 				28A5C6992497949A008F7B58 /* NSManagedObject+ObservableModel.swift */,
+				28A5C6AD2497E308008F7B58 /* FetchRequestModel.swift */,
+				28A5C6AF2497F113008F7B58 /* NSObject+LifetimeAttachments.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -496,6 +522,42 @@
 				28278A75247556F2003597A0 /* Auxiliary */,
 			);
 			path = Fields;
+			sourceTree = "<group>";
+		};
+		28A5C69D2497B138008F7B58 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				28A5C69E2497B149008F7B58 /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		28A5C6A02497B322008F7B58 /* Reproses */ = {
+			isa = PBXGroup;
+			children = (
+				28A5C6A12497B33A008F7B58 /* ReprosesView.swift */,
+				28A5C6B12497F768008F7B58 /* ReprosesViewModel.swift */,
+				28A5C6B32497F7DF008F7B58 /* ReprosesViewReproseCell.swift */,
+			);
+			path = Reproses;
+			sourceTree = "<group>";
+		};
+		28A5C6A32497B3BA008F7B58 /* Deegs */ = {
+			isa = PBXGroup;
+			children = (
+				28A5C6A42497B3C9008F7B58 /* DeegsView.swift */,
+			);
+			path = Deegs;
+			sourceTree = "<group>";
+		};
+		28A5C6A62497B405008F7B58 /* Leads */ = {
+			isa = PBXGroup;
+			children = (
+				28A5C6A72497B417008F7B58 /* LeadsView.swift */,
+				28A5C6AB2497B61A008F7B58 /* LeadsViewModel.swift */,
+				28A5C6A92497B578008F7B58 /* LeadsViewLeadCell.swift */,
+			);
+			path = Leads;
 			sourceTree = "<group>";
 		};
 		28AF501D244ED42500E6EB83 /* EntryDetails */ = {
@@ -781,6 +843,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28A5C6A22497B33A008F7B58 /* ReprosesView.swift in Sources */,
+				28A5C6A52497B3C9008F7B58 /* DeegsView.swift in Sources */,
 				283DC3CF2472A61300DAFF60 /* HavingId.swift in Sources */,
 				2879496A246538A5003C1C8E /* BaseFieldMapper.swift in Sources */,
 				2842D93D248FA8CC00198F71 /* SyncManager+ActiveSyncs.swift in Sources */,
@@ -791,7 +855,9 @@
 				2842D943248FB1A000198F71 /* CleanGhostsService.swift in Sources */,
 				286BD4322473DDA400162533 /* CompoundEntryMapper.swift in Sources */,
 				2865368C248908650063DF83 /* CoreDataSoupPoolFactory.swift in Sources */,
+				28A5C6AE2497E308008F7B58 /* FetchRequestModel.swift in Sources */,
 				28B8A7AF2450980600FAE3A4 /* AsyncLazy.swift in Sources */,
+				28A5C6B42497F7DF008F7B58 /* ReprosesViewReproseCell.swift in Sources */,
 				28251CF9246C1D520083A97A /* WarningLogger.swift in Sources */,
 				28B479AC248A51CF00F80D07 /* HavingCreatedBy.swift in Sources */,
 				2879496824644374003C1C8E /* CoreDataSoup.swift in Sources */,
@@ -815,6 +881,7 @@
 				28097D6A243DADC400F97916 /* PlaygroundView.swift in Sources */,
 				28097D62243DA72500F97916 /* LoginManager.swift in Sources */,
 				28D0C4BE2456DB74005529E2 /* AppScreenView.swift in Sources */,
+				28A5C6AC2497B61A008F7B58 /* LeadsViewModel.swift in Sources */,
 				28B479A8248A313800F80D07 /* Deeg.swift in Sources */,
 				28C0D341247B9A4200AD2FE3 /* KVCProperty.swift in Sources */,
 				28794979246583F8003C1C8E /* AttributesMapper.swift in Sources */,
@@ -822,6 +889,7 @@
 				286BD4362474081700162533 /* CoreDataSoupMetadata.swift in Sources */,
 				28B8A7AC2450534800FAE3A4 /* Model.xcdatamodeld in Sources */,
 				28794973246548EB003C1C8E /* StringField.swift in Sources */,
+				28A5C6B02497F113008F7B58 /* NSObject+LifetimeAttachments.swift in Sources */,
 				28B479A1248A2BBC00F80D07 /* Reprose.swift in Sources */,
 				284DEC242476A8BA0071F32C /* Base64Field.swift in Sources */,
 				28794956245AFA3E003C1C8E /* ManagedUser.swift in Sources */,
@@ -833,11 +901,14 @@
 				2842D933248E984A00198F71 /* FavoriteReprosesSyncService.swift in Sources */,
 				28DBED00247E8BF5002FE90C /* Relationship.swift in Sources */,
 				2842D931248E952000198F71 /* SerialSyncService.swift in Sources */,
+				28A5C6B22497F768008F7B58 /* ReprosesViewModel.swift in Sources */,
 				28794943245AAD0C003C1C8E /* Optional+ForceUnwrap.swift in Sources */,
 				28DBED04247FE0E8002FE90C /* ThenTypes.swift in Sources */,
 				28B8A7B52452211400FAE3A4 /* ObservableModel.swift in Sources */,
 				28B479AA248A314A00F80D07 /* ManagedDeeg.swift in Sources */,
 				28610F18246EB63C0077F316 /* CoreDataSoupAccessor.swift in Sources */,
+				28A5C69F2497B149008F7B58 /* HomeView.swift in Sources */,
+				28A5C6AA2497B578008F7B58 /* LeadsViewLeadCell.swift in Sources */,
 				28097D6C243DC41400F97916 /* Spinner.swift in Sources */,
 				284BAD60248E27DB00C36050 /* RawSoqlSyncDownService.swift in Sources */,
 				284DEC262476DB390071F32C /* CurrencyField.swift in Sources */,
@@ -852,6 +923,7 @@
 				28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */,
 				286536822485130B0063DF83 /* SFChildRelationship.swift in Sources */,
 				28A5C69C24979A82008F7B58 /* PlaygroundViewLeadView.swift in Sources */,
+				28A5C6A82497B417008F7B58 /* LeadsView.swift in Sources */,
 				28B53B092475594300D226C2 /* BaseField.swift in Sources */,
 				287949602462D878003C1C8E /* MetadataSyncManager+LoadFromCache.swift in Sources */,
 				2879496D24653D78003C1C8E /* FieldProtocols.swift in Sources */,

@@ -104,6 +104,27 @@ extension AppContext {
 
 extension AppUserContext: UserContext {
     func resolveScreenAfterLogin() -> AppScreen {
+        HomeView(reprosesScreenResolver: resolveReprosesScreen,
+                 leadsScreenResolver: resolveLeadsScreen,
+                 deegsScreenResolver: resolveDeegsScreen,
+                 playgroundScreenResolver: resolvePlaygroundScreen)
+    }
+
+    func resolveReprosesScreen() -> AppScreen {
+        let model = ReprosesViewModelImpl(moc: coreDataStack.viewContext)
+        return ReprosesView(model: model)
+    }
+
+    func resolveLeadsScreen() -> AppScreen {
+        let model = LeadsViewModelImpl(moc: coreDataStack.viewContext)
+        return LeadsView(model: model)
+    }
+
+    func resolveDeegsScreen() -> AppScreen {
+        DeegsView()
+    }
+
+    func resolvePlaygroundScreen() -> AppScreen {
         PlaygroundView(playground: playground, leadDetailsScreenResolver: resolveLeadDetailsScreen(lead:))
     }
 
