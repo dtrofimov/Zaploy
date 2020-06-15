@@ -8,7 +8,12 @@
 
 import Foundation
 
-protocol Reprose: HavingId, HavingGuid, HavingCreatedBy {
+protocol Reprose:
+    ObservableModel,
+    HavingId,
+    HavingGuid,
+    HavingCreatedBy
+{
     var name: String { get }
     var isFavorite: Bool { get }
     var deeg: Deeg? { get }

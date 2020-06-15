@@ -63,7 +63,7 @@ struct PlaygroundView: View, AppScreen {
                 }
                 ForEach(playground.leads, id: \.id) { lead in
                     NavigationLink(destination: LazyView(self.leadDetailsScreenResolver(lead).asAnyView)) {
-                        Text([lead.firstName, lead.lastName].compactMap { $0 }.joined(separator: " "))
+                        PlaygroundViewLeadView(lead: lead)
                     }
                 }
             }

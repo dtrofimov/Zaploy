@@ -8,7 +8,11 @@
 
 import Foundation
 
-protocol Lead: HavingNameComponents, HavingId {
+protocol Lead:
+    ObservableModel,
+    HavingId,
+    HavingNameComponents
+{
     var company: String { get }
     var someBool: Bool { get }
     var someCurrency: Decimal? { get }

@@ -12,3 +12,9 @@ protocol HavingNameComponents {
     var firstName: String? { get }
     var lastName: String { get }
 }
+
+extension HavingNameComponents {
+    var fullName: String {
+        [firstName, lastName].compactMap { $0 }.joined(separator: " ")
+    }
+}

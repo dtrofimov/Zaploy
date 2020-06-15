@@ -10,7 +10,7 @@ import SwiftUI
 import PseudoSmartStore
 
 struct LeadDetailsView: View, AppScreen {
-    let lead: Lead
+    @ObservedModel var lead: Lead
 
     var body: some View {
         return VStack {

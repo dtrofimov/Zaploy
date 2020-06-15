@@ -8,6 +8,10 @@
 
 import Foundation
 
-protocol User: HavingNameComponents, HavingId {
+protocol User:
+    ObservableModel,
+    HavingId,
+    HavingNameComponents
+{
     var username: String { get }
 }

@@ -63,6 +63,8 @@
 		28794975246552BE003C1C8E /* SoupEntryIdMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28794974246552BE003C1C8E /* SoupEntryIdMapper.swift */; };
 		28794977246581B0003C1C8E /* NumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28794976246581B0003C1C8E /* NumberField.swift */; };
 		28794979246583F8003C1C8E /* AttributesMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28794978246583F8003C1C8E /* AttributesMapper.swift */; };
+		28A5C69A2497949A008F7B58 /* NSManagedObject+ObservableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6992497949A008F7B58 /* NSManagedObject+ObservableModel.swift */; };
+		28A5C69C24979A82008F7B58 /* PlaygroundViewLeadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C69B24979A82008F7B58 /* PlaygroundViewLeadView.swift */; };
 		28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501B244D96C600E6EB83 /* Then+Update.swift */; };
 		28AF501F244ED43A00E6EB83 /* LeadDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501E244ED43A00E6EB83 /* LeadDetailsView.swift */; };
 		28B479A1248A2BBC00F80D07 /* Reprose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B479A0248A2BBC00F80D07 /* Reprose.swift */; };
@@ -198,6 +200,8 @@
 		28794974246552BE003C1C8E /* SoupEntryIdMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoupEntryIdMapper.swift; sourceTree = "<group>"; };
 		28794976246581B0003C1C8E /* NumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberField.swift; sourceTree = "<group>"; };
 		28794978246583F8003C1C8E /* AttributesMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributesMapper.swift; sourceTree = "<group>"; };
+		28A5C6992497949A008F7B58 /* NSManagedObject+ObservableModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+ObservableModel.swift"; sourceTree = "<group>"; };
+		28A5C69B24979A82008F7B58 /* PlaygroundViewLeadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundViewLeadView.swift; sourceTree = "<group>"; };
 		28AF501B244D96C600E6EB83 /* Then+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Then+Update.swift"; sourceTree = "<group>"; };
 		28AF501E244ED43A00E6EB83 /* LeadDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeadDetailsView.swift; sourceTree = "<group>"; };
 		28B479A0248A2BBC00F80D07 /* Reprose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reprose.swift; sourceTree = "<group>"; };
@@ -355,6 +359,7 @@
 			isa = PBXGroup;
 			children = (
 				28097D69243DADC400F97916 /* PlaygroundView.swift */,
+				28A5C69B24979A82008F7B58 /* PlaygroundViewLeadView.swift */,
 			);
 			path = Playground;
 			sourceTree = "<group>";
@@ -375,6 +380,7 @@
 				28B479AD248A552300F80D07 /* Set+OrderedByHash.swift */,
 				2842D938248F7A8100198F71 /* String+Utils.swift */,
 				2842D93C248FA8CC00198F71 /* SyncManager+ActiveSyncs.swift */,
+				28A5C6992497949A008F7B58 /* NSManagedObject+ObservableModel.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -790,6 +796,7 @@
 				28B479AC248A51CF00F80D07 /* HavingCreatedBy.swift in Sources */,
 				2879496824644374003C1C8E /* CoreDataSoup.swift in Sources */,
 				28B479A5248A306700F80D07 /* ManagedReprose.swift in Sources */,
+				28A5C69A2497949A008F7B58 /* NSManagedObject+ObservableModel.swift in Sources */,
 				2842D937248F76EE00198F71 /* Soups.swift in Sources */,
 				283DC3C02472860B00DAFF60 /* ManagedObjectType.swift in Sources */,
 				28DBED0A24800859002FE90C /* ChildRelationship.swift in Sources */,
@@ -844,6 +851,7 @@
 				2879497124653FF6003C1C8E /* SFField.swift in Sources */,
 				28097D7C243DCDD400F97916 /* SyncDownPlayground.swift in Sources */,
 				286536822485130B0063DF83 /* SFChildRelationship.swift in Sources */,
+				28A5C69C24979A82008F7B58 /* PlaygroundViewLeadView.swift in Sources */,
 				28B53B092475594300D226C2 /* BaseField.swift in Sources */,
 				287949602462D878003C1C8E /* MetadataSyncManager+LoadFromCache.swift in Sources */,
 				2879496D24653D78003C1C8E /* FieldProtocols.swift in Sources */,

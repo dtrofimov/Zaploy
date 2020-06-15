@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct UserDetailsView: View, AppScreen {
-    let user: User
+    @ObservedModel var user: User
 
     var body: some View {
         VStack {

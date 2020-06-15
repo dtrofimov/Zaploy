@@ -8,7 +8,12 @@
 
 import Foundation
 
-protocol Deeg: HavingId, HavingGuid, HavingCreatedBy {
+protocol Deeg:
+    ObservableModel,
+    HavingId,
+    HavingGuid,
+    HavingCreatedBy
+{
     var name: String { get }
     var reproses: [Reprose] { get }
 }
