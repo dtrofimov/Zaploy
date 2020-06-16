@@ -75,6 +75,7 @@
 		28A5C6B02497F113008F7B58 /* NSObject+LifetimeAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6AF2497F113008F7B58 /* NSObject+LifetimeAttachments.swift */; };
 		28A5C6B22497F768008F7B58 /* ReprosesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6B12497F768008F7B58 /* ReprosesViewModel.swift */; };
 		28A5C6B42497F7DF008F7B58 /* ReprosesViewReproseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6B32497F7DF008F7B58 /* ReprosesViewReproseCell.swift */; };
+		28A5C6BD2498BDE6008F7B58 /* NavigationLink+Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6BC2498BDE6008F7B58 /* NavigationLink+Screen.swift */; };
 		28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501B244D96C600E6EB83 /* Then+Update.swift */; };
 		28AF501F244ED43A00E6EB83 /* LeadDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501E244ED43A00E6EB83 /* LeadDetailsView.swift */; };
 		28B479A1248A2BBC00F80D07 /* Reprose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B479A0248A2BBC00F80D07 /* Reprose.swift */; };
@@ -222,6 +223,7 @@
 		28A5C6AF2497F113008F7B58 /* NSObject+LifetimeAttachments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+LifetimeAttachments.swift"; sourceTree = "<group>"; };
 		28A5C6B12497F768008F7B58 /* ReprosesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReprosesViewModel.swift; sourceTree = "<group>"; };
 		28A5C6B32497F7DF008F7B58 /* ReprosesViewReproseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReprosesViewReproseCell.swift; sourceTree = "<group>"; };
+		28A5C6BC2498BDE6008F7B58 /* NavigationLink+Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationLink+Screen.swift"; sourceTree = "<group>"; };
 		28AF501B244D96C600E6EB83 /* Then+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Then+Update.swift"; sourceTree = "<group>"; };
 		28AF501E244ED43A00E6EB83 /* LeadDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeadDetailsView.swift; sourceTree = "<group>"; };
 		28B479A0248A2BBC00F80D07 /* Reprose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reprose.swift; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 				28B8A7B42452211400FAE3A4 /* ObservableModel.swift */,
 				28D0C4B024522F5F005529E2 /* LazyView.swift */,
 				28D0C4BD2456DB74005529E2 /* AppScreenView.swift */,
+				28A5C6BC2498BDE6008F7B58 /* NavigationLink+Screen.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -860,6 +863,7 @@
 				28A5C6B42497F7DF008F7B58 /* ReprosesViewReproseCell.swift in Sources */,
 				28251CF9246C1D520083A97A /* WarningLogger.swift in Sources */,
 				28B479AC248A51CF00F80D07 /* HavingCreatedBy.swift in Sources */,
+				28A5C6BD2498BDE6008F7B58 /* NavigationLink+Screen.swift in Sources */,
 				2879496824644374003C1C8E /* CoreDataSoup.swift in Sources */,
 				28B479A5248A306700F80D07 /* ManagedReprose.swift in Sources */,
 				28A5C69A2497949A008F7B58 /* NSManagedObject+ObservableModel.swift in Sources */,

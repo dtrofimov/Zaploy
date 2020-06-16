@@ -17,16 +17,16 @@ struct HomeView: View, AppScreen {
     var body: some View {
         List {
             Section {
-                NavigationLink(destination: LazyView(self.reprosesScreenResolver().asAnyView)) {
+                NavigationLink(screen: self.reprosesScreenResolver()) {
                     Text("Reproses")
                 }
-                NavigationLink(destination: LazyView(self.leadsScreenResolver().asAnyView)) {
+                NavigationLink(screen: self.leadsScreenResolver()) {
                     Text("Leads")
                 }
-                NavigationLink(destination: LazyView(self.deegsScreenResolver().asAnyView)) {
+                NavigationLink(screen: self.deegsScreenResolver()) {
                     Text("Deegs")
                 }
-                NavigationLink(destination: LazyView(self.playgroundScreenResolver().asAnyView)) {
+                NavigationLink(screen: self.playgroundScreenResolver()) {
                     Text("Old Playground")
                 }
             }

@@ -62,7 +62,7 @@ struct PlaygroundView: View, AppScreen {
                     Text("")
                 }
                 ForEach(playground.leads, id: \.id) { lead in
-                    NavigationLink(destination: LazyView(self.leadDetailsScreenResolver(lead).asAnyView)) {
+                    NavigationLink(screen: self.leadDetailsScreenResolver(lead)) {
                         PlaygroundViewLeadView(lead: lead)
                     }
                 }
