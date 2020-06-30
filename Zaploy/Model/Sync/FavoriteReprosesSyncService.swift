@@ -15,7 +15,7 @@ class FavoriteReprosesSyncService: SerialSyncService {
         let reprosesService = SoqlSyncDownService(syncName: "FavoriteReproses_reproses",
                                                     otherFieldNames: soups.deeg.fieldNamesForSoql.map { "Deeg__r.\($0)" } +
                                                         [soups.lead.soqlQuery(from: "Leads__r").inBrackets],
-                                                    filter: "IsFavorite__c == true",
+                                                    filter: "IsFavorite__c = true",
                                                     soup: soups.reprose,
                                                     syncManager: syncManager)
         self.reprosesService = reprosesService

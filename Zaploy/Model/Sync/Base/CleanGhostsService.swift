@@ -36,7 +36,7 @@ class CleanGhostsService: SyncService, ObservableObject {
 
     func start() {
         // skip cleaning ghosts, if the sync is newly created
-        if let sync = sync, sync.status == .new { return }
+        if let sync = sync, sync.status == .new { return } //
         syncManager.cleanGhosts(named: syncName) { _ in
             self.objectWillChange.send()
         }

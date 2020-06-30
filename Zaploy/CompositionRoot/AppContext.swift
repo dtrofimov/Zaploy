@@ -61,6 +61,16 @@ class AppUserContext {
     lazy var upsertQueue = CoreDataSoupEntryUpsertQueueImpl(warningLogger: warningLogger)
     lazy var soupPool = CoreDataSoupPool(upsertQueue: upsertQueue)
 
+    // MARK: Soups
+    lazy var soups = Soups(deeg: ManagedDeeg.soup(in: soupPool),
+                           lead: ManagedLead.soup(in: soupPool),
+                           reprose: ManagedReprose.soup(in: soupPool),
+                           user: ManagedUser.soup(in: soupPool))
+
+    // MARK: Sync services
+    lazy var favoriteReprosesSyncService = FavoriteReprosesSyncService(soups: soups, syncManager: syncManager)
+    lazy var nonFavoriteReprosesSyncService = NonFavoriteReprosesSyncService(soups: soups, syncManager: syncManager)
+
     // MARK: Leads entity
 
     let leadsEntityName = "Lead"
@@ -104,10 +114,18 @@ extension AppContext {
 
 extension AppUserContext: UserContext {
     func resolveScreenAfterLogin() -> AppScreen {
-        HomeView(reprosesScreenResolver: resolveReprosesScreen,
-                 leadsScreenResolver: resolveLeadsScreen,
-                 deegsScreenResolver: resolveDeegsScreen,
-                 playgroundScreenResolver: resolvePlaygroundScreen)
+        let favoritesStatusView = SyncStatusView(model:
+            SyncStatusViewModelImpl(description: "Favs",
+                                    syncService: favoriteReprosesSyncService))
+        let nonFavoritesStatusView = SyncStatusView(model:
+            SyncStatusViewModelImpl(description: "Non Favs",
+                                    syncService: nonFavoriteReprosesSyncService))
+        return HomeView(reprosesScreenResolver: resolveReprosesScreen,
+                        leadsScreenResolver: resolveLeadsScreen,
+                        deegsScreenResolver: resolveDeegsScreen,
+                        playgroundScreenResolver: resolvePlaygroundScreen,
+                        favoriteReprosesSyncDownStatusView: favoritesStatusView.asAnyView,
+                        nonFavoriteReprosesSyncDownStatusView: nonFavoritesStatusView.asAnyView)
     }
 
     func resolveReprosesScreen() -> AppScreen {
@@ -136,5 +154,12 @@ extension AppUserContext: UserContext {
         Result { try pseudoSmartStore.addExternalSoup(soup, name: soup.metadata.soupName) }
             .forceUnwrap("Cannot add soup: \(soup.metadata)")
         soupPool.register(soup: soup)
+    }
+}
+
+private extension ManagedObjectType {
+    static func soup(in soupPool: CoreDataSoupPool) -> CoreDataSoup {
+        soupPool.soupsForEntityNames[entityName]
+            .forceUnwrap("Soup not found for \(entityName)")
     }
 }

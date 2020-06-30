@@ -13,10 +13,14 @@ struct HomeView: View, AppScreen {
     let leadsScreenResolver: () -> AppScreen
     let deegsScreenResolver: () -> AppScreen
     let playgroundScreenResolver: () -> AppScreen
+    let favoriteReprosesSyncDownStatusView: AnyView
+    let nonFavoriteReprosesSyncDownStatusView: AnyView
 
     var body: some View {
         List {
             Section {
+                favoriteReprosesSyncDownStatusView
+                nonFavoriteReprosesSyncDownStatusView
                 NavigationLink(screen: self.reprosesScreenResolver()) {
                     Text("Reproses")
                 }

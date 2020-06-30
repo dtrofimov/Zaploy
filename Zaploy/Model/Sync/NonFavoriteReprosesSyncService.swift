@@ -15,7 +15,7 @@ class NonFavoriteReprosesSyncService: SerialSyncService {
 
     init(soups: Soups, syncManager: SyncManager) {
         let reprosesService = SoqlSyncDownService(syncName: "NonFavoriteReproses_reproses",
-                                                    filter: "IsFavorite__c == false",
+                                                    filter: "IsFavorite__c = false",
                                                     soup: soups.reprose,
                                                     syncManager: syncManager)
         let deegsService = SoqlSyncDownService(syncName: "NonFavoriteReproses_deegs",
@@ -25,7 +25,7 @@ class NonFavoriteReprosesSyncService: SerialSyncService {
                                                  soup: soups.deeg,
                                                  syncManager: syncManager)
         let leadsService = SoqlSyncDownService(syncName: "NonFavoriteReproses_leads",
-                                                 filter: "Reprose__c.IsFavorite__c == false",
+                                                 filter: "Reprose__r.IsFavorite__c = false",
                                                  soup: soups.lead,
                                                  syncManager: syncManager)
         self.reprosesService = reprosesService

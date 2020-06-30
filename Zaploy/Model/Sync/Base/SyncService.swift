@@ -50,4 +50,13 @@ extension SyncService {
         }
         checkStatus()
     }
+
+    var isInProgress: Bool {
+        switch status {
+        case .new, .failure(_), .success:
+            return false
+        case .running:
+            return true
+        }
+    }
 }

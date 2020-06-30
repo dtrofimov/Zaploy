@@ -64,7 +64,7 @@ class RawSoqlSyncDownService: SyncService, ObservableObject {
     var lastStartDate: Date? { sync.lastStartDate }
 
     func start() {
-        syncManager.cleanGhosts(named: syncName) { _ in
+        syncManager.reSyncWithoutUpdates(named: syncName) { _ in
             self.objectWillChange.send()
         }
         self.objectWillChange.send()

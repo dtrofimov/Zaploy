@@ -76,6 +76,8 @@
 		28A5C6B22497F768008F7B58 /* ReprosesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6B12497F768008F7B58 /* ReprosesViewModel.swift */; };
 		28A5C6B42497F7DF008F7B58 /* ReprosesViewReproseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6B32497F7DF008F7B58 /* ReprosesViewReproseCell.swift */; };
 		28A5C6BD2498BDE6008F7B58 /* NavigationLink+Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6BC2498BDE6008F7B58 /* NavigationLink+Screen.swift */; };
+		28A5C6B72498AE60008F7B58 /* SyncStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6B62498AE60008F7B58 /* SyncStatusView.swift */; };
+		28A5C6B92498AE8E008F7B58 /* SyncStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5C6B82498AE8E008F7B58 /* SyncStatusViewModel.swift */; };
 		28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501B244D96C600E6EB83 /* Then+Update.swift */; };
 		28AF501F244ED43A00E6EB83 /* LeadDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AF501E244ED43A00E6EB83 /* LeadDetailsView.swift */; };
 		28B479A1248A2BBC00F80D07 /* Reprose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B479A0248A2BBC00F80D07 /* Reprose.swift */; };
@@ -224,6 +226,8 @@
 		28A5C6B12497F768008F7B58 /* ReprosesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReprosesViewModel.swift; sourceTree = "<group>"; };
 		28A5C6B32497F7DF008F7B58 /* ReprosesViewReproseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReprosesViewReproseCell.swift; sourceTree = "<group>"; };
 		28A5C6BC2498BDE6008F7B58 /* NavigationLink+Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationLink+Screen.swift"; sourceTree = "<group>"; };
+		28A5C6B62498AE60008F7B58 /* SyncStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStatusView.swift; sourceTree = "<group>"; };
+		28A5C6B82498AE8E008F7B58 /* SyncStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStatusViewModel.swift; sourceTree = "<group>"; };
 		28AF501B244D96C600E6EB83 /* Then+Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Then+Update.swift"; sourceTree = "<group>"; };
 		28AF501E244ED43A00E6EB83 /* LeadDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeadDetailsView.swift; sourceTree = "<group>"; };
 		28B479A0248A2BBC00F80D07 /* Reprose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reprose.swift; sourceTree = "<group>"; };
@@ -358,11 +362,11 @@
 		28097D64243DAAE900F97916 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				28D0C4B2245343BE005529E2 /* Login */,
 				28A5C69D2497B138008F7B58 /* Home */,
 				28A5C6A02497B322008F7B58 /* Reproses */,
 				28A5C6A62497B405008F7B58 /* Leads */,
 				28A5C6A32497B3BA008F7B58 /* Deegs */,
-				28D0C4B2245343BE005529E2 /* Login */,
 				28097D68243DAD5B00F97916 /* Playground */,
 				28AF501D244ED42500E6EB83 /* EntryDetails */,
 			);
@@ -531,6 +535,7 @@
 			isa = PBXGroup;
 			children = (
 				28A5C69E2497B149008F7B58 /* HomeView.swift */,
+				28A5C6B52498AE42008F7B58 /* FavoriteReprosesSyncDownStatus */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -561,6 +566,15 @@
 				28A5C6A92497B578008F7B58 /* LeadsViewLeadCell.swift */,
 			);
 			path = Leads;
+			sourceTree = "<group>";
+		};
+		28A5C6B52498AE42008F7B58 /* FavoriteReprosesSyncDownStatus */ = {
+			isa = PBXGroup;
+			children = (
+				28A5C6B62498AE60008F7B58 /* SyncStatusView.swift */,
+				28A5C6B82498AE8E008F7B58 /* SyncStatusViewModel.swift */,
+			);
+			path = FavoriteReprosesSyncDownStatus;
 			sourceTree = "<group>";
 		};
 		28AF501D244ED42500E6EB83 /* EntryDetails */ = {
@@ -890,6 +904,7 @@
 				28C0D341247B9A4200AD2FE3 /* KVCProperty.swift in Sources */,
 				28794979246583F8003C1C8E /* AttributesMapper.swift in Sources */,
 				28D0C4B124522F5F005529E2 /* LazyView.swift in Sources */,
+				28A5C6B92498AE8E008F7B58 /* SyncStatusViewModel.swift in Sources */,
 				286BD4362474081700162533 /* CoreDataSoupMetadata.swift in Sources */,
 				28B8A7AC2450534800FAE3A4 /* Model.xcdatamodeld in Sources */,
 				28794973246548EB003C1C8E /* StringField.swift in Sources */,
@@ -921,6 +936,7 @@
 				28AF501C244D96C600E6EB83 /* Then+Update.swift in Sources */,
 				28794952245AF983003C1C8E /* HavingNameComponents.swift in Sources */,
 				28794959245AFAFA003C1C8E /* Lead.swift in Sources */,
+				28A5C6B72498AE60008F7B58 /* SyncStatusView.swift in Sources */,
 				28097D47243D281F00F97916 /* AppDelegate.swift in Sources */,
 				2842D939248F7A8100198F71 /* String+Utils.swift in Sources */,
 				2879497124653FF6003C1C8E /* SFField.swift in Sources */,
